@@ -1,0 +1,11 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+button {
+    background-color: $btn-color;
+    color : #fff;
+    border-radius: 2rem;
+    font-size: 4rem;
+}
+
