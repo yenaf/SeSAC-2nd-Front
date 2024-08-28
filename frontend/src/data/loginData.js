@@ -34,4 +34,21 @@ export const loginMenu = [
             icon : 'fa-right-to-bracket'
         },
     ],
+    [ // 관리자
+        {
+            title : '장바구니',
+            path : '/cart/:userId',
+            icon : 'fa-basket-shopping'
+        },
+        {
+            title : '관리자 페이지',
+            path : '/admin',
+            icon : 'fa-user'
+        },
+        {
+            title : '로그아웃',
+            path : '/user/login',
+            icon : 'fa-right-from-bracket'
+        },
+    ],
 ]
