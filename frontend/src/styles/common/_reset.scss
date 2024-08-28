@@ -1,0 +1,78 @@
+/* 요소 리셋 CSS - reset.css */
+
+/* 1. 마진, 패딩 초기화 */
+html, body, h1, h2, h3, h4, h5, h6, p, ul, ol,
+dl, dt, dd, figure, figcaption, section, address, table, thead, tbody,
+tfoot, tr, th, td, article {
+    margin: 0;
+    padding: 0;
+}
+
+/* 2. 리스트 초기화 */
+ul, ol {
+    /* 블릿, 숫자 없앰 */
+    list-style: none;
+}
+
+/* 2. a요소 디자인 초기화 */
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+/* 3. root - html 글자 크기 세팅 */
+html {
+    /* rem단위 계산하기 쉽도록 10px 로 정함 */
+    font-size: 10px;
+}
+
+/* 4. 이미지 리셋 */
+img {
+    /* 이미지 링크시 서버에서 볼때 파란색 자동보더 없애기 */
+    border: none;
+    /* 박스 이미지 하단간극 없애기(약4px)*/
+    vertical-align: bottom;
+}
+
+/* h태그 기본 글씨 굵기 초기화 */
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    font-size: 10px;
+}
+
+em {
+    font-style: normal;
+}
+
+/* 포커스 아웃라인 제거 - 모든 브라우저에 기본 포커스 아웃라인 세팅됨 */
+input:focus {
+    outline: none;
+}
+
+select:focus {
+    outline: none;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select {
+    appearance: none;
+}
+
+/* 테이블 요소 초기회 */
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+th {
+    font-weight: normal;
+}
+
+button {
+    border: none;
+    background-color: transparent;
+}
+
