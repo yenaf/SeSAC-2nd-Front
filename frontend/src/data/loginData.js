@@ -1,36 +1,37 @@
+// 회원정보 버튼들 데이터
 export const loginMenu = [
     [ // 로그인
         {
             title : '장바구니',
-            link : '',
-            icon : ''
+            path : `/cart/:userId`,
+            icon : 'fa-basket-shopping'
         },
         {
             title : '마이페이지',
-            link : '',
-            icon : ''
+            path : '/mypage',
+            icon : 'fa-user'
         },
         {
             title : '로그아웃',
-            link : '',
-            icon : ''
+            path : '/user/logout',
+            icon : 'fa-right-from-bracket'
         },
     ],
     [ // 로그아웃
         {
             title : '장바구니',
-            link : '',
-            icon : ''
+            path : '/user/login',
+            icon : 'fa-basket-shopping'
         },
         {
             title : '회원가입',
-            link : '',
-            icon : ''
+            path : '/user/register',
+            icon : 'fa-user'
         },
         {
             title : '로그인',
-            link : '',
-            icon : ''
+            path : '/user/login',
+            icon : 'fa-right-to-bracket'
         },
     ],
 ]

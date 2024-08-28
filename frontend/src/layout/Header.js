@@ -3,12 +3,20 @@ import '../styles/layout/Header.scss';
 import { Link } from 'react-router-dom';
 import HeaderSideMenu from '../components/HeaderSideMenu';
 import { loginMenu } from '../data/loginData';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import Category from '../components/Category';
 
+// header 컴포넌트
 export default function Header() {
   // 임시 로그인 상태값 저장
-  const [isLogin, setIsLogin] = useState(true)
+  const [isLogin, setIsLogin] = useState(true);
   // 임시 판매자 상태값 저장
   const [isSeller, setIsSeller] =  useState(true);
+  // 임시 관리자 상태값 저장
+  const [isAdmin, setIsAdmin] = useState(false);
+  // 임시 블랙리스트 상태값 저장
+  const [isBlacklist, setIsBlacklist] = useState(false);
 
   return (
     <header>
@@ -17,11 +25,13 @@ export default function Header() {
           <h1 className='header-logo'>리블링스</h1>
           <div className='header-searchbox'>
             <input type='text' id='search' name='search' />
-            <button className='search-btn'></button>
+            <button className='search-btn'>
+              <FontAwesomeIcon icon={faMagnifyingGlass} />
+            </button>
           </div>
           <div className='sales-btn'>
             { isLogin && isSeller &&
-              <Link to='' >판매하기</Link>
+              <Link to='/posts/create'>판매하기</Link>
             }
           </div>
           <aside className='top-menu'>
@@ -29,7 +39,7 @@ export default function Header() {
           </aside>
         </div>
         <nav>
-
+            <Category />
         </nav>
       </div>
     </header>
