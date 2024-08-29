@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import '../styles/layout/Header.scss';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 import HeaderSideMenu from '../components/HeaderSideMenu';
 import { loginMenu } from '../data/loginData';
 import Category from '../components/Category';
@@ -9,9 +11,9 @@ import Search from '../components/Search';
 // header 컴포넌트
 export default function Header() {
   // 임시 로그인 상태값 저장
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   // 임시 판매자 상태값 저장
-  const [isSeller, setIsSeller] =  useState(true);
+  const [isSeller, setIsSeller] =  useState(false);
   // 임시 관리자 상태값 저장
   const [isAdmin, setIsAdmin] = useState(false);
   // 임시 블랙리스트 상태값 저장
@@ -48,6 +50,12 @@ export default function Header() {
         <nav className='gnb'>
             <Category />
         </nav>
+        {/* 햄버거 버튼 - 모바일뷰 */}
+        <div className='ham-btn'>
+          <button>
+            <FontAwesomeIcon icon={faBars} />
+          </button>
+        </div>
       </div>
     </header>
   )

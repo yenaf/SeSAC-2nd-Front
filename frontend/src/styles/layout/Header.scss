@@ -9,6 +9,9 @@ header {
     border-bottom: 1px solid $border-color;
     padding-top : 2.2rem;
     background-color: #fff;
+    .ham-btn {
+        display: none;
+    }
     .header-top {
         display: flex;
         justify-content: space-between;
@@ -102,4 +105,32 @@ header {
             }
         }
     }
+}
+
+
+/* 640px 이하 미디어쿼리 */
+@media screen and (max-width: $sm) {
+   header {
+    border : none;
+    padding-top : 0;
+    .header-top {
+        flex-direction: column;
+        .header-logo {
+            font-size: 3rem;
+        }
+    }
+    nav.gnb {
+        ul {
+            flex-direction: column;
+        }
+    }
+    .ham-btn {
+        display: block;
+        position: absolute;
+        top: 0;
+        button {
+            font-size: 2.6rem;
+        }
+    }
+   }
 }
