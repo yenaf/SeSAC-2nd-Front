@@ -8,7 +8,7 @@ export default function Category() {
   // 혹은 className={({isActive})=>isActive?'active':''}
 
   return (
-    <ul>
+    <ul className=''>
         {
             categoryData.map((value)=>
                 <li key={value.id}>

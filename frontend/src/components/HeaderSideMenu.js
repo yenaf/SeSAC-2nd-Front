@@ -12,9 +12,9 @@ export default function HeaderSideMenu({logstate}) {
     <ul>
         {
             logstate.map((value,idx) => (
-                <li key={idx}>
-                    <Link to={value.path} title={value.title}>
-                        <FontAwesomeIcon icon={`fa-solid ${value.icon}`} />
+                <li key={idx} title={value.title} >
+                    <Link to={value.path}>
+                        <FontAwesomeIcon icon={`fa-solid ${value.icon}`}/>
                     </Link>
                 </li>
             ))
