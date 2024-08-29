@@ -3,6 +3,134 @@
 @import '../common/utils';
 
 header {
-    // position: fixed;
+    position: fixed;
+    z-index: 99999;
     width: 100%;
+    border-bottom: 1px solid $border-color;
+    padding-top : 2.2rem;
+    background-color: #fff;
+    .ham-btn {
+        display: none;
+    }
+    .header-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .header-logo {
+            font-size: 4rem;
+            font-family: 'PyeongChangPeace-Bold';
+            background: linear-gradient(to bottom, $main-color 0%, $sub-color 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        .header-searchbox {
+            position: relative;
+            #search{
+                border: none;
+                border: 1px solid $border-color;
+                border-radius: 1rem;
+                width : min(40vw, 54rem);
+                height: 3rem;
+                box-sizing: border-box;
+                padding : 0 1rem;
+                &:focus {
+                    border-color: $main-color;
+                }
+            }
+            .search-btn {
+                position: absolute;
+                right: 0.5rem;
+                color : $main-color;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+        .side-menu {
+            display: flex;
+            align-items: center;
+            gap: 0 3rem;
+            .sales-btn {
+                font-size: 1.6rem;
+                box-sizing: border-box;
+                &:hover {
+                    a {
+                        color : $border-color;
+                    }
+                }
+                a {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .side-menubtn {
+                ul {
+                    display: flex;
+                    gap: 0 1.6rem;
+                    font-size: 2rem;
+                    li {
+                        &:hover {
+                            a {
+                                color :  $border-color;
+                            }
+                        }
+                        a {
+                            color : $main-color;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
+    nav.gnb {
+        ul {
+            display: flex;
+            justify-content: center;
+            padding : 2rem 0 1rem;
+            gap: 0 2.4rem;
+            font-size: 1.6rem;
+            li {
+                &:hover {
+                    a {
+                        color : $border-color;
+                    }
+                }
+                a {
+                    &.active {
+                        color : $border-color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/* 640px 이하 미디어쿼리 */
+@media screen and (max-width: $sm) {
+   header {
+    border : none;
+    padding-top : 0;
+    .header-top {
+        flex-direction: column;
+        .header-logo {
+            font-size: 3rem;
+        }
+    }
+    nav.gnb {
+        ul {
+            flex-direction: column;
+        }
+    }
+    .ham-btn {
+        display: block;
+        position: absolute;
+        top: 0;
+        button {
+            font-size: 2.6rem;
+        }
+    }
+   }
 }
