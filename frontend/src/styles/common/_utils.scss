@@ -14,3 +14,15 @@ main {
     padding : 0 1rem;
     margin: 0 auto;
 }
+
+@mixin leftMove {
+    position: relative;
+    left: -100%;
+    transition: left .4s;
+}
+
+@mixin leftMove2 {
+    &.on {
+        left: 0;
+    }
+}

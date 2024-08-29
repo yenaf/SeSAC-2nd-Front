@@ -9,7 +9,7 @@ header {
     border-bottom: 1px solid $border-color;
     padding-top : 2.2rem;
     background-color: #fff;
-    .ham-btn {
+    .ham-btnbx {
         display: none;
     }
     .header-top {
@@ -115,21 +115,48 @@ header {
     padding-top : 0;
     .header-top {
         flex-direction: column;
+        gap: 1.3rem 0;
         .header-logo {
             font-size: 3rem;
         }
-    }
-    nav.gnb {
-        ul {
+        .header-search {
+            @include leftMove;
+            @include leftMove2;
+            .header-searchbox {
+                width: 80vw;
+                #search {
+                    width: 100%;
+                }
+            }
+        }
+        .side-menu {
+            @include leftMove;
+            @include leftMove2;
+            gap : 1rem 0;
             flex-direction: column;
         }
     }
-    .ham-btn {
+    nav.gnb {
+        @include leftMove;
+        @include leftMove2;
+        height: 100vh;
+        width: 100%;
+        ul {
+            flex-direction: column;
+            gap: 1.6rem 0;
+        }
+    }
+    .ham-btnbx {
         display: block;
         position: absolute;
         top: 0;
         button {
+            position: absolute;
             font-size: 2.6rem;
+            cursor: pointer;
+            &.back-btn {
+                display: none;
+            }
         }
     }
    }
