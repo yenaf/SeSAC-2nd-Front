@@ -1,5 +1,3 @@
-const cartData = [
-
-]
+const cartData = [];
 
 export default cartData;
