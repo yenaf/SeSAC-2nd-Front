@@ -13,5 +13,4 @@ const postData = [
         createdAt : '',
     }
 ]
-
 export default postData;
