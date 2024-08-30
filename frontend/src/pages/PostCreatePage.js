@@ -1,5 +1,5 @@
-import React from "react";
-import "../styles/pages/PostCreatePage.scss";
+import React from 'react';
+import '../styles/pages/PostCreatePage.scss';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
