@@ -8,26 +8,29 @@
 // 폰트 정보
 // 평창평화체 700
 @font-face {
-    font-family: 'PyeongChangPeace-Bold';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
+  font-family: 'PyeongChangPeace-Bold';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Bold.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-style: normal;
 }
 
 // 평창평화체 300
 @font-face {
-    font-family: 'PyeongChangPeace-Light';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Light.woff2') format('woff2');
-    font-weight: 300;
-    font-style: normal;
+  font-family: 'PyeongChangPeace-Light';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2206-02@1.0/PyeongChangPeace-Light.woff2')
+    format('woff2');
+  font-weight: 300;
+  font-style: normal;
 }
 
 //G마켓 산스
 @font-face {
-    font-family: 'GmarketSansMedium';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+  font-family: 'GmarketSansMedium';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff')
+    format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 // 색상 정보
@@ -37,10 +40,10 @@ $sub-color : #e3a5c7;
 $border-color : #ad88c6;
 $border-color2 : #d6c1e4;
 
-// 중단점 정보
-$ssm : 375px;
-$sm : 640px;
-$md : 768px;
-$lg : 1024px;
-$xl : 1280px;
 
+// 중단점 정보
+$ssm: 375px;
+$sm: 640px;
+$md: 768px;
+$lg: 1024px;
+$xl: 1280px;
