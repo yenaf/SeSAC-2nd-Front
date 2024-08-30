@@ -8,7 +8,7 @@ const postData = [
         categoryId : 2,
         productType : '',
         productStauts : '',
-        isOrdered : false,
+        isOrdered : '',
         isDeleted : false,
         createdAt : '',
     }
