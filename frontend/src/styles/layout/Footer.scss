@@ -1,0 +1,25 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+footer {
+  width: 100%;
+  background-color: #ffe6e6;
+  text-align: center;
+  padding: 1rem 0;
+  P {
+    font-size: 1.4rem;
+    font-family: 'PyeongChangPeace-Light';
+  }
+  .footer-info {
+    font-size: 2rem;
+
+    .footer-infotxt {
+      display: inline-block;
+      color: #555;
+      font-weight: 400;
+      margin-left: 0.5rem;
+      font-size: 1.4rem;
+    }
+  }
+}

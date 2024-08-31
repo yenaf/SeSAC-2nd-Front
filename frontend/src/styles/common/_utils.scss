@@ -1,0 +1,28 @@
+body {
+  font-family: 'GmarketSansMedium';
+}
+
+main {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  padding-top: 13rem;
+}
+
+.inner {
+  max-width: $xl;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+@mixin leftMove {
+  position: relative;
+  left: -100%;
+  transition: left 0.4s;
+}
+
+@mixin leftMove2 {
+  &.on {
+    left: 0;
+  }
+}
