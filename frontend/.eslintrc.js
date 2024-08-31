@@ -22,6 +22,7 @@ module.exports = {
   plugins: ['react', 'react-hooks', 'prettier'],
   rules: {
     'no-unused-vars': 'off',
+    'react/prop-types': 'off',
     'prettier/prettier': [
       'error',
       {
