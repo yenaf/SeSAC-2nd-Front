@@ -18,6 +18,7 @@ export default function RegisterPage() {
   const onInValid = (err) => {
     console.log('onInValid >> ', err);
   }
+  
 
   return (
     <div>
