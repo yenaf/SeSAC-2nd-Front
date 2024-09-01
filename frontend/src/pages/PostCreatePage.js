@@ -1,7 +1,5 @@
 import React from 'react';
 import '../styles/pages/PostCreatePage.scss';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
 import UploadButton from '../components/UploadButton';
@@ -65,6 +63,7 @@ export default function PostCreatePage() {
             min="0"
             step="0.01"
             placeholder="가격을 입력하세요"
+            required
           />
           <span className="won">원</span>
         </FormGroup>
@@ -82,6 +81,7 @@ export default function PostCreatePage() {
             *상세정보를 입력해주세요.
             "
           ></textarea>
+          <span>600자 이내로 작성</span>
         </div>
 
         <UploadButton />
