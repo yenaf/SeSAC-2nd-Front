@@ -1,147 +1,194 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../styles/pages/Register.scss';
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
+import { FormInput, AddressInput, AgreementCheckbox } from '../components/Register';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
-// 회원가입 페이지
 export default function RegisterPage() {
+
   const {
-    register, // input 할당, value 변경 감지.
-    handleSubmit, // form submit 시 호출.
-    formState: { errors }, // 폼 상태 객체
-    watch, // 특정 폼 필드의 값을 실시간으로 사용
-  } = useForm();
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    setError,
+  } = useForm({
+    mode: 'onBlur',
+  });
+
+  const navigate = useNavigate();
+
+  // // 아이디 중복 체크
+  // const checkLoginId = async (loginId) => {
+  //   try {
+  //     const res = await axios.get('/checkLoginid', { params: { loginId } });
+  //     if (res.status === 409) {
+  //       setError('loginId', { type: 'manual', message: res.data.message }); 
+  //       return false;
+  //     }
+  //     return true;
+  //   } catch (error) {
+  //     setError('loginId', { type: 'manual', message: '아이디 중복 검사 실패. 다시 시도해주세요.' });
+  //     return false;
+  //   }
+  // };
+
+  // // 닉네임 중복 체크
+  // const checkNickname = async (nickname) => {
+  //   try {
+  //     const res = await axios.get('/checkNickname', { params: { nickname } });
+  //     if (res.status === 409) {
+  //       setError('nickname', { type: 'manual', message: res.data.message }); 
+  //       return false;
+  //     }
+  //     return true;
+  //   } catch (error) {
+  //     setError('nickname', { type: 'manual', message: '닉네임 중복 검사 실패. 다시 시도해주세요.' });
+  //     return false;
+  //   }
+  // };
+
+  // const onValidApi = async (data) => {
+  //   try {
+  //     // 아이디 중복 검사
+  //     const isLoginIdValid = await checkLoginId(data.loginId);
+  //     if (!isLoginIdValid) return;
+
+  //     // 닉네임 중복 검사
+  //     const isNicknameValid = await checkNickname(data.nickname);
+  //     if (!isNicknameValid) return;
+
+  //     const res = await axios.post('/register', data);
+  //     if (res.status === 200) {
+  //       alert('회원가입이 완료되었습니다!');
+  //       navigate('/');
+  //     } else {
+  //       alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+  //     }
+  //   } catch (error) {
+  //     console.error('회원가입 오류:', error);
+  //     alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+  //   }
+  // };
 
   const onValid = (data) => {
     console.log('onValid >> ', data);
-  }
+    alert('회원가입이 완료되었습니다!');
+    // navigate('/');  // 메인페이지로 이동
+  };
 
   const onInValid = (err) => {
     console.log('onInValid >> ', err);
-  }
-  
+  };
 
   return (
     <div>
       <h2 className='register-title'>회원가입</h2>
       <section className='register-container'>
         <form action="#" id='register' onSubmit={handleSubmit(onValid, onInValid)}>
-          <div className='register-input'>
-            <label htmlFor="loginId">아이디 </label>
-            <input 
-              type="text" 
-              id='loginId'
-              {...register('loginId', {
-                required: '아이디를 입력해주세요!',
-                pattern: {
-                  message: '영어 소문자, 숫자로 6-12 자리만 가능합니다!',
-                  value: /^[a-z0-9]{6,12}$/,
-                },
-              })} 
-            />
-            <span className='error-msg'>
-              {errors.loginId?.message}
-            </span>
-            <br />
-
-            <label htmlFor="userPw">비밀번호 </label>
-            <input type="password" id='userPw' /><br />
-            <label htmlFor="passwordCheck">비밀번호 확인 </label>
-            <input type="password" id='passwordCheck' /><br />
-            <label htmlFor="userName">이름 </label>
-            <input type="text" id='userName' /><br />
-            <label htmlFor="nickname">닉네임 </label>
-            <input type="text" id='nickname' /><br />
-            <label htmlFor="phoneNum">휴대전화번호 </label>
-            <input type="text" id='phoneNum' /><br />
-            <label htmlFor="email">이메일 </label>
-            <input type="email" id='email' /><br />
-          </div>
-          <div className='register-input'>
-            <div className='address-input-container'>
-              <label htmlFor="address">주소</label>
-              <div className='input-address'>
-                <input type="text" id='address' />
-                <button>우편번호 확인</button><br />
-              </div>
-            </div>
-            <input type="text" id='address' /><br />
-            <input type="text" id='address' /><br />
-          </div>
-
-          <div className='register-agree-container'>
-            <div className='agree-column'>
-              <span className='input-chk'>
-                <input type="checkbox" id='chk-all' name='chk-all'/>
-                <label htmlFor="chk-all">이용약관, 개인정보 수집 및 이용에 모두 동의합니다.</label>
-              </span>
-            </div>
-
-            <div className='agree-column'>
-              <span className='input-chk'>
-                <input type="checkbox" id='isRequiredAgreed' name='isRequiredAgreed'/>
-                <label htmlFor="isRequiredAgreed">리블링스 이용약관 동의(필수)</label>
-              </span>
-              <ul>
-                <li>
-                  <h3>회원가입 시점에 리블링스가 이용자로부터 수집하는 개인정보는 아래와 같습니다.</h3>
-                </li>
-
-                <div className='li-list'>
-                  <li>
-                    - 회원 가입 시에 ‘아이디, 비밀번호, 이름, 가입인증 휴대폰번호, 이메일, 주소’를 필수항목으로 수집합니다.
-                  </li>
-                  <li>
-                    - 회원 가입 의사의 확인, 연령 확인 및 법정대리인 동의 진행, 이용자 및 법정대리인의
-                      본인 확인, 이용자 식별, 회원탈퇴 의사의 확인 등 회원관리를 위하여 개인정보를 이용합니다.
-                  </li>
-                  <li>
-                    - 콘텐츠 등 기존 서비스 제공(광고 포함)에 더하여, 인구통계학적 분석, 서비스 방문 및
-                      이용기록의 분석, 개인정보 및 관심에 기반한 이용자간 관계의 형성, 지인 및 관심사 등에 기반한 맞춤형 서비스 제공 등 신규 서비스
-                      요소의 발굴 및 기존 서비스 개선 등을 위하여 개인정보를 이용합니다.
-                  </li>
-                  <li>
-                    - 법령 및 리블링스 이용약관을 위반하는 회원에 대한 이용 제한 조치, 부정 이용
-                      행위를 포함하여 서비스의 원활한 운영에 지장을 주는 행위에 대한 방지 및 제재, 계정도용 및 부정거래 방지, 약관 개정 등의 고지사항
-                      전달, 분쟁조정을 위한 기록 보존, 민원처리 등 이용자 보호 및 서비스 운영을 위하여 개인정보를 이용합니다.
-                  </li>
-                  <li>
-                    - 유료 서비스 제공에 따르는 본인인증, 구매 및 요금 결제, 상품 및 서비스의 배송을
-                      위하여 개인정보를 이용합니다.
-                  </li>
-                  <li>
-                    - 이벤트 정보 및 참여기회 제공, 광고성 정보 제공 등 마케팅 및 프로모션 목적으로
-                      개인정보를 이용합니다.
-                  </li>
-                  <li>
-                    - 보안, 프라이버시, 안전 측면에서 이용자가 안심하고 이용할 수 있는 서비스 이용환경
-                      구축을 위해 개인정보를 이용합니다.
-                  </li>
-                  <li>
-                    - 서비스 이용 과정에서 IP 주소, 쿠키, 서비스 이용 기록, 기기정보, 위치정보가 생성되어 수집될 수 있습니다. 
-                      또한 이미지 및 음성을 이용한 검색 서비스 등에서 이미지나 음성이 수집될 수 있습니다.
-                </li>
-              </div>
-            </ul>
-          </div>
-
-            <div className='agree-column'>
-              <span className='input-chk'>
-                <input type="checkbox" id='isOptionalAgreed' name='isOptionalAgreed'/>
-                <label htmlFor="isOptionalAgreed">리블링스 이용약관 동의(선택)</label>
-              </span>
-              <ul>
-                <li>
-                  <h3>마케팅 수신 동의</h3>
-                  - 리블링스의 최신 업데이트 소식을 회원가입시 기재한 고객정보의 이메일, 휴대전화번호로
-                    안내를 받을 수 있습니다. 
-                </li>
-              </ul>
-            </div>
-          </div>
-
+          <FormInput 
+            label="아이디"
+            id="loginId"
+            type="text"
+            register={register}
+            validation={{
+              required: '아이디를 입력해주세요!',
+              pattern: {
+                message: '아이디는 영어, 소문자, 숫자로 6-12 자 사이여야 합니다.',
+                value: /^[a-z0-9]{6,12}$/,
+              },
+            }}
+            errors={errors}
+          />
+          {/* {errors.loginId && <span className="error-msg">{errors.loginId.message}</span>} */}
+          <FormInput 
+            label="비밀번호"
+            id="userPw"
+            type="password"
+            register={register}
+            validation={{
+              required: '비밀번호를 입력해주세요!',
+              pattern: {
+                message: '비밀번호는 영어와 숫자를 포함하고 8-16자 사이여야 합니다.',
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W]{8,16}$/,
+              },
+            }}
+            errors={errors}
+          />
+          <FormInput 
+            label="비밀번호 확인"
+            id="passwordCheck"
+            type="password"
+            register={register}
+            validation={{
+              required: '비밀번호를 확인해주세요!',
+              validate: (value) => value === watch('userPw') || '비밀번호가 일치하지 않습니다.',
+            }}
+            errors={errors}
+          />
+          <FormInput 
+            label="이름"
+            id="userName"
+            type="text"
+            register={register}
+            validation={{
+              required: '이름을 입력해주세요!',
+              pattern: {
+                message: '이름은 한글 2-6자 사이여야 합니다.',
+                value: /^[가-힣]{2,6}$/,
+              },
+            }}
+            errors={errors}
+          />
+          <FormInput 
+            label="닉네임"
+            id="nickname"
+            type="text"
+            register={register}
+            validation={{
+              required: '닉네임을 입력해주세요!',
+              pattern: {
+                message: '닉네임은 한글, 영어, 숫자로 2-15자 사이여야 합니다.',
+                value: /^[가-힣a-zA-Z0-9]{2,15}$/, 
+              },
+            }}
+            errors={errors}
+          />
+          <FormInput 
+            label="휴대전화번호"
+            id="phoneNum"
+            type="text"
+            register={register}
+            validation={{
+              required: '휴대전화번호를 입력해주세요!',
+              pattern: {
+                message: '휴대전화번호는 0-9의 숫자로 10자리 또는 11자리 숫자로만 이루어져야 합니다.',
+                value: /^[0-9]{10,11}$/,
+              },
+            }}
+            errors={errors}
+          />
+          <FormInput 
+            label="이메일"
+            id="email"
+            type="email"
+            register={register}
+            validation={{
+              required: '이메일을 입력해주세요!',
+              pattern: {
+                message: '올바른 이메일 형식이 아닙니다. (예: user@gmail.com)',
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+              },
+            }}
+            errors={errors}
+          />
+          <AddressInput register={register} setValue={setValue} errors={errors} />
+          <AgreementCheckbox register={register} watch={watch} setValue={setValue} errors={errors} />
           <button>가입하기</button>
         </form>
       </section>
     </div>
-  )
+  );
 }
