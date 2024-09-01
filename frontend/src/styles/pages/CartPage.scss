@@ -112,6 +112,9 @@
             div {
                 display: flex;
                 justify-content: space-between;
+                &.cart-payment {
+                    font-weight: bold;
+                }
             }
             .cart-paymentBtn {
                 button {

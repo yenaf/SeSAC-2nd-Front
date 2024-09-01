@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SellerByCart from '../components/SellerByCart';
 import priceToString from '../utils/priceMethods';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Cart({ cart }) {
+export default function Cart() {
+  const [amount, setAmount] = useState(0);
+  const [delivery, setDelivery] = useState(0);
+  const [payment, setPayment] = useState(0);
+  const cart = useSelector((state) => state.cart.cartData);
+  const dispatch = useDispatch();
+
+  useEffect(() => {}, [dispatch]);
+
+  // 총 상품금액 계산
+
+  // 총 배송비 계산
+
+  // 결제금액 계산
   return (
     <>
       {/* 장바구니 아이템 */}
@@ -28,15 +42,15 @@ export default function Cart({ cart }) {
         <div className="cart-amountBx">
           <div className="cart-totalAmount">
             <span>총 상품금액</span>
-            <span></span>
+            <span>{priceToString(amount)}원</span>
           </div>
           <div className="cart-totalDevelivetyFee">
             <span>총 배송비</span>
-            <span>+</span>
+            <span>+{priceToString(delivery)}원</span>
           </div>
           <div className="cart-payment">
             <span>결제금액</span>
-            <span></span>
+            <span>{priceToString(payment)}원</span>
           </div>
           <div className="cart-paymentBtn">
             <button>결제하기</button>
