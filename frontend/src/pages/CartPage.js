@@ -11,8 +11,6 @@ export default function CartPage() {
   const { userId } = useParams();
   // const [cart, setCart] = useState([]);
   const cart = useSelector((state) => state.cart.cartData);
-  const dispatch = useDispatch();
-  // console.log('cart', cart);
 
   useEffect(() => {}, []);
 

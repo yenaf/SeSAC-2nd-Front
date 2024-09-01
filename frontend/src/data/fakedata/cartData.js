@@ -109,6 +109,33 @@ const cartData = [
       },
     },
   },
+  {
+    cartId: 5, // 장바구니 번호
+    postId: 5, // 판매글 번호
+    Post: {
+      // 장바구니 테이블과 조인될 판매글 테이블 데이터
+      sellerId: 2, // 판매자 번호
+      categoryId: 3, // 카테고리 번호
+      postTitle: '쿠키런 키링', // 판매글 제목
+      productPrice: 10000, // 상품 가격
+      productType: '공식', // 상품 유형
+      productStatus: '중고', // 상품 상태
+      Seller: {
+        sellerName: '포켓몬트레이너', // 판매자 이름
+        Delivery: {
+          deliveryName: '우체국',
+          deliveryFee: 3000,
+        },
+      },
+      Category: {
+        categoryName: '게임', // 카테고리 이름
+      },
+      Product_Image: {
+        imgName:
+          'https://shop-phinf.pstatic.net/20231218_283/1702888389585iOVWR_JPEG/104024169265507807_1097648989.jpg?type=f296_296', // s3 로케이션 정보 들어갈 예정
+      },
+    },
+  },
 ];
 
 export default cartData;
