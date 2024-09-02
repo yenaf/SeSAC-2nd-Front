@@ -4,7 +4,7 @@
 
 header {
   position: fixed;
-  z-index: 99999;
+  z-index: 9999;
   width: 100%;
   border-bottom: 1px solid $border-color;
   // padding-top: 2.2rem;
@@ -134,7 +134,7 @@ header {
       .header-logo {
         font-size: 3rem;
         left: 50%;
-        transform: translateX(-50%)
+        transform: translateX(-50%);
       }
       .header-search {
         @include leftMove;
