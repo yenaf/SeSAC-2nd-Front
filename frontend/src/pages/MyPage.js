@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/pages/MyPage.scss';
 import image from './cat.png';
+import userData from '../data/fakedata/userData';
 
 // 마이페이지
 export default function MyPage() {
@@ -16,7 +17,7 @@ export default function MyPage() {
           <li>리블링머니</li>
           <li>
             회원정보수정
-            <ul className="edit">
+            <ul className="mypage-edit">
               <li>- 개인정보수정</li>
               <li>- 배송지관리</li>
               <li>- 판매자정보등록</li>
@@ -27,15 +28,50 @@ export default function MyPage() {
         </ul>
       </nav>
       <div className="mypage-info-container">
-        <h2>내정보</h2>
-        <div className="mypage-info">
-          <img src={image} alt="사진임" />
-          <div className="mypage-profile">
-            <span>쿠로미님</span>
-            {/* 설정 Icon */}
-            <div className="mypage-money">
-              <span>리블링머니 : 10,000원</span>
-              <button type="button">충전</button>
+        <div className="mypage-info-content">
+          <h2>내정보</h2>
+          <div className="mypage-info">
+            <figure className="mypage-img">
+              <img src={image} alt="사진임" />
+            </figure>
+            <div className="mypage-profile">
+              <div className="mypage-name">{userData[0].userName}</div>
+              {/* 설정 Icon */}
+              <div className="mypage-money">
+                <div className="money-balance">
+                  리블링머니 : 1,000,000,000원
+                </div>
+                <button type="button" className="money-btn">
+                  충전
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mypage-buy-content">
+          <h2>구매내역</h2>
+          <span className="more">더보기</span>
+          <div className="buy-info">
+            <figure className="buy-img">
+              <img src={image} alt="사진임" />
+            </figure>
+            <div className="buy-text">
+              <p>상품명 : </p>
+              <p>상품가격 : </p>
+            </div>
+          </div>
+        </div>
+        <div className="mypage-seller-content">
+          <h2>판매글 목록</h2>
+          <div className="seller-info">
+            <div className="seller-list">
+              <ul>
+                <li>판매글임</li>
+                <li>판매글임</li>
+                <li>판매글임</li>
+                <li>판매글임</li>
+                <li>판매글임</li>
+              </ul>
             </div>
           </div>
         </div>
