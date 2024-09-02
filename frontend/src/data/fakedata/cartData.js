@@ -7,13 +7,17 @@ const cartData = [
     Post: {
       // 장바구니 테이블과 조인될 판매글 테이블 데이터
       sellerId: 1, // 판매자 번호
+
       categoryId: 1, // 카테고리 번호
+
+      cartegoryId: 1, // 카테고리 번호
       postTitle: '짱구잠옷', // 판매글 제목
       productPrice: 10000, // 상품 가격
       productType: '공식', // 상품 유형
       productStatus: '중고', // 상품 상태
       Seller: {
         sellerName: '잠옷조아', // 판매자 이름
+        sellerName: '짱구러버', // 판매자 이름
         Delivery: {
           deliveryName: '우체국',
           deliveryFee: 3000,
@@ -25,6 +29,12 @@ const cartData = [
       Product_Image: {
         imgName:
           'https://item.elandrs.com/upload/prd/orgimg/961/2209364961_0000002.jpg?w=&h=330&q=100', // s3 로케이션 정보 들어갈 예정
+        Catogory: {
+          categoryName: '애니메이션', // 카테고리 이름
+        },
+        Product_Image: {
+          imgName: '', // s3 로케이션 정보 들어갈 예정
+        },
       },
     },
   },

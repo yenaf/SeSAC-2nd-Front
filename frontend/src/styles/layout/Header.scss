@@ -121,6 +121,9 @@ header {
 /* 640px 이하 미디어쿼리 */
 @media screen and (max-width: $sm) {
   header {
+    .inner {
+      height: 0;
+    }
     border: none;
     height: 4rem;
     padding-top: 0;
