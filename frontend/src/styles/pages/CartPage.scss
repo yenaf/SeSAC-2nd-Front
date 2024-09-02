@@ -1,0 +1,133 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+.cart {
+    display: flex;
+    justify-content: center;
+    height: auto;
+    position: relative;
+    gap: 0 5%;
+    button {
+        cursor: pointer;
+    }
+    .cart-items {
+        width: 65%;
+        .cart-selection {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            font-size: 1.6rem;
+        }
+        .cart-itemLists {
+            .cart-itemList {
+                background-color: #fff;
+                margin-bottom: 2rem;
+                border-radius: 2rem;
+                box-sizing: border-box;
+                padding : 0 1.5rem 2rem;
+                border : 1px solid $border-color2;
+                .cart-seller {
+                    text-align: center;
+                    font-size: 2rem;
+                    border-bottom: 1px solid #ddd;
+                    margin-bottom: 2rem;
+                    padding : 1rem 0;
+                    span {
+                        display: block;
+                        &:first-child {
+                            font-size: 1.4rem;
+                            color : #aaa;
+                        }
+                    }
+                }
+                .cartItem {
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 2rem;
+                    .cartItem-check {
+                        width: 5%;
+                    }
+                    .cartItem-img {
+                        aspect-ratio: 1 / 1;
+                        width: 15%;
+                        overflow: hidden;
+                        border-radius: .5rem;
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    .cartItem-info {
+                        width: 75%;
+                        box-sizing: border-box;
+                        padding-left: 2rem;
+                        display: flex;
+                        flex-direction: column;
+                        .cartItem-category {
+                            font-size: 1.2rem;
+                            color : $main-color;
+                            margin-bottom: 1rem;
+                        }
+                        .cartItem-title {
+                            font-size: 1.6rem;
+                            margin-bottom: .5rem;
+                        }
+                        .cartItem-state {
+                            font-size: 1.4rem;
+                            color : #333;
+                            margin-bottom: .5rem;
+                        }
+                        .cartItem-price {
+                            font-size: 1.4rem;
+                            font-weight: bold;
+                        }
+                    }
+                    .cartItem-deleteBtn {
+                        width: 5%;
+                        text-align: center;
+                        button {
+                            font-size: 1.6rem;
+                        }
+                    }
+                }
+                .cart-deliveryFee {
+                    text-align: center;
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+    .cart-amount {
+        position: relative;
+        width: 30%;
+        .cart-amountBx {
+            position: sticky;
+            top: 13rem;
+            display: flex;
+            flex-direction: column;
+            gap : 3rem 0;
+            font-size: 1.6rem;
+            div {
+                display: flex;
+                justify-content: space-between;
+                &.cart-payment {
+                    font-weight: bold;
+                }
+            }
+            .cart-paymentBtn {
+                a {
+                    display: block;
+                    text-align: center;
+                    background-color: $btn-color;
+                    width: 100%;
+                    border-radius: .5rem;
+                    color : #fff;
+                    padding : 1rem 0;
+                    font-size: 1.6rem;
+                }
+            }
+        }
+    }
+}
