@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import '../styles/pages/Register.scss';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import {
   FormInput,
   AddressInput,
   AgreementCheckbox,
 } from '../components/Register';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function RegisterPage() {

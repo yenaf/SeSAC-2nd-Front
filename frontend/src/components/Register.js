@@ -60,7 +60,7 @@ export function AddressInput({ register, setValue, errors }) {
         type="text"
         id="detailedAddress"
         {...register('detailedAddress', {
-          required: '상세 주소를 입력해주세요!',
+          // required: '상세 주소를 입력해주세요!',
         })}
       />
       <span className="error-msg">{errors.detailedAddress?.message}</span>

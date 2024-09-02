@@ -6,7 +6,7 @@ import image from './cat.png';
 export default function MyPage() {
   return (
     <div className="mypage-container">
-      <div className="mypage-list-container">
+      <nav className="mypage-list-container">
         <ul>
           <li>전체보기</li>
           <li>구매내역</li>
@@ -25,7 +25,7 @@ export default function MyPage() {
             </ul>
           </li>
         </ul>
-      </div>
+      </nav>
       <div className="mypage-info-container">
         <h2>내정보</h2>
         <div className="mypage-info">
