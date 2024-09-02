@@ -7,6 +7,7 @@ import HeaderSideMenu from '../components/HeaderSideMenu';
 import { loginMenu } from '../data/loginData';
 import Category from '../components/Category';
 import Search from '../components/Search';
+import Login from '../components/Login';
 
 // header 컴포넌트
 export default function Header() {
@@ -93,6 +94,7 @@ export default function Header() {
           </button>
         </div>
       </div>
+      {/* <Login /> */}
     </header>
   );
 }
