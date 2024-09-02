@@ -17,7 +17,6 @@ const cartData = [
       productStatus: '중고', // 상품 상태
       Seller: {
         sellerName: '잠옷조아', // 판매자 이름
-        sellerName: '짱구러버', // 판매자 이름
         Delivery: {
           deliveryName: '우체국',
           deliveryFee: 3000,

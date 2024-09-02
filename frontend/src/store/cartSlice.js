@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 // 임시 장바구니 데이터
 import cartData from '../data/fakedata/cartData';
 
