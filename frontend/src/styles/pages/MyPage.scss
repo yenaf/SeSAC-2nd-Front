@@ -3,82 +3,81 @@
 @import '../common/utils';
 
 .mypage-container {
+  display: flex;
+  // border: 1px solid rebeccapurple;
+  margin: 0 auto;
+  width: 800px;
+  padding: 30px 0 60px;
+
+  .mypage-list-container {
     display: flex;
-    // border: 1px solid rebeccapurple;
-    margin: 0 auto;
-    width: 800px;
-    padding: 30px 0 60px;
+    flex-direction: column;
+    width: 20%;
+    margin-left: 50px;
 
-    .mypage-list-container {
-        display: flex;
-        flex-direction: column;
-        width: 20%;
-        margin-left: 50px;
-        
+    li {
+      border-bottom: 1px solid $border-color;
+      text-align: center;
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      background-color: $border-color2;
+      color: #fff;
+
+      .edit {
         li {
-            border-bottom: 1px solid $border-color;
-            text-align: center;
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-            background-color: $border-color2;
-            color: #fff;
-
-            .edit {
-                li {
-                    border: none;
-                }
-            }
+          border: none;
         }
+      }
+    }
+  }
+
+  .mypage-info-container {
+    border: 1px solid rebeccapurple;
+
+    h2 {
+      font-size: 2rem;
     }
 
-    .mypage-info-container {
-        border: 1px solid rebeccapurple;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    // align-items: center;
 
-        h2 {
-            font-size: 2rem;
-        }
-
-        display: flex;
-        flex-direction: column;
-        width: 80%;
-        // align-items: center;
-
-        img {
-            width: 150px;
-            height: 150px;
-        }
-
-        .mypage-info {
-            display: flex;
-
-            .mypage-profile {
-
-                .mypage-money {
-                    display: flex;
-                    
-                    span {
-                        margin-right: 20px;
-                    }
-                }
-            }
-        }
-
-        button {
-            padding: 0;
-            display: block;
-            border-radius: 5px;
-            color: #fff;
-            background-color: $border-color;
-            padding-block: 0;
-            padding-inline: 0;
-            padding : 10px;
-            box-sizing: border-box;
-            font-weight: bold;
-            // width: 100%;
-            margin: 0 auto;
-            cursor: pointer;
-            font-size: 14px;
-        }
+    img {
+      width: 150px;
+      height: 150px;
     }
+
+    .mypage-info {
+      display: flex;
+
+      .mypage-profile {
+        .mypage-money {
+          display: flex;
+
+          span {
+            margin-right: 20px;
+          }
+        }
+      }
+    }
+
+    button {
+      padding: 0;
+      display: block;
+      border-radius: 5px;
+      color: #fff;
+      background-color: $border-color;
+      padding-block: 0;
+      padding-inline: 0;
+      padding: 10px;
+      box-sizing: border-box;
+      font-weight: bold;
+      // width: 100%;
+      margin: 0 auto;
+      cursor: pointer;
+      font-size: 14px;
+    }
+  }
 }

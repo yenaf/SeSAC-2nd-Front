@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import '../styles/pages/Register.scss';
 import { useForm } from 'react-hook-form';
-import { FormInput, AddressInput, AgreementCheckbox } from '../components/Register';
-import {useNavigate} from 'react-router-dom';
+import {
+  FormInput,
+  AddressInput,
+  AgreementCheckbox,
+} from '../components/Register';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function RegisterPage() {
-
   const {
     register,
     handleSubmit,
@@ -25,7 +28,7 @@ export default function RegisterPage() {
   //   try {
   //     const res = await axios.get('/checkLoginid', { params: { loginId } });
   //     if (res.status === 409) {
-  //       setError('loginId', { type: 'manual', message: res.data.message }); 
+  //       setError('loginId', { type: 'manual', message: res.data.message });
   //       return false;
   //     }
   //     return true;
@@ -40,7 +43,7 @@ export default function RegisterPage() {
   //   try {
   //     const res = await axios.get('/checkNickname', { params: { nickname } });
   //     if (res.status === 409) {
-  //       setError('nickname', { type: 'manual', message: res.data.message }); 
+  //       setError('nickname', { type: 'manual', message: res.data.message });
   //       return false;
   //     }
   //     return true;
@@ -85,10 +88,14 @@ export default function RegisterPage() {
 
   return (
     <div>
-      <h2 className='register-title'>회원가입</h2>
-      <section className='register-container'>
-        <form action="#" id='register' onSubmit={handleSubmit(onValid, onInValid)}>
-          <FormInput 
+      <h2 className="register-title">회원가입</h2>
+      <section className="register-container">
+        <form
+          action="#"
+          id="register"
+          onSubmit={handleSubmit(onValid, onInValid)}
+        >
+          <FormInput
             label="아이디"
             id="loginId"
             type="text"
@@ -96,14 +103,15 @@ export default function RegisterPage() {
             validation={{
               required: '아이디를 입력해주세요!',
               pattern: {
-                message: '아이디는 영어, 소문자, 숫자로 6-12 자 사이여야 합니다.',
+                message:
+                  '아이디는 영어, 소문자, 숫자로 6-12 자 사이여야 합니다.',
                 value: /^[a-z0-9]{6,12}$/,
               },
             }}
             errors={errors}
           />
           {/* {errors.loginId && <span className="error-msg">{errors.loginId.message}</span>} */}
-          <FormInput 
+          <FormInput
             label="비밀번호"
             id="userPw"
             type="password"
@@ -111,24 +119,26 @@ export default function RegisterPage() {
             validation={{
               required: '비밀번호를 입력해주세요!',
               pattern: {
-                message: '비밀번호는 영어와 숫자를 포함하고 8-16자 사이여야 합니다.',
+                message:
+                  '비밀번호는 영어와 숫자를 포함하고 8-16자 사이여야 합니다.',
                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d\W]{8,16}$/,
               },
             }}
             errors={errors}
           />
-          <FormInput 
+          <FormInput
             label="비밀번호 확인"
             id="passwordCheck"
             type="password"
             register={register}
             validation={{
               required: '비밀번호를 확인해주세요!',
-              validate: (value) => value === watch('userPw') || '비밀번호가 일치하지 않습니다.',
+              validate: (value) =>
+                value === watch('userPw') || '비밀번호가 일치하지 않습니다.',
             }}
             errors={errors}
           />
-          <FormInput 
+          <FormInput
             label="이름"
             id="userName"
             type="text"
@@ -142,7 +152,7 @@ export default function RegisterPage() {
             }}
             errors={errors}
           />
-          <FormInput 
+          <FormInput
             label="닉네임"
             id="nickname"
             type="text"
@@ -151,12 +161,12 @@ export default function RegisterPage() {
               required: '닉네임을 입력해주세요!',
               pattern: {
                 message: '닉네임은 한글, 영어, 숫자로 2-15자 사이여야 합니다.',
-                value: /^[가-힣a-zA-Z0-9]{2,15}$/, 
+                value: /^[가-힣a-zA-Z0-9]{2,15}$/,
               },
             }}
             errors={errors}
           />
-          <FormInput 
+          <FormInput
             label="휴대전화번호"
             id="phoneNum"
             type="text"
@@ -164,13 +174,14 @@ export default function RegisterPage() {
             validation={{
               required: '휴대전화번호를 입력해주세요!',
               pattern: {
-                message: '휴대전화번호는 0-9의 숫자로 10자리 또는 11자리 숫자로만 이루어져야 합니다.',
+                message:
+                  '휴대전화번호는 0-9의 숫자로 10자리 또는 11자리 숫자로만 이루어져야 합니다.',
                 value: /^[0-9]{10,11}$/,
               },
             }}
             errors={errors}
           />
-          <FormInput 
+          <FormInput
             label="이메일"
             id="email"
             type="email"
@@ -184,8 +195,17 @@ export default function RegisterPage() {
             }}
             errors={errors}
           />
-          <AddressInput register={register} setValue={setValue} errors={errors} />
-          <AgreementCheckbox register={register} watch={watch} setValue={setValue} errors={errors} />
+          <AddressInput
+            register={register}
+            setValue={setValue}
+            errors={errors}
+          />
+          <AgreementCheckbox
+            register={register}
+            watch={watch}
+            setValue={setValue}
+            errors={errors}
+          />
           <button>가입하기</button>
         </form>
       </section>
