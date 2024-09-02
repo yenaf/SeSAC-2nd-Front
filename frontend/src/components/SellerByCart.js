@@ -68,7 +68,10 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                   />
                 </div>
                 <figure className="cartItem-img">
-                  <img src={val.Post.Product_Image.imgName} />
+                  <img
+                    src={val.Post.Product_Image[0].imgName}
+                    alt={val.Post.postTitle}
+                  />
                 </figure>
                 <div className="cartItem-info">
                   <h5 className="cartItem-category">

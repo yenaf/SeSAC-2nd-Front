@@ -1,6 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 // 임시 장바구니 데이터
 import cartData from '../data/fakedata/cartData';
+// 임시 결제페이지 데이터
+import orderData from '../data/fakedata/orderData';
+
+class GroupBySellerData {
+  constructor(data) {}
+  sellerByData() {}
+}
 
 // 판매자별로 데이터 묶기
 const groupBySellerData = cartData.reduce((acc, item) => {

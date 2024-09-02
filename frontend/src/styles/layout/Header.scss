@@ -134,7 +134,7 @@ header {
       .header-logo {
         font-size: 3rem;
         left: 50%;
-        transform: translateX(-50%)
+        transform: translateX(-50%);
       }
       .header-search {
         @include leftMove;
