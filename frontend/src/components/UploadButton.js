@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
-export default function UploadButton() {
+export default function UploadButton({ register = () => {} }) {
   return (
     <div className="upload-container">
       <label htmlFor="fileUpload" className="upload-button">
@@ -10,7 +10,13 @@ export default function UploadButton() {
           <FontAwesomeIcon icon={faCamera} className="file-icon" />
           <span>사진 등록</span>
         </div>
-        <input type="file" accept="image/*" multiple id="fileUpload" />
+        <input
+          type="file"
+          accept="image/*"
+          multiple
+          id="fileUpload"
+          {...register('imgName')}
+        />
         <p id="setup-file">최대 5장</p>
       </label>
     </div>

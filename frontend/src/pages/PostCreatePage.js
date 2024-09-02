@@ -3,55 +3,74 @@ import '../styles/pages/PostCreatePage.scss';
 import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
 import UploadButton from '../components/UploadButton';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
+  const { register, handleSubmit, watch, setValue } = useForm();
+  const navigate = useNavigate();
+
+  const onSubmit = (data) => {
+    console.log(data); // 데이터 확인
+    // post로 전송
+    // 다른 페이지로 이동 (예: 등록 완료 페이지)
+    navigate('/posts/:postId', { state: { formData: data } });
+  };
+
   return (
-    <section>
+    <section className="post-write">
       <h2>판매글 작성</h2>
-      <form id="form">
+      <form id="form" onSubmit={handleSubmit(onSubmit)}>
         <FormGroup label="상품명">
           <input
             type="text"
             name="product-name"
-            required
             placeholder="상품명을 작성해주세요."
+            required
+            {...register('postTitle', {
+              maxLength: { value: 60 },
+            })}
           />
         </FormGroup>
 
         <FormGroup label="카테고리">
           <RadioGroup
-            name="category"
+            name="categoryId"
             options={[
-              { value: 'K-POP', label: 'K-POP' },
-              { value: '애니메이션', label: '애니메이션' },
-              { value: '영화/드라마', label: '영화/드라마' },
-              { value: '게임', label: '게임' },
-              { value: '기타', label: '기타' },
+              { value: 1, label: 'K-POP' },
+              { value: 2, label: '영화/드라마' },
+              { value: 3, label: '애니메이션' },
+              { value: 4, label: '게임' },
+              { value: 5, label: '스포츠' },
+              { value: 6, label: '기타' },
             ]}
             required
+            register={register}
           />
         </FormGroup>
 
         <FormGroup label="상품유형">
           <RadioGroup
-            name="product-type"
+            name="productType"
             options={[
               { value: '공식', label: '공식' },
               { value: '비공식', label: '비공식' },
             ]}
             required
+            register={register}
           />
         </FormGroup>
 
         <FormGroup label="상품상태">
           <RadioGroup
-            name="product-status"
+            name="productState"
             options={[
               { value: '새상품', label: '새상품' },
               { value: '중고', label: '중고' },
             ]}
             required
+            register={register}
           />
         </FormGroup>
 
@@ -64,6 +83,7 @@ export default function PostCreatePage() {
             step="0.01"
             placeholder="가격을 입력하세요"
             required
+            {...register('productPrice')}
           />
           <span className="won">원</span>
         </FormGroup>
@@ -72,7 +92,6 @@ export default function PostCreatePage() {
           <h3>상품정보</h3>
           <textarea
             name="description"
-            required
             placeholder=" 작성 예시)
             *상품명 : 
             *구매시기 : 
@@ -80,11 +99,15 @@ export default function PostCreatePage() {
             *하자여부 : 
             *상세정보를 입력해주세요.
             "
+            required
+            {...register('postContent', {
+              maxLength: { value: 600 },
+            })}
           ></textarea>
           <span>600자 이내로 작성</span>
         </div>
 
-        <UploadButton />
+        <UploadButton register={register} />
 
         <div className="btn-group">
           <button>취소</button>
