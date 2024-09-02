@@ -11,7 +11,7 @@ import Search from '../components/Search';
 // header 컴포넌트
 export default function Header() {
   // 임시 로그인 상태값 저장
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   // 임시 판매자 상태값 저장
   const [isSeller, setIsSeller] = useState(true);
   // 임시 관리자 상태값 저장
