@@ -25,16 +25,12 @@ const cartData = [
       Category: {
         categoryName: '애니메이션', // 카테고리 이름
       },
-      Product_Image: {
-        imgName:
-          'https://item.elandrs.com/upload/prd/orgimg/961/2209364961_0000002.jpg?w=&h=330&q=100', // s3 로케이션 정보 들어갈 예정
-        Catogory: {
-          categoryName: '애니메이션', // 카테고리 이름
+      Product_Image: [
+        {
+          imgName:
+            'https://item.elandrs.com/upload/prd/orgimg/961/2209364961_0000002.jpg?w=&h=330&q=100', // s3 로케이션 정보 들어갈 예정
         },
-        Product_Image: {
-          imgName: '', // s3 로케이션 정보 들어갈 예정
-        },
-      },
+      ],
     },
   },
   {
@@ -58,10 +54,12 @@ const cartData = [
       Category: {
         categoryName: '애니메이션', // 카테고리 이름
       },
-      Product_Image: {
-        imgName:
-          'https://item.elandrs.com/r/image/item/2024-07-04/64b7b213-c2a5-461a-b948-9d4f9f474eac.jpg?w=&h=330&q=100', // s3 로케이션 정보 들어갈 예정
-      },
+      Product_Image: [
+        {
+          imgName:
+            'https://item.elandrs.com/r/image/item/2024-07-04/64b7b213-c2a5-461a-b948-9d4f9f474eac.jpg?w=&h=330&q=100', // s3 로케이션 정보 들어갈 예정
+        },
+      ],
     },
   },
   {
@@ -85,10 +83,12 @@ const cartData = [
       Category: {
         categoryName: '애니메이션', // 카테고리 이름
       },
-      Product_Image: {
-        imgName:
-          'http://thumbnail.10x10.co.kr/webimage/image/basic/405/B004051527-6.jpg?cmd=thumb&w=500&h=500&fit=true&ws=false', // s3 로케이션 정보 들어갈 예정
-      },
+      Product_Image: [
+        {
+          imgName:
+            'http://thumbnail.10x10.co.kr/webimage/image/basic/405/B004051527-6.jpg?cmd=thumb&w=500&h=500&fit=true&ws=false', // s3 로케이션 정보 들어갈 예정
+        },
+      ],
     },
   },
   {
@@ -112,10 +112,12 @@ const cartData = [
       Category: {
         categoryName: 'K-POP', // 카테고리 이름
       },
-      Product_Image: {
-        imgName:
-          'https://linefriendssquare.com/cdn/shop/files/newjeans-plush-yellow-new-yellow-38881496662215.jpg?v=1708901050&width=360', // s3 로케이션 정보 들어갈 예정
-      },
+      Product_Image: [
+        {
+          imgName:
+            'https://linefriendssquare.com/cdn/shop/files/newjeans-plush-yellow-new-yellow-38881496662215.jpg?v=1708901050&width=360', // s3 로케이션 정보 들어갈 예정
+        },
+      ],
     },
   },
   {
@@ -139,10 +141,12 @@ const cartData = [
       Category: {
         categoryName: '게임', // 카테고리 이름
       },
-      Product_Image: {
-        imgName:
-          'https://shop-phinf.pstatic.net/20231218_283/1702888389585iOVWR_JPEG/104024169265507807_1097648989.jpg?type=f296_296', // s3 로케이션 정보 들어갈 예정
-      },
+      Product_Image: [
+        {
+          imgName:
+            'https://shop-phinf.pstatic.net/20231218_283/1702888389585iOVWR_JPEG/104024169265507807_1097648989.jpg?type=f296_296', // s3 로케이션 정보 들어갈 예정
+        },
+      ],
     },
   },
 ];
