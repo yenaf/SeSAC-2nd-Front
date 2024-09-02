@@ -2,3 +2,14 @@
 @import '../common/variables';
 @import '../common/utils';
 
+.order {
+  h2 {
+    font-size: min(5vw, 3rem);
+  }
+  section {
+    h2 {
+      font-size: min(4vw, 2.4rem);
+      color: $main-color;
+    }
+  }
+}

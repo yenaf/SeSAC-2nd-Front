@@ -94,7 +94,7 @@ export default function Cart() {
           {/* 장바구니 아이템들, 판매자별로 묶어서 보여주기 */}
           {cartData.map((value, idx) => (
             <SellerByCart
-              key={idx}
+              key={value.sellerId}
               cart={value}
               forwardRef={checkEachRef}
               handleCheckEach={handlecheckEach}
