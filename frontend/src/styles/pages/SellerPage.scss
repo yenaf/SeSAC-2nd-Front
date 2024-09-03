@@ -1,0 +1,71 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+.mypage-content-container {
+  display: flex;
+  justify-content: center;
+  // border: 1px solid $border-color;
+}
+
+.seller-title {
+  margin-bottom: 30px;
+}
+
+.seller-img {
+  width: 150px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  img {
+    width: 100%;
+    object-fit: cover;
+    margin-top: 10px;
+  }
+}
+
+.seller-container {
+  width: 500px;
+  #seller {
+    .seller-input {
+      display: flex;
+      flex-direction: column;
+      gap: 10px 0;
+
+      label {
+        font-size: 15px;
+      }
+
+      input {
+        width: 100%;
+        height: 30px;
+        // border: 1px solid $border-color;
+        border: none;
+        border-radius: 5px;
+        box-sizing: border-box;
+        margin: 10px 0;
+      }
+
+      .drive {
+        display: flex;
+        flex-direction: column;
+        input {
+          width: 15px;
+        }
+        .drive-choose {
+          display: flex;
+          align-items: center;
+          gap: 0 10px;
+        }
+      }
+
+      .seller-btn {
+        display: flex;
+        justify-content: center;
+        button {
+          width: 100px;
+          margin: 0 10px;
+        }
+      }
+    }
+  }
+}

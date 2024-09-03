@@ -8,14 +8,13 @@
   display: flex;
   border-radius: 10px;
   margin: 50px auto;
-  width: 900px;
+  width: 100%;
   padding: 50px 0 60px;
 
   .mypage-list-container {
     display: flex;
     flex-direction: column;
-    width: 25%;
-    margin-left: 50px;
+    width: 20%;
 
     li {
       border-bottom: 1px solid #fff;
@@ -23,9 +22,9 @@
       width: 100%;
       padding: 13px;
       box-sizing: border-box;
-      background-color: $bg-color2;
+      background-color: $bg-color3;
       border-radius: 5px;
-      color: #fff;
+      color: $main-color;
       font-size: 13px;
 
       .mypage-edit {
@@ -35,14 +34,13 @@
       }
     }
     :hover {
-      color: $main-color;
+      color: $border-color;
       cursor: pointer;
     }
   }
 
   .mypage-info-container {
     // border: 1px solid rebeccapurple;
-    margin-right: 50px;
     display: flex;
     flex-direction: column;
     width: 80%;
@@ -50,6 +48,7 @@
     .mypage-info-content {
       margin-left: 75px;
       background-color: $bg-color3;
+      // border: 1px solid $border-color;
       border-radius: 10px;
       box-sizing: border-box;
       padding: 30px 30px;
@@ -181,6 +180,38 @@
   }
 }
 
-/* 640px 이하 미디어쿼리 */
-@media screen and (max-width: $sm) {
+/* 768px 이하 미디어쿼리 */
+@media screen and (max-width: $md) {
+  .mypage-container {
+    flex-direction: column;
+
+    .mypage-list-container {
+      width: 100%;
+      ul {
+        display: flex;
+      }
+    }
+
+    .mypage-info-container {
+      width: 100%;
+      .mypage-info-content,
+      .mypage-buy-content,
+      .mypage-seller-content {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+// 마이페이지 컨텐트 구조
+.mypage-content-container {
+  margin-left: 70px;
+  background-color: $bg-color3;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding: 30px 30px;
+
+  h2 {
+    font-size: 2rem;
+  }
 }
