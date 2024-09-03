@@ -3,7 +3,7 @@ import { AddressInput } from '../components/Register';
 import { useDispatch, useSelector } from 'react-redux';
 import orderData from '../data/fakedata/orderData';
 import PaymentInfo from '../components/PaymentInfo';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import priceToString from '../utils/priceMethods';
 import SellerByOrder from '../components/SellerByOrder';
 import '../styles/pages/OrderPage.scss';
@@ -22,12 +22,16 @@ export default function OrderPage() {
 
   const { userInfo, addressInfo } = orderData;
 
-  console.log(sellerByOrderData);
+  const navigate = useNavigate();
+
+  // console.log(sellerByOrderData);
 
   const useBalance = () => {};
 
   const submitPayment = (e) => {
     e.preventDefault();
+    navigate('/order/complete/:orderId');
+    // navigate(`/order/complete/${orderId}`)
   };
 
   return (
