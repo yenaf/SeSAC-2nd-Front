@@ -15,6 +15,7 @@ import RegisterPage from './pages/RegisterPage';
 import MyPage from './pages/MyPage';
 import AdminPage from './pages/AdminPage';
 import store from './store';
+import SellersPage from './pages/SellersPage';
 
 function App() {
   return (
@@ -54,6 +55,8 @@ function App() {
               <Route path="/user/register" element={<RegisterPage />} />
               {/* 마이페이지 */}
               <Route path="/mypage" element={<MyPage />} />
+              {/* 판매자 등록 페이지 */}
+              <Route path="/sellers" element={<SellersPage />} />
               {/* 관리자페이지 */}
               <Route path="/admin" element={<AdminPage />} />
             </Route>
