@@ -17,7 +17,7 @@ export default function MyPageContent() {
               <label htmlFor="">프로필 사진</label>
               <img src="/img/cat.png" alt="" />
             </div>
-            <input type="file" />
+            <input type="file" className="file-box" />
             <label htmlFor="">판매자 설명</label>
             <input type="text" />
             <div className="drive">
