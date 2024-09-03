@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/pages/MyPage.scss';
-import image from './cat.png';
 import userData from '../data/fakedata/userData';
 import { Link } from 'react-router-dom';
 
@@ -35,7 +34,7 @@ export default function MyPage() {
           <h2>내정보</h2>
           <div className="mypage-info">
             <figure className="mypage-img">
-              <img src={image} alt="사진임" />
+              <img src="/img/cat.png" alt="사진임" />
             </figure>
             <div className="mypage-profile">
               <div className="mypage-name">{userData[0].userName} 님</div>
@@ -56,7 +55,7 @@ export default function MyPage() {
           <span className="more">더보기</span>
           <div className="buy-info">
             <figure className="buy-img">
-              <img src={image} alt="사진임" />
+              <img src="/img/cat.png" alt="사진임" />
             </figure>
             <div className="buy-text">
               <p>상품명 : </p>
