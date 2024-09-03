@@ -4,8 +4,15 @@ import SwiperMagnify from '../components/SwiperMagnify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import priceToString from '../utils/priceMethods';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function PostDetailPage() {
+  const navigate = useNavigate();
+
+  const handleBackPage = () => {
+    // 만약에 이전페이지가 게시글작성이라면 메인페이지로가야한다
+    navigate(-1);
+  };
   return (
     <>
       <section className="post-desc">
@@ -46,9 +53,13 @@ export default function PostDetailPage() {
               <button className="dibs-container">
                 <FontAwesomeIcon icon={faHeart} className="dibs" />
               </button>
-              <span>
-                <button className="btn shopping">장바구니</button>
-                <button className="btn buy">구매하기</button>
+              <span className="link-container">
+                <button className="btn shopping">
+                  <Link to={'/cart/:userId'}>장바구니</Link>
+                </button>
+                <button className="btn buy">
+                  <Link to={'/order'}>구매하기</Link>
+                </button>
               </span>
             </div>
           </div>
@@ -69,11 +80,13 @@ export default function PostDetailPage() {
         </div>
         <div className="btn-bottom-group">
           <div className="histoty-btn">
-            <button className="btn back">
+            <button className="btn back" onClick={handleBackPage}>
               <FontAwesomeIcon icon={faAngleLeft} className="back-icon" />
               돌아가기
             </button>
-            <button className="btn list">목록</button>
+            <button className="btn list">
+              <Link to={'/posts/list/:page/:limit/:categoryId'}>목록</Link>
+            </button>
           </div>
           <div className="ud-btn">
             <button className="btn correction">수정</button>

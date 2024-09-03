@@ -80,40 +80,40 @@
           }
         }
       }
-    }
-    .btn-group {
-      text-align: center;
-      width: 100%;
-      position: relative;
-      .dibs-container {
-        position: absolute;
-        top: 50%;
-        left: 1rem;
-        transform: translateY(-50%);
-        .dibs {
-          font-size: 2.5rem;
-          color: rgb(153, 68, 218);
-          cursor: pointer;
+      .btn-group {
+        text-align: center;
+        width: 100%;
+        position: relative;
+        .dibs-container {
+          position: absolute;
+          top: 50%;
+          left: 1rem;
+          transform: translateY(-50%);
+          .dibs {
+            font-size: 2.5rem;
+            color: rgb(153, 68, 218);
+            cursor: pointer;
+          }
         }
-      }
-      span {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1rem;
-        padding: 2rem 0;
-      }
-      .btn {
-        width: 43%;
-        padding: 1rem 2rem;
-        border-radius: 0.8rem;
-        font-weight: 600;
-        font-size: 1.4rem;
-        cursor: pointer;
-        border: 1px solid $btn-color;
-        color: $main-color;
-        &.buy {
-          color: #fff;
-          background: $btn-color;
+        .link-container {
+          display: flex;
+          justify-content: flex-end;
+          gap: 1rem;
+          padding: 2rem 0;
+        }
+        .btn {
+          width: 43%;
+          padding: 1rem 2rem;
+          border-radius: 0.8rem;
+          font-weight: 600;
+          font-size: 1.4rem;
+          cursor: pointer;
+          border: 1px solid $btn-color;
+          color: $main-color;
+          &.buy {
+            color: #fff;
+            background: $btn-color;
+          }
         }
       }
     }
@@ -302,8 +302,8 @@
           left: 0;
           background: #fff;
           border-top: 1px solid $border-color;
-          span {
-            padding: 1rem 0;
+          .link-container {
+            padding: 1.5rem 0;
           }
         }
       }
