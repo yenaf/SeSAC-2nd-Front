@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/pages/MyPage.scss';
 import image from './cat.png';
 import userData from '../data/fakedata/userData';
+import { Link } from 'react-router-dom';
 
 // 마이페이지
 export default function MyPage() {
@@ -20,7 +21,9 @@ export default function MyPage() {
             <ul className="mypage-edit">
               <li>- 개인정보수정</li>
               <li>- 배송지관리</li>
-              <li>- 판매자정보등록</li>
+              <Link to="/sellers">
+                <li>- 판매자정보등록</li>
+              </Link>
               <li>- 판매자정보수정</li>
               <li>- 회원탈퇴</li>
             </ul>
@@ -35,7 +38,7 @@ export default function MyPage() {
               <img src={image} alt="사진임" />
             </figure>
             <div className="mypage-profile">
-              <div className="mypage-name">{userData[0].userName}</div>
+              <div className="mypage-name">{userData[0].userName} 님</div>
               {/* 설정 Icon */}
               <div className="mypage-money">
                 <div className="money-balance">
