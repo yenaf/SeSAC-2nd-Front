@@ -4,11 +4,13 @@ import priceToString from '../utils/priceMethods';
 export default function SellerByOrder({ order }) {
   const { items } = order;
   return (
-    <>
+    <li className="order-itemList">
       {/* 판매자정보 */}
       <h3 className="order-seller">
         <div className="seller-info">
-          <span className="seller-name">{items[0].Post.Seller.sellerName}</span>{' '}
+          <span className="seller-name">
+            판매자 : {items[0].Post.Seller.sellerName}
+          </span>{' '}
           /&nbsp;
           <span className="seller-deliveryFee">
             배송비 :{' '}
@@ -19,7 +21,7 @@ export default function SellerByOrder({ order }) {
       {/* 아이템 리스트 -> map 써서 아이템 별로 묶어서 반복, 장바구니 페이지처럼 */}
       <ol>
         {items.map((val, idx) => (
-          <li key={idx}>
+          <li key={idx} className="orderItem">
             <figure className="orderItem-img">
               <img
                 src={val.Post.Product_Image[0].imgName}
@@ -45,6 +47,6 @@ export default function SellerByOrder({ order }) {
           </li>
         ))}
       </ol>
-    </>
+    </li>
   );
 }
