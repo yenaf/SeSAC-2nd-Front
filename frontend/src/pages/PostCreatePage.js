@@ -18,10 +18,25 @@ export default function PostCreatePage() {
     navigate('/posts/:postId', { state: { formData: data } });
   };
 
+  const onCancel = () => {
+    const confirmCancel = window.confirm(
+      '작성한 내용이 사라집니다. 정말 나가시겠습니까?',
+    );
+    if (confirmCancel) {
+      navigate('/'); // 메인 페이지로 이동
+    }
+  };
+
   return (
     <section className="post-write">
-      <h2>판매글 작성</h2>
-      <form id="form" onSubmit={handleSubmit(onSubmit)}>
+      <h2 className="title">판매글 작성</h2>
+      <form
+        // action="/posts/create"
+        method="POST"
+        encType="multipart/form-data"
+        id="form"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <FormGroup label="상품명">
           <input
             type="text"
@@ -110,7 +125,9 @@ export default function PostCreatePage() {
         <UploadButton register={register} />
 
         <div className="btn-group">
-          <button>취소</button>
+          <button type="button" onClick={onCancel}>
+            취소
+          </button>
           <button type="submit">등록</button>
         </div>
       </form>
