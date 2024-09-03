@@ -8,6 +8,7 @@ import priceToString from '../utils/priceMethods';
 import SellerByOrder from '../components/SellerByOrder';
 import axios from 'axios';
 import '../styles/pages/OrderPage.scss';
+import DeliverySelect from '../components/DeliverySelect';
 
 // 주문 번호가 랜덤으로 생성된다(숫자+문자 10자리)
 // 현재년도(숫자4자리) + 랜덤문자(문자2자리) + 랜덤숫자 4자리 -> 중복검사를 해야하나?
@@ -190,7 +191,7 @@ export default function OrderPage() {
               <div className="order-addr">
                 <div>주소&nbsp;</div>
                 <div>
-                  <span>{`(${addressInfo.zipCode}) ${addressInfo.address}, ${addressInfo.detailedAddress}`}</span>
+                  <span>{`(${addressInfo.zipCode}) ${addressInfo.address} ${addressInfo.detailedAddress}`}</span>
                 </div>
               </div>
             </div>
@@ -247,6 +248,7 @@ export default function OrderPage() {
           </section>
         </article>
       </div>
+      <DeliverySelect />
     </div>
   );
 }
