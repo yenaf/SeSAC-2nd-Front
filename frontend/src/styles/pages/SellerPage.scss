@@ -2,6 +2,10 @@
 @import '../common/variables';
 @import '../common/utils';
 
+.err-msg {
+  color: red;
+}
+
 .mypage-content-container {
   color: $main-color;
   display: flex;
@@ -20,6 +24,7 @@
   width: 150px;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  margin-bottom: 10px;
   img {
     width: 100%;
     object-fit: cover;
