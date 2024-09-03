@@ -43,6 +43,10 @@
           label {
             font-size: 1.2rem;
           }
+          span {
+            display: block;
+            color: red;
+          }
         }
         .order-paymentBtn {
           a {
@@ -163,6 +167,9 @@
             margin: 0 2rem;
             color: #333;
           }
+          > div:last-child {
+            width: 80%;
+          }
         }
       }
     }
@@ -197,6 +204,9 @@
             color: $main-color;
             font-weight: bold;
           }
+        }
+        .order-balanceComment {
+          color: red;
         }
       }
     }
