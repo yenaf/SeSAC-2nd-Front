@@ -4,7 +4,7 @@ export const loginMenu = [
     // 로그인
     {
       title: '장바구니',
-      path: `/cart/:userId`,
+      path: `/cart`,
       icon: 'fa-basket-shopping',
     },
     {
@@ -40,7 +40,7 @@ export const loginMenu = [
     // 관리자
     {
       title: '장바구니',
-      path: '/cart/:userId',
+      path: '/',
       icon: 'fa-basket-shopping',
     },
     {
@@ -50,7 +50,7 @@ export const loginMenu = [
     },
     {
       title: '로그아웃',
-      path: '/user/login',
+      path: '/user/logout',
       icon: 'fa-right-from-bracket',
     },
   ],

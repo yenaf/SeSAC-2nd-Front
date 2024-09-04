@@ -5,7 +5,7 @@ const orderData = {
     userName: '테스트',
     email: 'test1@example.com',
     phoneNum: '01012345678',
-    balance: 100,
+    balance: 10000000,
   },
   postInfo: [
     // 장바구니 데이터와 동일
@@ -23,6 +23,7 @@ const orderData = {
         productPrice: 10000, // 상품 가격
         productType: '공식', // 상품 유형
         productStatus: '중고', // 상품 상태
+        sellStatus: '판매 중',
         Seller: {
           sellerName: '잠옷조아', // 판매자 이름
           Delivery: {
@@ -52,6 +53,7 @@ const orderData = {
         productPrice: 20000, // 상품 가격
         productType: '공식', // 상품 유형
         productStatus: '중고', // 상품 상태
+        sellStatus: '판매 예약',
         Seller: {
           sellerName: '잠옷조아', // 판매자 이름
           Delivery: {
@@ -81,6 +83,7 @@ const orderData = {
         productPrice: 20000, // 상품 가격
         productType: '공식', // 상품 유형
         productStatus: '중고', // 상품 상태
+        sellStatus: '판매 예약s',
         Seller: {
           sellerName: '포켓몬트레이너', // 판매자 이름
           Delivery: {
@@ -110,6 +113,7 @@ const orderData = {
         productPrice: 10000, // 상품 가격
         productType: '공식', // 상품 유형
         productStatus: '중고', // 상품 상태
+        sellStatus: '판매 중',
         Seller: {
           sellerName: '포켓몬트레이너', // 판매자 이름
           Delivery: {
@@ -139,6 +143,7 @@ const orderData = {
         productPrice: 10000, // 상품 가격
         productType: '공식', // 상품 유형
         productStatus: '중고', // 상품 상태
+        sellStatus: '판매 중',
         Seller: {
           sellerName: '포켓몬트레이너', // 판매자 이름
           Delivery: {
@@ -173,6 +178,7 @@ export default orderData;
 const orderCreateData = [
   {
     postId: 1, // 판매글번호
+    cartId: 1, // 카트번호
     sellerId: 1, // 판매자번호
     address: '서울시 영등포구', // 배송지
     productPrice: 10000, // 판매글 가격
