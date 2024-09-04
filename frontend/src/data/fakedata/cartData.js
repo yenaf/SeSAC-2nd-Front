@@ -15,6 +15,7 @@ const cartData = [
       productPrice: 10000, // 상품 가격
       productType: '공식', // 상품 유형
       productStatus: '중고', // 상품 상태
+      sellStatus: '판매 중',
       Seller: {
         sellerName: '잠옷조아', // 판매자 이름
         Delivery: {
@@ -44,6 +45,7 @@ const cartData = [
       productPrice: 20000, // 상품 가격
       productType: '공식', // 상품 유형
       productStatus: '중고', // 상품 상태
+      sellStatus: '판매 예약',
       Seller: {
         sellerName: '잠옷조아', // 판매자 이름
         Delivery: {
@@ -73,6 +75,7 @@ const cartData = [
       productPrice: 20000, // 상품 가격
       productType: '공식', // 상품 유형
       productStatus: '중고', // 상품 상태
+      sellStatus: '판매 중',
       Seller: {
         sellerName: '포켓몬트레이너', // 판매자 이름
         Delivery: {
@@ -102,6 +105,7 @@ const cartData = [
       productPrice: 10000, // 상품 가격
       productType: '공식', // 상품 유형
       productStatus: '중고', // 상품 상태
+      sellStatus: '판매 중',
       Seller: {
         sellerName: '포켓몬트레이너', // 판매자 이름
         Delivery: {
@@ -131,6 +135,7 @@ const cartData = [
       productPrice: 10000, // 상품 가격
       productType: '공식', // 상품 유형
       productStatus: '중고', // 상품 상태
+      sellStatus: '판매 중',
       Seller: {
         sellerName: '포켓몬트레이너', // 판매자 이름
         Delivery: {

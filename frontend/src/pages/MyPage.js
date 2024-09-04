@@ -1,34 +1,13 @@
 import React from 'react';
-import '../styles/pages/MyPage.scss';
 import userData from '../data/fakedata/userData';
-import { Link } from 'react-router-dom';
+import MyPageMenu from '../components/MyPageMenu'; // 컴포넌트
+import '../styles/pages/MyPage.scss';
 
 // 마이페이지
 export default function MyPage() {
   return (
     <div className="mypage-container">
-      <nav className="mypage-list-container">
-        <ul>
-          <li>전체보기</li>
-          <li>구매내역</li>
-          <li>판매내역</li>
-          <li>판매글목록</li>
-          <li>찜목록</li>
-          <li>리블링머니</li>
-          <li>
-            회원정보수정
-            <ul className="mypage-edit">
-              <li>- 개인정보수정</li>
-              <li>- 배송지관리</li>
-              <Link to="/sellers">
-                <li>- 판매자정보등록</li>
-              </Link>
-              <li>- 판매자정보수정</li>
-              <li>- 회원탈퇴</li>
-            </ul>
-          </li>
-        </ul>
-      </nav>
+      <MyPageMenu />
       <div className="mypage-info-container">
         <div className="mypage-info-content">
           <h2>내정보</h2>

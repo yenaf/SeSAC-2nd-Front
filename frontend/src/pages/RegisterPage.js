@@ -70,7 +70,7 @@ export default function RegisterPage() {
       const isNicknameValid = await checkNickname(data.nickname);
       if (!isNicknameValid) return;
 
-      const res = await axios.post('user/register', data);
+      const res = await axios.post('/user/register', data);
       if (res.status === 200) {
         alert('회원가입이 완료되었습니다!');
         navigate('/');

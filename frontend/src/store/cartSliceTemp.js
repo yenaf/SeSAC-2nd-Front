@@ -5,7 +5,7 @@ import cartData from '../data/fakedata/cartData';
 import orderData from '../data/fakedata/orderData';
 import axios from 'axios';
 
-// 최종!
+// 임시 여기서 실험할거임
 
 export const loadCart = createAsyncThunk(
   // action 이름
@@ -17,8 +17,6 @@ export const loadCart = createAsyncThunk(
     return res.data;
   },
 );
-
-console.log(loadCart);
 
 // 판매자별로 데이터 묶어주는 함수
 function groupBySeller(data) {
@@ -93,7 +91,6 @@ const orderTotalAmount = sumAmount(groupBySellerOrder);
 // 오더 배송비 가격 합계
 const orderTotalDeliveryFee = sumDeliveryFee(groupBySellerOrder);
 
-// createAsyncThunk -> 비동기 연결 후 사용 예정
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
@@ -152,6 +149,11 @@ const cartSlice = createSlice({
       state.totalDeliveryFee = updatedDeliveryFee;
       state.totalPayment = updatedAmount + updatedDeliveryFee;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loadCart.panding, (state) => {}),
+      builder.addCase(loadCart.fulfilled, (state, action) => {}),
+      builder.addCase(loadCart.rejected, (state, action) => {});
   },
 });
 

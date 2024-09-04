@@ -48,7 +48,7 @@ function App() {
               <Route path="/order" element={<OrderPage />} />
               {/* 결제 완료 페이지 */}
               <Route
-                path="/order/complete/:orderId"
+                path="/order/complete/:allOrderId"
                 element={<OrderCompletePage />}
               />
               {/* 회원가입 페이지 */}

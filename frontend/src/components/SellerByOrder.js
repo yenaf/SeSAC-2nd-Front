@@ -23,6 +23,11 @@ export default function SellerByOrder({ order }) {
         {items.map((val, idx) => (
           <li key={idx} className="orderItem">
             <figure className="orderItem-img">
+              {val.Post.sellStatus === '판매 중' ? null : (
+                <div className="img-filter">
+                  <div className="img-label">{val.Post.sellStatus}</div>
+                </div>
+              )}
               <img
                 src={val.Post.Product_Image[0].imgName}
                 alt={val.Post.postTitle}
@@ -43,6 +48,11 @@ export default function SellerByOrder({ order }) {
               <div className="orderItem-price">
                 {priceToString(val.Post.productPrice)}원
               </div>
+              {val.Post.sellStatus === '판매 중' ? null : (
+                <div className="orderItem-sellStatus">
+                  구매할 수 없는 상품입니다.
+                </div>
+              )}
             </div>
           </li>
         ))}
