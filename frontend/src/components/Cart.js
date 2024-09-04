@@ -96,9 +96,6 @@ export default function Cart() {
             />
             <label htmlFor="chk-allitem">전체선택</label>
           </div>
-          {/* <button className="chk-deleteBtn" onClick={deleteCheck}>
-            선택삭제
-          </button> */}
         </div>
         <ul className="cart-itemLists">
           {/* 장바구니 아이템들, 판매자별로 묶어서 보여주기 */}

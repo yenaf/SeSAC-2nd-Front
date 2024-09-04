@@ -82,22 +82,6 @@ export default function OrderPage() {
       return;
     }
 
-    /*
-      줘야할 데이터 배열내 객체로 [{판매글1}, {판매글2}, {판매글3}]
-      구매테이블의 -> 판매글번호, 판매자번호, 배송지, 판매글가격 + 배송비
-      생성되야할 데이터
-      [
-        {
-          postId : 1, // 판매글번호
-          cartId : 1, // 장바구니 번호
-          sellerId : 1, // 판매자번호
-          address : '서울시 영등포구', // 배송지
-          productPrice : 10000, // 판매글 가격
-          deliveryPrice : 3000, // 배송비, 판매자별 첫번째 아이템만 가격붙고 나머지는 0
-          totalPrice : 13000 // 판매글가격 + 배송비
-        }
-      ]
-    */
     // 배송지 정보
     const addrInfo = document.querySelector(
       '.order-addr div:last-child',

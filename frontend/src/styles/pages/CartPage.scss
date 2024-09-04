@@ -145,6 +145,21 @@
       }
     }
   }
+  .cart-emptybx {
+    text-align: center;
+    h3 {
+      font-size: min(4vw, 3rem);
+      margin-bottom: 2rem;
+    }
+    a {
+      display: inline-block;
+      color: $main-color;
+      font-size: min(3vw, 2.4rem);
+      &:hover {
+        border-bottom: 1px solid $main-color;
+      }
+    }
+  }
 }
 
 // 768px 이하 미디어쿼리
