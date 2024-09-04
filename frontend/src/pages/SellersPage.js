@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import MyPageMenu from '../components/MyPageMenu';
-import '../styles/pages/SellerPage.scss';
 import '../styles/pages/MyPage.scss';
+import axios from 'axios';
 
 export default function SellersPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
   const {
     register,
     handleSubmit,
-    // setValue,
+    setValue,
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
@@ -21,19 +21,55 @@ export default function SellersPage() {
     alert('판매자 등록이 완료되었습니다!');
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImg(reader.result);
-      };
-      reader.readAsDataURL(file);
+  // 파일 체크 함수
+  const fileExtCheck = (obj) => {
+    // console.log(obj);
+    const pathPoint = obj.lastIndexOf('.');
+    const filePoint = obj.substring(pathPoint + 1, obj.length);
+    const fileType = filePoint.toLowerCase();
+    // console.log('fileType', fileType);
+    if (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png')
+      return true;
+    else return false;
+  };
 
-      // 파일 이름을 저장
-      // setValue('sellerImg', file.name);
+  // 파일 체크
+  const fileCheck = (e) => {
+    let file = e.target.files[0];
+    let fileName = file.name;
+    console.log('file >>', file);
+
+    if (fileExtCheck(fileName)) {
+      // 프사 설정한 대로 바꾸게 하기
+      if (file) {
+        let reader = new FileReader();
+        reader.onload = () => {
+          setPreviewImg(reader.result);
+        };
+        reader.readAsDataURL(file);
+        console.log('filename >>', file.name);
+      }
+    } else {
+      alert('이미지 파일만 올려주세요!');
+      e.target.value = '';
     }
   };
+
+  // API
+  const onSubmitApi = async (data) => {
+    try {
+      const res = await axios.post('', data);
+      if (res.status === 200) {
+        alert('판매자 정보 등록이 완료되었습니다!');
+      } else {
+        alert('판매자 정보 등록에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (error) {
+      console.error('판매자 등록 오류:', error);
+      alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
   return (
     <div className="mypage-container">
       <MyPageMenu />
@@ -43,7 +79,11 @@ export default function SellersPage() {
             <div className="seller-title">
               <h2>판매자 정보 등록</h2>
             </div>
-            <form onSubmit={handleSubmit(onSubmit)} id="seller">
+            <form
+              onSubmit={handleSubmit(onSubmit)}
+              id="seller"
+              encType="multipart/form-data"
+            >
               <div className="seller-input">
                 <label htmlFor="sellerName">판매자명</label>
                 <input
@@ -62,9 +102,11 @@ export default function SellersPage() {
                   <span className="err-msg">{errors.sellerName.message}</span>
                 )}
 
-                <div className="seller-img">
+                <div>
                   <label htmlFor="sellerImg">프로필 사진</label>
-                  <img src={previewImg} alt="profile-img" id="sellerImg" />
+                  <div className="seller-img">
+                    <img src={previewImg} alt="profile-img" id="sellerImg" />
+                  </div>
                 </div>
                 <input
                   type="file"
@@ -73,7 +115,7 @@ export default function SellersPage() {
                   {...register('sellerImg', {
                     // required: '프로필 사진을 업로드해주세요.',
                   })}
-                  onChange={handleImageChange}
+                  onChange={fileCheck}
                 />
                 {errors.sellerImg && (
                   <span className="err-msg">{errors.sellerImg.message}</span>
