@@ -13,10 +13,19 @@ library.add(faBasketShopping, faUser, faRightFromBracket, faRightToBracket);
 
 // header 회원정보 버튼들 컴포넌트
 export default function HeaderSideMenu({ logstate }) {
+  const openLogin = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <ul>
       {logstate.map((value, idx) => (
         <li key={idx} title={value.title}>
+          {/* {value.path === '/user/login' && (
+            <Link to={value.path} onClick={openLogin}>
+              <FontAwesomeIcon icon={`fa-solid ${value.icon}`} />
+            </Link>
+          )} */}
           <Link to={value.path}>
             <FontAwesomeIcon icon={`fa-solid ${value.icon}`} />
           </Link>

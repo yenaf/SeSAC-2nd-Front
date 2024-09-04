@@ -7,11 +7,12 @@ import HeaderSideMenu from '../components/HeaderSideMenu';
 import { loginMenu } from '../data/loginData';
 import Category from '../components/Category';
 import Search from '../components/Search';
+import Login from '../components/Login';
 
 // header 컴포넌트
 export default function Header() {
   // 임시 로그인 상태값 저장
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   // 임시 판매자 상태값 저장
   const [isSeller, setIsSeller] = useState(true);
   // 임시 관리자 상태값 저장
@@ -21,6 +22,7 @@ export default function Header() {
 
   // 모바일 요소 useRef
   const headerRef = useRef([]);
+  const headerTopRef = useRef();
 
   // 햄버거 버튼 클릭(메뉴 열림)
   const openMenu = (e) => {
@@ -28,6 +30,7 @@ export default function Header() {
     hambtn.style.display = 'none';
     hambtn.nextElementSibling.style.display = 'inline-block';
     const moveElement = headerRef.current;
+    headerTopRef.current.style.height = '15rem';
     moveElement.forEach((ele) => ele.classList.add('on'));
   };
 
@@ -38,12 +41,15 @@ export default function Header() {
     backbtn.previousElementSibling.style.display = 'inline-block';
     const moveElement = headerRef.current;
     moveElement.forEach((ele) => ele.classList.remove('on'));
+    setTimeout(() => {
+      headerTopRef.current.style.height = '4rem';
+    }, 300);
   };
 
   return (
     <header>
       <div className="inner">
-        <div className="header-top">
+        <div className="header-top" ref={headerTopRef}>
           {/* 메인로고 */}
           <h1 className="header-logo">
             <Link to="/">리블링스</Link>
@@ -93,6 +99,7 @@ export default function Header() {
           </button>
         </div>
       </div>
+      {/* <Login /> */}
     </header>
   );
 }

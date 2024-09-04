@@ -4,19 +4,24 @@
 
 header {
   position: fixed;
-  z-index: 99999;
+  z-index: 9999;
   width: 100%;
   border-bottom: 1px solid $border-color;
-  padding-top: 2.2rem;
+  // padding-top: 2.2rem;
   background-color: #fff;
   .ham-btnbx {
     display: none;
   }
   .header-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
+    height: 5rem;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+    background-color: #fff;
     .header-logo {
+      position: absolute;
+      left: 0.5rem;
       font-size: 4rem;
       font-family: 'PyeongChangPeace-Bold';
       background: linear-gradient(to bottom, $main-color 0%, $sub-color 100%);
@@ -26,7 +31,8 @@ header {
       text-fill-color: transparent;
     }
     .header-searchbox {
-      position: relative;
+      position: absolute;
+      @include center;
       #search {
         border: none;
         border: 1px solid $border-color;
@@ -48,6 +54,10 @@ header {
       }
     }
     .side-menu {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
       display: flex;
       align-items: center;
       gap: 0 3rem;
@@ -85,8 +95,10 @@ header {
   }
   nav.gnb {
     ul {
+      background-color: #fff;
       display: flex;
       justify-content: center;
+      box-sizing: border-box;
       padding: 2rem 0 1rem;
       gap: 0 2.4rem;
       font-size: 1.6rem;
@@ -109,17 +121,25 @@ header {
 /* 640px 이하 미디어쿼리 */
 @media screen and (max-width: $sm) {
   header {
+    .inner {
+      height: 0;
+    }
     border: none;
+    height: 4rem;
     padding-top: 0;
     .header-top {
       flex-direction: column;
       gap: 1.3rem 0;
+      height: 4rem;
       .header-logo {
         font-size: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
       }
       .header-search {
         @include leftMove;
         @include leftMove2;
+        top: 6rem;
         .header-searchbox {
           width: 80vw;
           #search {
@@ -132,6 +152,7 @@ header {
         @include leftMove2;
         gap: 1rem 0;
         flex-direction: column;
+        top: 11rem;
       }
     }
     nav.gnb {
@@ -142,6 +163,8 @@ header {
       ul {
         flex-direction: column;
         gap: 1.6rem 0;
+        height: 100%;
+        justify-content: flex-start;
       }
     }
     .ham-btnbx {
