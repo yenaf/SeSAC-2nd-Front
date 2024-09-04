@@ -4,19 +4,9 @@ import cartData from '../data/fakedata/cartData';
 // 임시 결제페이지 데이터
 import orderData from '../data/fakedata/orderData';
 import axios from 'axios';
+import { getCartData, getOrderData } from '../api/cart';
 
 // 임시 여기서 실험할거임
-
-export const loadCart = createAsyncThunk(
-  // action 이름
-  'load/cart',
-  // 처리할 비동기 함수
-  async (userId) => {
-    // 서버에서 데이터 불러오기
-    const res = await axios.get(`http://localhost:8080/cart/${userId}`);
-    return res.data;
-  },
-);
 
 // 판매자별로 데이터 묶어주는 함수
 function groupBySeller(data) {
@@ -47,6 +37,22 @@ function groupBySeller(data) {
 
 const groupBySellerCart = groupBySeller(cartData);
 const groupBySellerOrder = groupBySeller(orderData.postInfo);
+
+export const loadCart = createAsyncThunk(
+  // action 이름
+  'load/cart',
+  // 처리할 비동기 함수
+  async (userId) => {
+    // 서버에서 데이터 불러오기
+    const res = await getCartData(userId);
+    return res.data;
+  },
+);
+
+export const loadOrder = createAsyncThunk('load/order', async () => {
+  const res = await getOrderData();
+  return res.data;
+});
 
 // 아이템 가격 합계 함수
 const sumAmount = (data) => {
@@ -94,14 +100,25 @@ const orderTotalDeliveryFee = sumDeliveryFee(groupBySellerOrder);
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cartData: groupBySellerCart,
-    sellerByOrderData: groupBySellerOrder,
-    totalAmount,
-    totalDeliveryFee,
-    totalPayment: totalAmount + totalDeliveryFee,
-    orderTotalAmount,
-    orderTotalDeliveryFee,
-    orderTotalPayment: orderTotalAmount + orderTotalDeliveryFee,
+    // cartData: groupBySellerCart,
+    // sellerByOrderData: groupBySellerOrder,
+    // totalAmount,
+    // totalDeliveryFee,
+    // totalPayment: totalAmount + totalDeliveryFee,
+    // orderTotalAmount,
+    // orderTotalDeliveryFee,
+    // orderTotalPayment: orderTotalAmount + orderTotalDeliveryFee,
+    cartData: [],
+    sellerByOrderData: [],
+    orderData: [],
+    totalAmount: 0,
+    totalDeliveryFee: 0,
+    totalPayment: 0,
+    orderTotalAmount: 0,
+    orderTotalDeliveryFee: 0,
+    orderTotalPayment: 0,
+    loading: 0,
+    error: null,
   },
   reducers: {
     totalZero: (state, action) => {
@@ -151,9 +168,37 @@ const cartSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loadCart.panding, (state) => {}),
-      builder.addCase(loadCart.fulfilled, (state, action) => {}),
-      builder.addCase(loadCart.rejected, (state, action) => {});
+    builder
+      .addCase(loadCart.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loadCart.fulfilled, (state, action) => {
+        // 요청 성공
+        state.loading = true;
+        state.cartData = groupBySeller(action.payload);
+        state.totalAmount = sumAmount(state.cartData);
+        state.totalDeliveryFee = sumDeliveryFee(state.cartData);
+        state.totalPayment = state.totalAmount + state.totalDeliveryFee;
+      })
+      .addCase(loadCart.rejected, (state, action) => {
+        // 요청 실패
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(loadOrder.pending, (state, action) => {
+        state.loading = true;
+        state.orderData = action.payload;
+        const grouporderData = groupBySeller(action.payload);
+        state.sellerByOrderData = grouporderData;
+        state.orderTotalAmount = sumAmount(state.sellerByOrderData);
+        state.orderTotalDeliveryFee = sumDeliveryFee(state.sellerByOrderData);
+        state.orderTotalPayment =
+          state.orderTotalAmount + state.orderTotalDeliveryFee;
+      })
+      .addCase(loadOrder.fulfilled, (state, action) => {
+        state.loading = true;
+        state.sellerByOrderData = groupBySeller(action.payload);
+      });
   },
 });
 

@@ -3,7 +3,12 @@ import SellerByCart from '../components/SellerByCart';
 import priceToString from '../utils/priceMethods';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { totalPrice, totalZero, deleteItem } from '../store/cartSlice';
+import {
+  totalPrice,
+  totalZero,
+  deleteItem,
+  loadCart,
+} from '../store/cartSliceTemp';
 import PaymentInfo from './PaymentInfo';
 import axios from 'axios';
 
@@ -19,6 +24,11 @@ export default function Cart() {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const userId = 1;
+    dispatch(loadCart(userId));
+  }, [dispatch]);
 
   // 전체선택 체크
   const handleCheckAll = () => {
@@ -59,25 +69,20 @@ export default function Cart() {
       // cartId 배열로 만들기
       cartIdArr.push(Number(cartId));
     });
-    /*
-      비동기?? post -> req.body 에 cartId들을 배열로 넘겨줌(선택된 항목에 대한 cartId)
-      백엔드에서 넘겨주는 데이터를 받아와서 렌더링
-      post -> data 받음
-      res.then (
-        navigate('/order')
-      )
-        // 백엔드랑 연결 후 주석풀기
-      try {
-        const res = await axios.post('/order', cartIdArr);
-        if (res.status === 200) {
-          navigate('/order');
-        }
-      } catch (err) {
-        console.error(err);
+
+    try {
+      const res = await axios.post('http://localhost:8080/order', {
+        cartIdArr,
+      });
+      if (res.status === 200) {
+        navigate('/order');
       }
-    */
+    } catch (err) {
+      console.error(err);
+      alert('이동할 수 없습니다');
+    }
   };
-  // useEffect(() => {}, [dispatch]);
+
   return (
     <>
       {/* 장바구니 아이템 */}

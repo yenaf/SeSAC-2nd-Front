@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AddressInput } from '../components/Register';
 import { useDispatch, useSelector } from 'react-redux';
 import orderData from '../data/fakedata/orderData';
@@ -9,6 +9,8 @@ import SellerByOrder from '../components/SellerByOrder';
 import axios from 'axios';
 import '../styles/pages/OrderPage.scss';
 import DeliverySelect from '../components/DeliverySelect';
+import { loadOrder } from '../store/cartSliceTemp';
+import { postOrderData } from '../api/cart';
 
 // 결제 페이지
 export default function OrderPage() {
@@ -17,13 +19,20 @@ export default function OrderPage() {
     orderTotalAmount,
     orderTotalDeliveryFee,
     orderTotalPayment,
+    // orderData,
   } = useSelector((state) => state.cart);
 
   const { userInfo, addressInfo, postInfo } = orderData;
   const [orderCreate, setOrderCreate] = useState([]);
   const balanceInputRef = useRef();
 
+  const dispatch = useDispatch();
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(loadOrder());
+  }, [dispatch]);
 
   // 리블링 머니 사용
   const useBalance = (e) => {
@@ -115,20 +124,15 @@ export default function OrderPage() {
 
       return itemObj;
     });
-
-    console.log(orderCreateData);
-    /*
-     // 백엔드랑 연결 후 주석풀기
-     try {
-       const res = await axios.post('/orders', orderCreateData);
-       if (res.status === 201) {
-         navigate(`/order/complete${allOrderId}`);
-       }
-     } catch (err) {
-       console.error(err);
-     }
-     
-    */
+    try {
+      const res = postOrderData(orderCreateData);
+      if (res.status === 201) {
+        const allOrderId = res.data;
+        navigate(`/order/complete/${allOrderId}`);
+      }
+    } catch (err) {
+      console.error();
+    }
   };
 
   return (

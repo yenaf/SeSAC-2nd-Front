@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { deleteEachPrice, addEachPrice, deleteItem } from '../store/cartSlice';
 import axios from 'axios';
+import { deleteCartData } from '../api/cart';
 
 export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   const { items } = cart;
@@ -43,8 +44,15 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   };
 
   // 장바구니 아이템 삭제
-  const deleteCartItem = (e, targetId) => {
-    dispatch(deleteItem(targetId));
+  const deleteCartItem = async (e, targetId) => {
+    try {
+      const res = deleteCartData(targetId);
+      if (res) {
+        dispatch(deleteItem(targetId));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
