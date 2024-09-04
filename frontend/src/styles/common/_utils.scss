@@ -1,9 +1,44 @@
+body {
+  font-family: 'GmarketSansMedium';
+}
+
 main {
-    width: 100%;
-    min-height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+  padding-top: 13rem;
 }
 
 .inner {
-    max-width: $xl;
-    margin: 0 auto;
+  max-width: $xl;
+  position: relative;
+  padding: 0 1rem;
+  margin: 0 auto;
+  height: 100%;
+}
+
+@media screen and (max-width: $sm){
+  main {
+    padding-top: 5rem;
+  }
+}
+
+
+
+@mixin center {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin leftMove {
+  position: relative;
+  left: -110%;
+  transition: left ease-in-out .4s;
+}
+
+@mixin leftMove2 {
+  &.on {
+    left: 0;
+  }
 }

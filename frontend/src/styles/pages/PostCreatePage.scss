@@ -1,0 +1,251 @@
+@import '../common/variables';
+
+.post-write {
+  max-width: 80%;
+  margin: auto;
+  // background: #000;
+  .title {
+    font-size: 2rem;
+    padding: 3rem 0;
+    color: $main-color;
+  }
+  #form {
+    width: 100%;
+    .form-group {
+      position: relative;
+      display: flex;
+      margin-bottom: 3.5rem;
+      .post-title {
+        width: 9rem;
+        font-size: 1.5rem;
+        color: $main-color;
+        height: 3rem;
+        line-height: 3rem;
+        & + input {
+          flex-grow: 1;
+          border: none;
+          border: 1px solid $border-color;
+          border-radius: 0.5rem;
+          height: 3rem;
+          text-indent: 1rem;
+        }
+      }
+      .won {
+        position: absolute;
+        right: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $main-color;
+        font-size: 1.3rem;
+      }
+      &.product-info {
+        flex-direction: column;
+        gap: 1rem;
+        textarea {
+          width: 100%;
+          height: 23rem;
+          position: relative;
+          box-sizing: border-box;
+          outline: none;
+          padding: 2rem 1.5rem;
+          border: 1px solid $border-color;
+          border-radius: 0.5rem;
+          resize: none;
+          &::placeholder {
+            line-height: 1.5;
+          }
+        }
+        span {
+          position: absolute;
+          bottom: 2%;
+          right: 2%;
+          color: $main-color;
+        }
+      }
+    }
+    // 취소/등록 버튼
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: end;
+      margin: 2rem 0;
+      button {
+        padding: 0.7rem 2rem;
+        border-radius: 0.8rem;
+        font-weight: 600;
+        font-size: 1.4rem;
+        cursor: pointer;
+        border: 1px solid $btn-color;
+        color: $main-color;
+        &[type='submit'] {
+          border: 1px solid $btn-color;
+          background-color: $btn-color;
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+// input 요소에서 숫자 입력 필드의 기본 화살표(스피너)를 없애기
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+// 라디오 버튼 (카테고리, 상품유형, 상품상태)
+.form-group {
+  .radio-group {
+    width: 90%;
+    display: flex;
+    gap: 1.5rem;
+    font-size: 1.2rem;
+    flex-wrap: wrap;
+    input {
+      position: absolute;
+      z-index: -1;
+    }
+    .category-btn {
+      position: relative;
+      box-sizing: border-box;
+      background: $sub-color;
+      border: 1px solid $sub-color;
+      padding: 1rem 2rem;
+      display: inline-block;
+      text-align: center;
+      color: white;
+      border-radius: 1rem;
+      box-shadow: 0px 4px 0px #ad83a8;
+    }
+    .checked {
+      background: #ba357e;
+      border: 1px solid #ba357e;
+      font-weight: 600;
+    }
+    .category-btn:active {
+      top: 4px;
+      box-shadow: 0 0 $main-color;
+      background-color: $border-color;
+      border: 1px solid $sub-color;
+    }
+  }
+}
+
+// 파일 등록 스타일
+.upload-container {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid $border-color;
+  border-radius: 1rem;
+  color: #694f8e;
+  .upload-button {
+    display: flex;
+    flex-direction: column;
+    border: 1px dashed $border-color;
+    border-radius: 1rem;
+    padding: 1rem;
+    position: relative;
+    background: #fff;
+    font-size: 1.2rem;
+    text-align: center;
+    .file-icon {
+      font-size: 2rem;
+      vertical-align: middle;
+      margin-right: 1rem;
+    }
+    input {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
+      background: #000;
+      font-size: 0;
+    }
+    p {
+      position: absolute;
+      right: 1rem;
+      bottom: 0.5rem;
+      font-size: 1rem;
+    }
+  }
+  .image-preview-container {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    .image-preview {
+      width: 12rem;
+      height: 12rem;
+      padding: 1rem;
+      box-sizing: border-box;
+      background-color: $bg-color;
+      border-radius: 0.8rem;
+      margin-top: 1rem;
+    }
+  }
+}
+
+/* 640px 이하 미디어쿼리 */
+@media screen and (max-width: $sm) {
+  .post-write {
+    max-width: 95%;
+    .title {
+      font-size: 1.6rem;
+      padding: 2rem 0;
+    }
+    #form {
+      .form-group {
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        .post-title {
+          width: auto;
+          font-size: 1.3rem;
+          margin-right: 0.5rem;
+        }
+        &.product-info {
+          gap: 0;
+          textarea {
+            height: 14rem;
+            padding: 1rem;
+          }
+          span {
+            right: 3.5%;
+          }
+        }
+      }
+      .btn-group {
+        justify-content: center;
+      }
+    }
+  }
+  // 라디오 버튼
+  .form-group {
+    .radio-group {
+      gap: 1rem;
+      font-size: 1.1rem;
+      .category-btn {
+        padding: 0.8rem 2rem;
+      }
+    }
+  }
+  .upload-container {
+    .upload-button {
+      flex-direction: row;
+      justify-content: center;
+      p {
+        margin-top: 0;
+        position: absolute;
+        right: 1rem;
+        bottom: 0.5rem;
+        font-size: 1rem;
+      }
+    }
+    .image-preview-container {
+      .image-preview {
+        width: 10rem;
+        height: 10rem;
+      }
+    }
+  }
+}

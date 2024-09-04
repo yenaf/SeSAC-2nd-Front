@@ -2,3 +2,183 @@
 @import '../common/variables';
 @import '../common/utils';
 
+header {
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  border-bottom: 1px solid $border-color;
+  // padding-top: 2.2rem;
+  background-color: #fff;
+  .ham-btnbx {
+    display: none;
+  }
+  .header-top {
+    position: relative;
+    height: 5rem;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+    background-color: #fff;
+    .header-logo {
+      position: absolute;
+      left: 0.5rem;
+      font-size: 4rem;
+      font-family: 'PyeongChangPeace-Bold';
+      background: linear-gradient(to bottom, $main-color 0%, $sub-color 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+    }
+    .header-searchbox {
+      position: absolute;
+      @include center;
+      #search {
+        border: none;
+        border: 1px solid $border-color;
+        border-radius: 1rem;
+        width: min(40vw, 54rem);
+        height: 3rem;
+        box-sizing: border-box;
+        padding: 0 1rem;
+        &:focus {
+          border-color: $main-color;
+        }
+      }
+      .search-btn {
+        position: absolute;
+        right: 0.5rem;
+        color: $main-color;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+    .side-menu {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      gap: 0 3rem;
+      .sales-btn {
+        font-size: 1.6rem;
+        box-sizing: border-box;
+        &:hover {
+          a {
+            color: $border-color;
+          }
+        }
+        a {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      .side-menubtn {
+        ul {
+          display: flex;
+          gap: 0 1.6rem;
+          font-size: 2rem;
+          li {
+            &:hover {
+              a {
+                color: $border-color;
+              }
+            }
+            a {
+              color: $main-color;
+            }
+          }
+        }
+      }
+    }
+  }
+  nav.gnb {
+    ul {
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 2rem 0 1rem;
+      gap: 0 2.4rem;
+      font-size: 1.6rem;
+      li {
+        &:hover {
+          a {
+            color: $border-color;
+          }
+        }
+        a {
+          &.active {
+            color: $border-color;
+          }
+        }
+      }
+    }
+  }
+}
+
+/* 640px 이하 미디어쿼리 */
+@media screen and (max-width: $sm) {
+  header {
+    .inner {
+      height: 0;
+    }
+    border: none;
+    height: 4rem;
+    padding-top: 0;
+    .header-top {
+      flex-direction: column;
+      gap: 1.3rem 0;
+      height: 4rem;
+      .header-logo {
+        font-size: 3rem;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .header-search {
+        @include leftMove;
+        @include leftMove2;
+        top: 6rem;
+        .header-searchbox {
+          width: 80vw;
+          #search {
+            width: 100%;
+          }
+        }
+      }
+      .side-menu {
+        @include leftMove;
+        @include leftMove2;
+        gap: 1rem 0;
+        flex-direction: column;
+        top: 11rem;
+      }
+    }
+    nav.gnb {
+      @include leftMove;
+      @include leftMove2;
+      height: 100vh;
+      width: 100%;
+      ul {
+        flex-direction: column;
+        gap: 1.6rem 0;
+        height: 100%;
+        justify-content: flex-start;
+      }
+    }
+    .ham-btnbx {
+      display: block;
+      position: absolute;
+      top: 0;
+      button {
+        position: absolute;
+        font-size: 2.6rem;
+        cursor: pointer;
+        &.back-btn {
+          display: none;
+        }
+      }
+    }
+  }
+}
