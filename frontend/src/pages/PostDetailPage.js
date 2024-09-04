@@ -11,6 +11,8 @@ export default function PostDetailPage() {
 
   const handleBackPage = () => {
     // 만약에 이전페이지가 게시글작성이라면 메인페이지로가야한다
+
+    //주석
     navigate(-1);
   };
   return (
