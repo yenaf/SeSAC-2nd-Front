@@ -15,6 +15,7 @@ import React, { useState, useEffect } from 'react';
 export function AddressInput({ register, setValue, errors }) {
   const [postcode, setPostcode] = useState('');
   const [address, setAddress] = useState('');
+  const [detailedAddress, setDetailedAddress] = useState('');
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
@@ -35,7 +36,7 @@ export function AddressInput({ register, setValue, errors }) {
           <input
             type="text"
             id="postcode"
-            value={postcode || ''}
+            value={postcode || ''} // 빈 문자열로 초기화
             readOnly
             {...register('postcode', {
               required: '우편 번호를 입력해주세요!',
@@ -50,7 +51,7 @@ export function AddressInput({ register, setValue, errors }) {
       <input
         type="text"
         id="address"
-        value={address || ''}
+        value={address || ''} // 빈 문자열로 초기화
         readOnly
         {...register('address', { required: '주소를 입력해주세요!' })}
       />
@@ -58,9 +59,8 @@ export function AddressInput({ register, setValue, errors }) {
       <input
         type="text"
         id="detailedAddress"
-        {...register('detailedAddress', {
-          // required: '상세 주소를 입력해주세요!',
-        })}
+        {...register('detailedAddress')}
+        value={detailedAddress || ''}
       />
       <span className="error-msg">{errors.detailedAddress?.message}</span>
     </div>
@@ -112,6 +112,7 @@ export function AgreementCheckbox({ register, watch, setValue, errors }) {
             {...register('isRequiredAgreed', {
               required: '필수 동의를 체크해주세요.',
             })}
+            checked={isRequiredAgreed}
           />
           <label htmlFor="isRequiredAgreed">리블링스 이용약관 동의(필수)</label>
         </span>
@@ -177,6 +178,7 @@ export function AgreementCheckbox({ register, watch, setValue, errors }) {
             type="checkbox"
             id="isOptionalAgreed"
             {...register('isOptionalAgreed')}
+            checked={isOptionalAgreed}
           />
           <label htmlFor="isOptionalAgreed">리블링스 이용약관 동의(선택)</label>
         </span>
