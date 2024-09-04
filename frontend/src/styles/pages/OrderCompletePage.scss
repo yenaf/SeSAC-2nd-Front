@@ -1,0 +1,69 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+.orderComplete {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  section {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem 0;
+    @include center;
+    top: 40%;
+    h2 {
+      font-size: min(4vw, 3.6rem);
+    }
+    h3 {
+      font-size: min(2.6vw, 2rem);
+      span {
+        color: $main-color;
+      }
+    }
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem 0;
+      li {
+        display: flex;
+        justify-content: space-between;
+        font-size: min(2.6vw, 1.4rem);
+        div {
+          &:first-child {
+            width: 30%;
+            color: #333;
+          }
+          &:last-child {
+            width: 70%;
+            vertical-align: top;
+          }
+        }
+      }
+    }
+    a {
+      display: block;
+      background-color: $btn-color;
+      font-weight: bold;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+      border-radius: 0.5rem;
+      font-size: min(2.8vw, 1.6rem);
+      margin-top: 2rem;
+    }
+  }
+}
+// 768px 이하 미디어쿼리
+@media screen and (max-width: $sm) {
+  .orderComplete {
+    section {
+      width: 80%;
+      gap: 1rem 0;
+      h2 {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
