@@ -5,17 +5,26 @@ import RadioGroup from '../components/RadioGroup';
 import UploadButton from '../components/UploadButton';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
   const { register, handleSubmit, watch, setValue } = useForm();
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+    // try {
+    //   const res = await axios.post(`/post/${data.postId}`, data);
+    //   alert('등록완료!');
+    //   navigate('/posts/:postId', { state: { formData: res } });
+    // } catch (error) {
+    //   console.log('판매글을 등록하지 못했습니다.');
+    // }
     console.log(data); // 데이터 확인
+    navigate('/posts/:postId', { state: { formData: data } });
+
     // post로 전송
     // 다른 페이지로 이동 (예: 등록 완료 페이지)
-    navigate('/posts/:postId', { state: { formData: data } });
   };
 
   const onCancel = () => {
