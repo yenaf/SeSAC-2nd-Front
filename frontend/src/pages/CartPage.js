@@ -15,6 +15,9 @@ export default function CartPage() {
   useEffect(() => {}, []);
 
   return (
-    <div className="cart">{cart.length > 0 ? <Cart /> : <CartEmpty />}</div>
+    <>
+      <h2 className="cart-title">장바구니</h2>
+      <div className="cart">{cart.length > 0 ? <Cart /> : <CartEmpty />}</div>
+    </>
   );
 }

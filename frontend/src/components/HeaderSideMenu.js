@@ -12,10 +12,16 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 library.add(faBasketShopping, faUser, faRightFromBracket, faRightToBracket);
 
 // header 회원정보 버튼들 컴포넌트
-export default function HeaderSideMenu({ logstate }) {
-  const openLogin = (e) => {
-    e.preventDefault();
-  };
+export default function HeaderSideMenu({ logstate, loginFn }) {
+  // const openLogin = (e) => {
+  //   e.preventDefault();
+  //   const loginContainer = document.querySelector('.login-container');
+  //   if (loginContainer) {
+  //     loginContainer.style.display = 'block';
+  //   }
+  // };
+
+  console.log(logstate);
 
   return (
     <ul>
@@ -27,10 +33,15 @@ export default function HeaderSideMenu({ logstate }) {
             </Link>
           )} */}
           <Link to={value.path}>
-            <FontAwesomeIcon icon={`fa-solid ${value.icon}`} />
+            <FontAwesomeIcon
+              icon={`fa-solid ${value.icon}`}
+              onClick={loginFn}
+            />
           </Link>
         </li>
       ))}
     </ul>
   );
 }
+
+// 로그인 아이콘 클릭시 로그인 띄우기

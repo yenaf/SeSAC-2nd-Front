@@ -2,7 +2,8 @@ import React, { useRef, useState } from 'react';
 import '../styles/layout/Header.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faChevronLeft, faL } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch, useSelector } from 'react-redux';
 import HeaderSideMenu from '../components/HeaderSideMenu';
 import { loginMenu } from '../data/loginData';
 import Category from '../components/Category';
@@ -12,13 +13,16 @@ import Login from '../components/Login';
 // header 컴포넌트
 export default function Header() {
   // 임시 로그인 상태값 저장
-  const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(false);
   // 임시 판매자 상태값 저장
-  const [isSeller, setIsSeller] = useState(true);
+  //const [isSeller, setIsSeller] = useState(true);
   // 임시 관리자 상태값 저장
-  const [isAdmin, setIsAdmin] = useState(false);
+  //const [isAdmin, setIsAdmin] = useState(false);
   // 임시 블랙리스트 상태값 저장
-  const [isBlacklist, setIsBlacklist] = useState(false);
+  // const [isBlacklist, setIsBlacklist] = useState(false);
+  const { isLogin, isAdmin, isSeller, isBlackList } = useSelector(
+    (state) => state.login,
+  );
 
   // 모바일 요소 useRef
   const headerRef = useRef([]);
@@ -45,6 +49,16 @@ export default function Header() {
       headerTopRef.current.style.height = '4rem';
     }, 300);
   };
+
+  const openLogin = (e) => {
+    e.preventDefault();
+    const loginContainer = document.querySelector('.login-container');
+    if (loginContainer) {
+      loginContainer.style.display = 'block';
+    }
+  };
+
+  const loginFn = () => {};
 
   return (
     <header>
@@ -75,12 +89,15 @@ export default function Header() {
               {/* 로그인 : 장바구니/마이페이지/로그아웃, 로그아웃 : 장바구니(로그인으로이동)/회원가입/로그인, 관리자 : 장바구니/관리자페이지/로그아웃 */}
               {isLogin ? (
                 isAdmin ? (
-                  <HeaderSideMenu logstate={loginMenu[2]} />
+                  // 관리자
+                  <HeaderSideMenu logstate={loginMenu[2]} loginFn={loginFn} />
                 ) : (
-                  <HeaderSideMenu logstate={loginMenu[0]} />
+                  // 로그인
+                  <HeaderSideMenu logstate={loginMenu[0]} loginFn={loginFn} />
                 )
               ) : (
-                <HeaderSideMenu logstate={loginMenu[1]} />
+                // 로그아웃
+                <HeaderSideMenu logstate={loginMenu[1]} loginFn={openLogin} />
               )}
             </aside>
           </div>
@@ -99,7 +116,8 @@ export default function Header() {
           </button>
         </div>
       </div>
-      {/* <Login /> */}
+      {/* 로그인 창 띄우기 */}
+      {isLogin ? null : <Login />}
     </header>
   );
 }
