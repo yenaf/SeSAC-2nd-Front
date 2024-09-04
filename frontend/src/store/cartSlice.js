@@ -40,7 +40,11 @@ const sumAmount = (data) => {
     return (
       acc +
       cur.items.reduce((total, item) => {
-        return total + item.Post.productPrice;
+        // 판매 중 상태의 상품만 합산
+        if (item.Post.sellStatus === '판매 중') {
+          return total + item.Post.productPrice;
+        }
+        return total;
       }, 0)
     );
   }, 0);
@@ -49,9 +53,18 @@ const sumAmount = (data) => {
 // 배송비 합계 함수
 const sumDeliveryFee = (data) => {
   return data.reduce((acc, cur) => {
-    const firstItem = cur.items[0];
-    const deliveryFee = firstItem.Post.Seller.Delivery.deliveryFee || 0;
-    return acc + deliveryFee;
+    const hasSellingItems = cur.items.some(
+      (item) => item.Post.sellStatus === '판매 중',
+    );
+    if (hasSellingItems) {
+      // const firstItem = cur.items[0];
+      const firstItem = cur.items.find(
+        (item) => item.Post.sellStatus === '판매 중',
+      );
+      const deliveryFee = firstItem.Post.Seller.Delivery.deliveryFee || 0;
+      return acc + deliveryFee;
+    }
+    return acc;
   }, 0);
 };
 
@@ -85,22 +98,9 @@ const cartSlice = createSlice({
     },
     totalPrice: (state, action) => {
       // 업데이트된 totalAmount와 totalDeliveryFee 계산
-      const updatedAmount = state.cartData.reduce((acc, seller) => {
-        return (
-          acc +
-          seller.items.reduce((total, item) => {
-            return total + item.Post.productPrice;
-          }, 0)
-        );
-      }, 0);
+      const updatedAmount = sumAmount(state.cartData);
 
-      const updatedDeliveryFee = state.cartData.reduce((acc, seller) => {
-        const firstItem = seller.items[0];
-        const deliveryFee = firstItem
-          ? firstItem.Post.Seller.Delivery.deliveryFee
-          : 0;
-        return acc + deliveryFee;
-      }, 0);
+      const updatedDeliveryFee = sumDeliveryFee(state.cartData);
 
       // 업데이트된 totalPayment 계산
       state.totalAmount = updatedAmount;
@@ -128,22 +128,8 @@ const cartSlice = createSlice({
         items: seller.items.filter((item) => !targetIds.includes(item.cartId)),
       }));
       // 업데이트된 totalAmount와 totalDeliveryFee 계산
-      const updatedAmount = state.cartData.reduce((acc, seller) => {
-        return (
-          acc +
-          seller.items.reduce((total, item) => {
-            return total + item.Post.productPrice;
-          }, 0)
-        );
-      }, 0);
-
-      const updatedDeliveryFee = state.cartData.reduce((acc, seller) => {
-        const firstItem = seller.items[0];
-        const deliveryFee = firstItem
-          ? firstItem.Post.Seller.Delivery.deliveryFee
-          : 0;
-        return acc + deliveryFee;
-      }, 0);
+      const updatedAmount = sumAmount(state.cartData);
+      const updatedDeliveryFee = sumDeliveryFee(state.cartData);
 
       // 업데이트된 totalPayment 계산
       state.totalAmount = updatedAmount;

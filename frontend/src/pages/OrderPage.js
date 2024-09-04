@@ -10,9 +10,6 @@ import axios from 'axios';
 import '../styles/pages/OrderPage.scss';
 import DeliverySelect from '../components/DeliverySelect';
 
-// 주문 번호가 랜덤으로 생성된다(숫자+문자 10자리)
-// 현재년도(숫자4자리) + 랜덤문자(문자2자리) + 랜덤숫자 4자리 -> 중복검사를 해야하나?
-
 // 결제 페이지
 export default function OrderPage() {
   const {
@@ -58,11 +55,22 @@ export default function OrderPage() {
   const submitPayment = async (e) => {
     e.preventDefault();
 
-    // 결제 진행사항 동의 체크 여부 확인
     const isOrderCheck = document.querySelector('#order-check');
     const isOrdercheckComment =
       isOrderCheck.nextElementSibling.nextElementSibling;
 
+    // 판매불가 상품 있는 지 확인
+    console.log(postInfo);
+    postInfo.forEach((item) => {
+      const { sellStatus } = item.Post;
+      console.log(sellStatus);
+      if (sellStatus !== '판매 중') {
+        isOrdercheckComment.innerText = '구매 불가 상품이 포함되어 있습니다.';
+        return;
+      }
+    });
+
+    // 결제 진행사항 동의 체크 여부 확인
     if (!isOrderCheck.checked) {
       isOrdercheckComment.innerText = '결제 진행 필수사항을 동의해주세요.';
       return;
@@ -70,7 +78,7 @@ export default function OrderPage() {
     // 리블링 머니 잔액 확인
     const balanceInput = balanceInputRef.current;
     if (balanceInput.value < orderTotalPayment || !balanceInput.value) {
-      isOrdercheckComment.innerHTML = '리블링머니를 입력해주세요.';
+      isOrdercheckComment.innerText = '리블링머니를 입력해주세요.';
       return;
     }
 
@@ -81,6 +89,7 @@ export default function OrderPage() {
       [
         {
           postId : 1, // 판매글번호
+          cartId : 1, // 장바구니 번호
           sellerId : 1, // 판매자번호
           address : '서울시 영등포구', // 배송지
           productPrice : 10000, // 판매글 가격
@@ -112,6 +121,7 @@ export default function OrderPage() {
         : 0;
       const itemObj = {
         postId: item.postId,
+        cartId: item.cartId,
         sellerId: item.Post.sellerId,
         address: addrInfo,
         productPrice: item.Post.productPrice,
@@ -127,8 +137,8 @@ export default function OrderPage() {
      // 백엔드랑 연결 후 주석풀기
      try {
        const res = await axios.post('/orders', orderCreateData);
-       if (res.status === 200) {
-         navigate(`/order/complete${orderId}`);
+       if (res.status === 201) {
+         navigate(`/order/complete${allOrderId}`);
        }
      } catch (err) {
        console.error(err);
@@ -248,7 +258,7 @@ export default function OrderPage() {
           </section>
         </article>
       </div>
-      <DeliverySelect />
+      {/* <DeliverySelect /> */}
     </div>
   );
 }

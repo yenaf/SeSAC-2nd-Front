@@ -23,7 +23,10 @@ export default function Cart() {
   // 전체선택 체크
   const handleCheckAll = () => {
     // 전체선택 체크 해제시 전부 해제 선택 시 전부 선택
-    const checkEach = document.querySelectorAll('.cartItem-check input');
+    const checkEach = document.querySelectorAll(
+      '.cartItem-check input[type=checkbox]:enabled',
+    );
+    console.log(checkEach);
     checkEach.forEach((el) => (el.checked = checkAllRef.current.checked));
     const allCheck = checkAllRef.current.checked;
     // 전체선택 시 금액 표시 변경
@@ -56,7 +59,6 @@ export default function Cart() {
       // cartId 배열로 만들기
       cartIdArr.push(Number(cartId));
     });
-    console.log(cartIdArr);
     /*
       비동기?? post -> req.body 에 cartId들을 배열로 넘겨줌(선택된 항목에 대한 cartId)
       백엔드에서 넘겨주는 데이터를 받아와서 렌더링
