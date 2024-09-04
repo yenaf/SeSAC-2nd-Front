@@ -5,7 +5,7 @@ const orderData = {
     userName: '테스트',
     email: 'test1@example.com',
     phoneNum: '01012345678',
-    balance: 1000000,
+    balance: 100,
   },
   postInfo: [
     // 장바구니 데이터와 동일
@@ -163,9 +163,20 @@ const orderData = {
     receiver: 'kim',
     phoneNum: '01035122545',
     zipCode: '12345',
-    address: 'Seoul',
-    detailedAddress: null,
+    address: '서울특별시 영등포구 선유로9길 30',
+    detailedAddress: '106동 청년취업사관학교 영등포캠퍼스',
   },
 };
 
 export default orderData;
+
+const orderCreateData = [
+  {
+    postId: 1, // 판매글번호
+    sellerId: 1, // 판매자번호
+    address: '서울시 영등포구', // 배송지
+    productPrice: 10000, // 판매글 가격
+    deliveryPrice: 3000, // 배송비, 판매자별 첫번째 아이템만 가격붙고 나머지는 0
+    totalPrice: 13000, // 판매글가격 + 배송비
+  },
+];

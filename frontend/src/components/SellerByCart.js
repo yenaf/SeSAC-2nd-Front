@@ -57,7 +57,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
           {/* 아이템 리스트 */}
           <ol>
             {items.map((val, idx) => (
-              <li key={idx} className="cartItem">
+              <li key={val.postId} className="cartItem">
                 <div className="cartItem-check">
                   <input
                     type="checkbox"

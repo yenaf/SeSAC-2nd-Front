@@ -4,60 +4,78 @@ import cartData from '../data/fakedata/cartData';
 // 임시 결제페이지 데이터
 import orderData from '../data/fakedata/orderData';
 
-class GroupBySellerData {
-  constructor(data) {}
-  sellerByData() {}
+// 판매자별로 데이터 묶어주는 함수
+function groupBySeller(data) {
+  // 판매자별로 묶어서 객체
+  const groupBySellerData = data.reduce((acc, item) => {
+    // 현재 아이템의 sellerId 가져오기
+    const sellerId = item.Post.sellerId;
+
+    // sellerId 없으면 새로운 배열 생성
+    if (!acc[sellerId]) {
+      acc[sellerId] = [];
+    }
+
+    // 해당 sellerId에 맞는 배열에 아이템 추가
+    acc[sellerId].push(item);
+
+    return acc;
+  }, {});
+
+  // 카트 데이터 객체를 배열로 만들기
+  const sellerByCartData = Object.keys(groupBySellerData).map((key) => ({
+    sellerId: parseInt(key, 10),
+    items: groupBySellerData[key],
+  }));
+
+  return sellerByCartData;
 }
 
-// 판매자별로 데이터 묶기
-const groupBySellerData = cartData.reduce((acc, item) => {
-  // 현재 아이템의 sellerId 가져오기
-  const sellerId = item.Post.sellerId;
+const groupBySellerCart = groupBySeller(cartData);
+const groupBySellerOrder = groupBySeller(orderData.postInfo);
 
-  // sellerId 없으면 새로운 배열 생성
-  if (!acc[sellerId]) {
-    acc[sellerId] = [];
-  }
+// 아이템 가격 합계 함수
+const sumAmount = (data) => {
+  return data.reduce((acc, cur) => {
+    return (
+      acc +
+      cur.items.reduce((total, item) => {
+        return total + item.Post.productPrice;
+      }, 0)
+    );
+  }, 0);
+};
 
-  // 해당 sellerId에 맞는 배열에 아이템 추가
-  acc[sellerId].push(item);
+// 배송비 합계 함수
+const sumDeliveryFee = (data) => {
+  return data.reduce((acc, cur) => {
+    const firstItem = cur.items[0];
+    const deliveryFee = firstItem.Post.Seller.Delivery.deliveryFee || 0;
+    return acc + deliveryFee;
+  }, 0);
+};
 
-  return acc;
-}, {});
-
-// 객체를 배열로 만들기
-const sellerByCartData = Object.keys(groupBySellerData).map((key) => ({
-  sellerId: parseInt(key, 10),
-  items: groupBySellerData[key],
-}));
-
-// 아이템 가격 합계
-const totalAmount = sellerByCartData.reduce((acc, cur) => {
-  return (
-    acc +
-    cur.items.reduce((total, item) => {
-      return total + item.Post.productPrice;
-    }, 0)
-  );
-}, 0);
-// 배송비 가격 합계
-const totalDeliveryFee = sellerByCartData.reduce((acc, cur) => {
-  const firstItem = cur.items[0];
-  const deliveryFee = firstItem.Post.Seller.Delivery.deliveryFee || 0;
-  return acc + deliveryFee;
-}, 0);
-// 결제 금액
-const totalPayment = totalAmount + totalDeliveryFee;
+// 카트 아이템 가격 합계
+const totalAmount = sumAmount(groupBySellerCart);
+// 카트 배송비 가격 합계
+const totalDeliveryFee = sumDeliveryFee(groupBySellerCart);
+// 오더 아이템 가격 합계
+const orderTotalAmount = sumAmount(groupBySellerOrder);
+// 오더 배송비 가격 합계
+const orderTotalDeliveryFee = sumDeliveryFee(groupBySellerOrder);
 
 // createAsyncThunk -> 비동기 연결 후 사용 예정
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    cartData: sellerByCartData,
+    cartData: groupBySellerCart,
+    sellerByOrderData: groupBySellerOrder,
     totalAmount,
     totalDeliveryFee,
     totalPayment: totalAmount + totalDeliveryFee,
+    orderTotalAmount,
+    orderTotalDeliveryFee,
+    orderTotalPayment: orderTotalAmount + orderTotalDeliveryFee,
   },
   reducers: {
     totalZero: (state, action) => {

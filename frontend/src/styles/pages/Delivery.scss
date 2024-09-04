@@ -1,0 +1,19 @@
+.delivery-container {
+  @include modalSetting;
+  .delivery-bx {
+    position: absolute;
+    @include center;
+    background-color: #fff;
+    max-height: 80%;
+    width: 400px;
+    .delivery-title {
+      text-align: center;
+      position: relative;
+      button {
+        position: absolute;
+        right: 1%;
+        top: 0;
+      }
+    }
+  }
+}
