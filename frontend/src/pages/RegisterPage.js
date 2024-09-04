@@ -246,12 +246,12 @@ export default function RegisterPage() {
             errors={errors}
           />
 
-          {/* <AgreementCheckbox
+          <AgreementCheckbox
             register={register}
             watch={watch}
             setValue={setValue}
             errors={errors}
-          /> */}
+          />
           <button>가입하기</button>
         </form>
       </section>
