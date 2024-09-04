@@ -20,14 +20,33 @@ export default function RegisterPage() {
     setError,
   } = useForm({
     mode: 'onBlur',
+    defaultValues: {
+      loginId: '', // 빈 문자열로 초기화
+      userPw: '', // 빈 문자열로 초기화
+      passwordCheck: '', // 빈 문자열로 초기화
+      userName: '', // 빈 문자열로 초기화
+      nickname: '', // 빈 문자열로 초기화
+      phoneNum: '', // 빈 문자열로 초기화
+      email: '', // 빈 문자열로 초기화
+      postcode: '', // 빈 문자열로 초기화 (주소 관련)
+      address: '', // 빈 문자열로 초기화 (주소 관련)
+      detailedAddress: '', // 빈 문자열로 초기화 (주소 관련)
+    },
   });
 
   const navigate = useNavigate();
 
   // 아이디 중복 체크
   const checkLoginId = async (loginId) => {
+    console.log(loginId);
     try {
-      const res = await axios.get('/checkLoginid', { params: { loginId } });
+      // const res = await axios.get('http://localhost:8080/user/checkLoginid', {
+      //   params: loginId,
+      // });
+      const res = await axios.post('http://localhost:8080/user/checkLoginid', {
+        loginId,
+      });
+      console.log('res >> ', res);
       if (res.status === 409) {
         setError('loginId', { type: 'manual', message: res.data.message });
         return false;
@@ -45,7 +64,9 @@ export default function RegisterPage() {
   // 닉네임 중복 체크
   const checkNickname = async (nickname) => {
     try {
-      const res = await axios.get('/checkNickname', { params: { nickname } });
+      const res = await axios.post('http://localhost:8080/user/checkNickname', {
+        nickname,
+      });
       if (res.status === 409) {
         setError('nickname', { type: 'manual', message: res.data.message });
         return false;
@@ -61,6 +82,7 @@ export default function RegisterPage() {
   };
 
   const onValidApi = async (data) => {
+    console.log('data >> ', data);
     try {
       // 아이디 중복 검사
       const isLoginIdValid = await checkLoginId(data.loginId);
@@ -70,7 +92,7 @@ export default function RegisterPage() {
       const isNicknameValid = await checkNickname(data.nickname);
       if (!isNicknameValid) return;
 
-      const res = await axios.post('/user/register', data);
+      const res = await axios.post('http://localhost:8080/user/register', data);
       if (res.status === 200) {
         alert('회원가입이 완료되었습니다!');
         navigate('/');
@@ -83,11 +105,12 @@ export default function RegisterPage() {
     }
   };
 
-  const onValid = (data) => {
-    console.log('onValid >> ', data);
-    alert('회원가입이 완료되었습니다!');
-    // navigate('/');  // 메인페이지로 이동
-  };
+  // 임시 회원가입
+  // const onValid = (data) => {
+  //   console.log('onValid >> ', data);
+  //   alert('회원가입이 완료되었습니다!');
+  //   // navigate('/');  // 메인페이지로 이동
+  // };
 
   const onInValid = (err) => {
     console.log('onInValid >> ', err);
@@ -100,7 +123,7 @@ export default function RegisterPage() {
         <form
           action="#"
           id="register"
-          onSubmit={handleSubmit(onValid, onInValid)}
+          onSubmit={handleSubmit(onValidApi, onInValid)}
         >
           <div className="register-input">
             <label htmlFor="loginId">아이디</label>
@@ -223,12 +246,12 @@ export default function RegisterPage() {
             errors={errors}
           />
 
-          <AgreementCheckbox
+          {/* <AgreementCheckbox
             register={register}
             watch={watch}
             setValue={setValue}
             errors={errors}
-          />
+          /> */}
           <button>가입하기</button>
         </form>
       </section>
