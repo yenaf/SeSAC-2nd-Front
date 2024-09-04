@@ -17,12 +17,13 @@
     width: 20%;
 
     li {
-      border-bottom: 1px solid #fff;
+      // border-bottom: 1px solid #fff;
       text-align: center;
       width: 100%;
       padding: 13px;
       box-sizing: border-box;
-      background-color: $bg-color3;
+      // background-color: $bg-color3;
+      border: 2px solid $border-color2;
       border-radius: 5px;
       color: $main-color;
       font-size: 13px;
@@ -47,7 +48,8 @@
 
     .mypage-info-content {
       margin-left: 75px;
-      background-color: $bg-color3;
+      // background-color: $bg-color3;
+      border: 2px solid $border-color2;
       // border: 1px solid $border-color;
       border-radius: 10px;
       box-sizing: border-box;
@@ -121,7 +123,8 @@
     .mypage-buy-content {
       margin-left: 70px;
       margin-top: 30px;
-      background-color: $bg-color3;
+      // background-color: $bg-color3;
+      border: 2px solid $border-color2;
       border-radius: 10px;
       box-sizing: border-box;
       padding: 30px 30px;
@@ -164,7 +167,8 @@
     .mypage-seller-content {
       margin-left: 70px;
       margin-top: 30px;
-      background-color: $bg-color3;
+      // background-color: $bg-color3;
+      border: 2px solid $border-color2;
       border-radius: 10px;
       box-sizing: border-box;
       padding: 30px 30px;
