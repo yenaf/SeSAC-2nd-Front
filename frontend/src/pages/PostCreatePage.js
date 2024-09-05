@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/pages/PostCreatePage.scss';
 import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
@@ -6,25 +6,42 @@ import UploadButton from '../components/UploadButton';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { insertPost } from '../api/post';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
   const { register, handleSubmit, watch, setValue } = useForm();
   const navigate = useNavigate();
+  const [charCount, setCharCount] = useState(0);
+  const textValue = watch('postContent', '');
+
+  useEffect(() => {
+    setCharCount(textValue.length);
+    // 글자 수가 600 이상인 경우, 입력을 막기 위해 마지막 글자를 제거
+    if (textValue.length > 600) {
+      setValue('postContent', textValue.slice(0, 600));
+    }
+  }, [textValue, setValue]);
 
   const onSubmit = async (data) => {
-    // try {
-    //   const res = await axios.post(`/post/${data.postId}`, data);
-    //   alert('등록완료!');
-    //   navigate('/posts/:postId', { state: { formData: res } });
-    // } catch (error) {
-    //   console.log('판매글을 등록하지 못했습니다.');
-    // }
-    console.log(data); // 데이터 확인
-    navigate('/posts/:postId', { state: { formData: data } });
-
-    // post로 전송
-    // 다른 페이지로 이동 (예: 등록 완료 페이지)
+    // userId가 있어야 판매하기가 보여짐
+    // 만약에 userId는 있고, sellerId가 없는 상태에서 판매하기 버튼을 부르면 판매자 등록페이지로 이동
+    // sellerId는 session에서 가져오기
+    const sellerId = 1;
+    const postData = {
+      ...data,
+      sellerId,
+    };
+    try {
+      if (sellerId) {
+        const res = await insertPost(postData);
+        console.log(res.data.newPost);
+        const { postId } = res.data.newPost;
+        navigate(`/posts/${postId}`, { state: { formData: res.data } });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const onCancel = () => {
@@ -88,7 +105,7 @@ export default function PostCreatePage() {
 
         <FormGroup label="상품상태">
           <RadioGroup
-            name="productState"
+            name="productStatus"
             options={[
               { value: '새상품', label: '새상품' },
               { value: '중고', label: '중고' },
@@ -107,7 +124,11 @@ export default function PostCreatePage() {
             step="0.01"
             placeholder="가격을 입력하세요"
             required
-            {...register('productPrice')}
+            {...register('productPrice', {
+              validate: {
+                positive: (value) => value > 0 || '가격은 0보다 커야 합니다.',
+              },
+            })}
           />
           <span className="won">원</span>
         </FormGroup>
@@ -128,7 +149,7 @@ export default function PostCreatePage() {
               maxLength: { value: 600 },
             })}
           ></textarea>
-          <span>600자 이내로 작성</span>
+          <span>{charCount} / 600</span>
         </div>
 
         <UploadButton register={register} />
