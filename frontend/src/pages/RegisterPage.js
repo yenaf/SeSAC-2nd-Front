@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import '../styles/pages/Register.scss';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
-import userData from '../data/fakedata/userData'; //user 더미데이터
 import axios from 'axios';
 import {
   FormInput,
@@ -28,7 +27,7 @@ export default function RegisterPage() {
       nickname: '', // 빈 문자열로 초기화
       phoneNum: '', // 빈 문자열로 초기화
       email: '', // 빈 문자열로 초기화
-      postcode: '', // 빈 문자열로 초기화 (주소 관련)
+      zipCode: '', // 빈 문자열로 초기화 (주소 관련)
       address: '', // 빈 문자열로 초기화 (주소 관련)
       detailedAddress: '', // 빈 문자열로 초기화 (주소 관련)
     },
@@ -81,6 +80,7 @@ export default function RegisterPage() {
     }
   };
 
+  // 회원가입
   const onValidApi = async (data) => {
     console.log('data >> ', data);
     try {
@@ -106,11 +106,11 @@ export default function RegisterPage() {
   };
 
   // 임시 회원가입
-  // const onValid = (data) => {
-  //   console.log('onValid >> ', data);
-  //   alert('회원가입이 완료되었습니다!');
-  //   // navigate('/');  // 메인페이지로 이동
-  // };
+  const onValid = (data) => {
+    console.log('onValid >> ', data);
+    alert('회원가입이 완료되었습니다!');
+    // navigate('/');  // 메인페이지로 이동
+  };
 
   const onInValid = (err) => {
     console.log('onInValid >> ', err);

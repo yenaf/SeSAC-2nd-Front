@@ -13,16 +13,16 @@ import React, { useState, useEffect } from 'react';
 
 // AddressInput 컴포넌트
 export function AddressInput({ register, setValue, errors }) {
-  const [postcode, setPostcode] = useState('');
+  const [zipCode, setZipCode] = useState('');
   const [address, setAddress] = useState('');
   const [detailedAddress, setDetailedAddress] = useState('');
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
-        setPostcode(data.zonecode);
+        setZipCode(data.zonecode);
         setAddress(data.address);
-        setValue('postcode', data.zonecode, { shouldValidate: true });
+        setValue('zipCode', data.zonecode, { shouldValidate: true });
         setValue('address', data.address, { shouldValidate: true });
       },
     }).open();
@@ -35,10 +35,10 @@ export function AddressInput({ register, setValue, errors }) {
         <div className="input-address">
           <input
             type="text"
-            id="postcode"
-            value={postcode || ''} // 빈 문자열로 초기화
+            id="zipCode"
+            value={zipCode || ''} // 빈 문자열로 초기화
             readOnly
-            {...register('postcode', {
+            {...register('zipCode', {
               required: '우편 번호를 입력해주세요!',
             })}
           />
