@@ -15,12 +15,6 @@ export default function SellersPage() {
     mode: 'onBlur',
   });
 
-  const onSubmit = (data) => {
-    console.log('Form Data: ', data);
-
-    alert('판매자 등록이 완료되었습니다!');
-  };
-
   // 파일 체크 함수
   const fileExtCheck = (obj) => {
     // console.log(obj);
@@ -57,8 +51,10 @@ export default function SellersPage() {
 
   // API
   const onSubmitApi = async (data) => {
+    console.log('form data >> ', data);
+
     try {
-      const res = await axios.post('', data);
+      const res = await axios.post('http://localhost:8080/sellers', data);
       if (res.status === 200) {
         alert('판매자 정보 등록이 완료되었습니다!');
       } else {
@@ -68,6 +64,13 @@ export default function SellersPage() {
       console.error('판매자 등록 오류:', error);
       alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
     }
+  };
+
+  // 임시 판매자 등록
+  const onSubmit = (data) => {
+    console.log('form data >> ', data);
+
+    alert('판매자 등록이 완료되었습니다!');
   };
 
   return (
@@ -80,7 +83,7 @@ export default function SellersPage() {
               <h2>판매자 정보 등록</h2>
             </div>
             <form
-              onSubmit={handleSubmit(onSubmit)}
+              onSubmit={handleSubmit(onSubmitApi)}
               id="seller"
               encType="multipart/form-data"
             >
@@ -140,26 +143,26 @@ export default function SellersPage() {
                   <div className="drive-choose">
                     <input
                       type="radio"
-                      name="deliveryName"
+                      name="deliveryId"
                       id="postChecked"
-                      value="우체국"
-                      {...register('deliveryName', {
+                      value="1"
+                      {...register('deliveryId', {
                         required: '배송사를 선택해주세요.',
                       })}
                     />
                     <label htmlFor="postChecked">우체국</label>
                     <input
                       type="radio"
-                      name="deliveryName"
+                      name="deliveryId"
                       id="koChecked"
-                      value="대한통운"
-                      {...register('deliveryName', {
+                      value="2"
+                      {...register('deliveryId', {
                         required: '배송사를 선택해주세요.',
                       })}
                     />
                     <label htmlFor="koChecked">대한통운</label>
                   </div>
-                  {errors.deliveryName && (
+                  {errors.deliveryId && (
                     <span className="err-msg">배송사를 선택해주세요.</span>
                   )}
                 </div>

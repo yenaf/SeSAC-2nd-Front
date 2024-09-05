@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  FormInput,
+  // FormInput,
   AddressInput,
   AgreementCheckbox,
 } from '../components/Register';
@@ -20,16 +20,16 @@ export default function RegisterPage() {
   } = useForm({
     mode: 'onBlur',
     defaultValues: {
-      loginId: '', // 빈 문자열로 초기화
-      userPw: '', // 빈 문자열로 초기화
-      passwordCheck: '', // 빈 문자열로 초기화
-      userName: '', // 빈 문자열로 초기화
-      nickname: '', // 빈 문자열로 초기화
-      phoneNum: '', // 빈 문자열로 초기화
-      email: '', // 빈 문자열로 초기화
-      zipCode: '', // 빈 문자열로 초기화 (주소 관련)
-      address: '', // 빈 문자열로 초기화 (주소 관련)
-      detailedAddress: '', // 빈 문자열로 초기화 (주소 관련)
+      loginId: '',
+      userPw: '',
+      passwordCheck: '',
+      userName: '',
+      nickname: '',
+      phoneNum: '',
+      email: '',
+      zipCode: '',
+      address: '',
+      detailedAddress: '',
     },
   });
 
@@ -37,25 +37,31 @@ export default function RegisterPage() {
 
   // 아이디 중복 체크
   const checkLoginId = async (loginId) => {
-    console.log(loginId);
     try {
-      // const res = await axios.get('http://localhost:8080/user/checkLoginid', {
-      //   params: loginId,
-      // });
       const res = await axios.post('http://localhost:8080/user/checkLoginid', {
         loginId,
       });
-      console.log('res >> ', res);
-      if (res.status === 409) {
-        setError('loginId', { type: 'manual', message: res.data.message });
-        return false;
+
+      // 서버가 200 상태로 중복이 없음을 응답한 경우
+      if (res.status === 200) {
+        return true;
       }
-      return true;
+
+      // 중복된 경우 상태코드가 409를 반환
+      return false;
     } catch (error) {
-      setError('loginId', {
-        type: 'manual',
-        message: '아이디 중복 검사 실패. 다시 시도해주세요.',
-      });
+      if (error.response && error.response.status === 409) {
+        // 백엔드에서 받은 오류 메시지를 그대로 사용
+        setError('loginId', {
+          type: 'manual',
+          message: error.response.data.message || '중복된 아이디 입니다.',
+        });
+      } else {
+        setError('loginId', {
+          type: 'manual',
+          message: error.response.data.message,
+        });
+      }
       return false;
     }
   };
@@ -66,16 +72,22 @@ export default function RegisterPage() {
       const res = await axios.post('http://localhost:8080/user/checkNickname', {
         nickname,
       });
-      if (res.status === 409) {
-        setError('nickname', { type: 'manual', message: res.data.message });
-        return false;
+      if (res.status === 200) {
+        return true;
       }
-      return true;
+      return false;
     } catch (error) {
-      setError('nickname', {
-        type: 'manual',
-        message: '닉네임 중복 검사 실패. 다시 시도해주세요.',
-      });
+      if (error.response && error.response.status === 409) {
+        setError('nickname', {
+          type: 'manual',
+          message: error.response.data.message || '중복된 닉네임 입니다.',
+        });
+      } else {
+        setError('nickname', {
+          type: 'manual',
+          message: error.response?.data?.message,
+        });
+      }
       return false;
     }
   };
@@ -93,6 +105,8 @@ export default function RegisterPage() {
       if (!isNicknameValid) return;
 
       const res = await axios.post('http://localhost:8080/user/register', data);
+
+      // 응답 확인
       if (res.status === 200) {
         alert('회원가입이 완료되었습니다!');
         navigate('/');
@@ -101,16 +115,43 @@ export default function RegisterPage() {
       }
     } catch (error) {
       console.error('회원가입 오류:', error);
-      alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+      console.log('error.response: ', error.response);
+
+      if (error.response && error.response.status === 409) {
+        // 백엔드에서 error 보냄
+        const errorMessage = error.response.data?.error;
+
+        if (errorMessage) {
+          // 전화번호 중복 오류 처리
+          if (errorMessage.includes('전화번호')) {
+            setError('phoneNum', {
+              type: 'manual',
+              message: errorMessage || '이미 사용 중인 전화번호입니다.',
+            });
+          }
+          // 이메일 중복 오류 처리
+          else if (errorMessage.includes('이메일')) {
+            setError('email', {
+              type: 'manual',
+              message: errorMessage || '이미 사용 중인 이메일입니다.',
+            });
+          }
+        } else {
+          console.log('서버에 에러메세지 없음');
+          alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+      } else {
+        alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+      }
+      return false;
     }
   };
 
   // 임시 회원가입
-  const onValid = (data) => {
-    console.log('onValid >> ', data);
-    alert('회원가입이 완료되었습니다!');
-    // navigate('/');  // 메인페이지로 이동
-  };
+  // const onValid = (data) => {
+  //   console.log('onValid >> ', data);
+  //   alert('회원가입이 완료되었습니다!');
+  // };
 
   const onInValid = (err) => {
     console.log('onInValid >> ', err);
