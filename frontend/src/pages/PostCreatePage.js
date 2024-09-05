@@ -6,6 +6,8 @@ import UploadButton from '../components/UploadButton';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { insertPost } from '../api/post';
+import { useDispatch } from 'react-redux';
+import { setPreviousUrl } from '../store/navigationSlice';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
@@ -13,6 +15,11 @@ export default function PostCreatePage() {
   const navigate = useNavigate();
   const [charCount, setCharCount] = useState(0);
   const textValue = watch('postContent', '');
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPreviousUrl(window.location.pathname));
+  }, [dispatch]);
 
   useEffect(() => {
     setCharCount(textValue.length);

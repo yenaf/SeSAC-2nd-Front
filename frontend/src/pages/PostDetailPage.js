@@ -12,10 +12,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Comment from '../components/Comment';
 import axios from 'axios';
 import { formatDate } from '../components/common/formatDate';
+import { getPost } from '../api/post';
+import { useSelector } from 'react-redux';
 
 // 상세게시글에 들어오려면 판매글작성후 또는 게시글을 눌렀을때
 
 export default function PostDetailPage() {
+  const previousUrl = useSelector((state) => state.navigation.previousUrl);
   const navigate = useNavigate();
   const [isDibbed, setIsDibbed] = useState(false);
   const [postData, setPostData] = useState(null);
@@ -24,7 +27,7 @@ export default function PostDetailPage() {
     // url에서 postId 가져옴
     const currentUrl = window.location.href;
     const id = currentUrl.split('/').pop();
-    const res = axios.get(`http://localhost:8080/posts/${id}`);
+    const res = getPost(id);
 
     res
       .then((res) => {
@@ -36,11 +39,19 @@ export default function PostDetailPage() {
       });
   }, []);
 
+  // 뒤로가기
   const handleBackPage = () => {
-    // 만약에 이전페이지가 게시글작성이라면 메인페이지로가야한다
-    navigate(-1);
+    if (previousUrl === '/posts/create') {
+      const goBackConfirm = confirm('메인페이지로 가시겠습니까?');
+      if (goBackConfirm) {
+        navigate('/'); // 메인 페이지로 이동
+      }
+    } else {
+      navigate(-1); // 이전 페이지로 이동
+    }
   };
 
+  // 찜
   const handleChangeDibs = () => {
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
@@ -55,7 +66,7 @@ export default function PostDetailPage() {
     productType,
     createdAt: time,
     Seller: seller,
-  } = postData;
+  } = postData || {};
 
   const createdAt = formatDate(time);
 
