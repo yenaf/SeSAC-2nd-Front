@@ -3,6 +3,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Login from '../components/Login';
+import ScrollBtn from '../components/ScrollBtn';
 
 export default function Layout() {
   return (
@@ -11,6 +12,7 @@ export default function Layout() {
       {/* <Login /> */}
       <main>
         <div className="inner">
+          <ScrollBtn />
           <Outlet />
         </div>
       </main>
