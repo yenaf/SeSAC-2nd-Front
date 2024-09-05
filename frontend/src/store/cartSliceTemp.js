@@ -42,9 +42,9 @@ export const loadCart = createAsyncThunk(
   // action 이름
   'load/cart',
   // 처리할 비동기 함수
-  async (userId) => {
+  async () => {
     // 서버에서 데이터 불러오기
-    const res = await getCartData(userId);
+    const res = await getCartData();
     return res.data;
   },
 );

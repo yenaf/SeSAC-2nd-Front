@@ -18,7 +18,7 @@ export const loadCart = createAsyncThunk(
   },
 );
 
-console.log(loadCart);
+// console.log(loadCart);
 
 // 판매자별로 데이터 묶어주는 함수
 function groupBySeller(data) {

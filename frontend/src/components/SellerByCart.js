@@ -46,7 +46,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   // 장바구니 아이템 삭제
   const deleteCartItem = async (e, targetId) => {
     try {
-      const res = deleteCartData(targetId);
+      const res = await deleteCartData(targetId);
       if (res) {
         dispatch(deleteItem(targetId));
       }
