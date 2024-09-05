@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/pages/PostDetailPage.scss';
 import SwiperMagnify from '../components/SwiperMagnify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import {
+  faHeart,
+  faAngleLeft,
+  faVolumeOff,
+} from '@fortawesome/free-solid-svg-icons';
 import priceToString from '../utils/priceMethods';
 import { Link, useNavigate } from 'react-router-dom';
+import Comment from '../components/Comment';
 
 export default function PostDetailPage() {
   const navigate = useNavigate();
+  const [isDibbed, setIsDibbed] = useState(false); // 상태 추가
 
   const handleBackPage = () => {
     // 만약에 이전페이지가 게시글작성이라면 메인페이지로가야한다
-
-    //주석
     navigate(-1);
+  };
+
+  const handleChangeDibs = () => {
+    setIsDibbed(!isDibbed); // 상태 토글
   };
   return (
     <>
@@ -52,16 +60,19 @@ export default function PostDetailPage() {
             </div>
 
             <div className="btn-group">
-              <button className="dibs-container">
-                <FontAwesomeIcon icon={faHeart} className="dibs" />
-              </button>
+              <FontAwesomeIcon
+                icon={faHeart}
+                className="dibs"
+                onClick={handleChangeDibs}
+                style={{ color: isDibbed ? '#ba357e' : '#c9c9c9' }}
+              />
               <span className="link-container">
-                <button className="btn shopping">
-                  <Link to={'/cart/:userId'}>장바구니</Link>
-                </button>
-                <button className="btn buy">
-                  <Link to={'/order'}>구매하기</Link>
-                </button>
+                <Link to={'/cart/:userId'} className="btn shopping">
+                  장바구니
+                </Link>
+                <Link to={'/order'} className="btn buy">
+                  구매하기
+                </Link>
               </span>
             </div>
           </div>
@@ -69,6 +80,11 @@ export default function PostDetailPage() {
 
         {/* 하단 상품설명 */}
         <div className="post-botton">
+          <FontAwesomeIcon
+            icon={faVolumeOff}
+            className="report-icon"
+            title="신고하기"
+          />
           {/* 판매자 배너 */}
           <div className="seller-info">
             <div className="seller-profile">
@@ -87,7 +103,12 @@ export default function PostDetailPage() {
               돌아가기
             </button>
             <button className="btn list">
-              <Link to={'/posts/list/:page/:limit/:categoryId'}>목록</Link>
+              <Link
+                to={'/posts/list/:page/:limit/:categoryId'}
+                className="list-link"
+              >
+                목록
+              </Link>
             </button>
           </div>
           <div className="ud-btn">
@@ -97,7 +118,7 @@ export default function PostDetailPage() {
         </div>
       </section>
       {/* 댓글 */}
-      {/* <section className="comment">comment</section> */}
+      <Comment />
     </>
   );
 }
