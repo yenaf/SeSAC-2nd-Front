@@ -3,27 +3,32 @@ import orderCompleteData from '../data/fakedata/orderCompleteData';
 import priceToString from '../utils/priceMethods';
 import axios from 'axios';
 import '../styles/pages/OrderCompletePage.scss';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { getOrderCompleteData } from '../api/cart';
 
 // 결제 완료 페이지
 export default function OrderCompletePage() {
-  // const [orderInfo, setOrderInfo] = useState({});
+  const [orderInfo, setOrderInfo] = useState({});
+  const { allOrderId } = useParams();
+
   useEffect(() => {
     const orderInfos = async () => {
-      //const res = await axios.get(`/order/complete/${orderId}`);
-      //const res = await  axios.get('/order/complete/:orderId');
-      // setOrderInfo(res.data)
-      // 임시데이터
-      //setOrderInfo(orderCompleteData);
+      try {
+        const res = await getOrderCompleteData(allOrderId);
+        // setOrderInfo(res.data);
+        // setOrderInfo(orderCompleteData);
+      } catch (err) {
+        console.error(err);
+      }
     };
 
-    //orderInfos();
+    orderInfos();
   }, []);
 
   //setOrderInfo(orderCompleteData);
   // console.log(orderInfo);
   // 임시데이터
-  const orderInfo = orderCompleteData;
+  // const orderInfo = orderCompleteData;
 
   return (
     <div className="orderComplete">
