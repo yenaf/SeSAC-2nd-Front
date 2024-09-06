@@ -37,6 +37,7 @@ export default function CartBtn({ post }) {
     navigate('/cart');
   };
 
+  // console.log(post);
   return (
     <div>
       <span className="link-container">

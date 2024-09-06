@@ -1,4 +1,4 @@
-function formatDate(dateString) {
+export default function formatDate(dateString) {
   const date = new Date(dateString);
 
   const year = date.getFullYear();
@@ -9,5 +9,3 @@ function formatDate(dateString) {
 
   return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
-
-export { formatDate };

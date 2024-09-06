@@ -5,16 +5,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faHeart,
   faAngleLeft,
-  faVolumeOff,
+  faFlag,
 } from '@fortawesome/free-solid-svg-icons';
 import priceToString from '../utils/priceMethods';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Comment from '../components/Comment';
-import axios from 'axios';
-import { formatDate } from '../components/common/formatDate';
 import { getPost } from '../api/post';
 import { useSelector } from 'react-redux';
 import CartBtn from '../components/CartBtn';
+import elapsedTime from '../utils/elapsedTime';
+import ReportModal from '../components/ReportModal';
 
 // 상세게시글에 들어오려면 판매글작성후 또는 게시글을 눌렀을때
 
@@ -23,26 +23,26 @@ export default function PostDetailPage() {
   const navigate = useNavigate();
   const [isDibbed, setIsDibbed] = useState(false);
   const [postData, setPostData] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
   const params = useParams();
   const id = Number(params.postId);
 
-  console.log(params.postId);
+  // 세션에 userId, sellerId 저장되고 그값을 가져온다고 가정
+  // const sessionSellerId = sessionStorage.getItem('sellerId');
+  const session = { user: { userId: 5, nickName: '로미' }, sellerId: 1 };
+  // 상세페이지의 수정삭제버튼은 세션의 sellerId와 post의 sellerid가 같을때 보여준다
 
   useEffect(() => {
     // url에서 postId 가져옴
-    // const currentUrl = window.location.href;
-    // const id = currentUrl.split('/').pop();
-    const res = getPost(params.postId);
-
+    const res = getPost(id);
     res
       .then((res) => {
         setPostData(res.data);
-        console.log(res.data);
       })
       .catch((error) => {
         console.error('API 호출 중 오류 발생:', error);
       });
-  }, []);
+  }, [id]);
 
   // 뒤로가기
   const handleBackPage = () => {
@@ -69,11 +69,13 @@ export default function PostDetailPage() {
     productPrice,
     productStatus,
     productType,
-    createdAt: time,
+    createdAt,
     Seller: seller,
   } = postData || {};
 
-  const createdAt = formatDate(time);
+  const handleReportClick = () => {
+    setIsModalOpen(true); // 모달 열기
+  };
 
   const getCategoryLabel = (id) => {
     switch (Number(id)) {
@@ -96,6 +98,13 @@ export default function PostDetailPage() {
 
   return (
     <>
+      {isModalOpen && (
+        <ReportModal
+          isOpen={isModalOpen}
+          // onClose={handleCloseModal}
+          // onConfirm={handleConfirmReport}
+        />
+      )}
       {!postData ? (
         <div>로딩 중...</div>
       ) : (
@@ -108,7 +117,7 @@ export default function PostDetailPage() {
               </div>
               {/* 우측 나열될 정보 */}
               <div className="product-info">
-                <time>{createdAt}</time>
+                <time>{elapsedTime(createdAt)}</time>
                 <strong>{getCategoryLabel(`${categoryId}`)}</strong>
                 <h2 title="">{postTitle}</h2>
                 <h3>{priceToString(`${productPrice}`)} 원</h3>
@@ -144,9 +153,10 @@ export default function PostDetailPage() {
             {/* 하단 상품설명 */}
             <div className="post-botton">
               <FontAwesomeIcon
-                icon={faVolumeOff}
+                icon={faFlag}
                 className="report-icon"
                 title="신고하기"
+                onClick={handleReportClick}
               />
               {/* 판매자 배너 */}
               <div className="seller-info">
@@ -165,23 +175,34 @@ export default function PostDetailPage() {
                   <FontAwesomeIcon icon={faAngleLeft} className="back-icon" />
                   돌아가기
                 </button>
-                <button className="btn list">
-                  <Link
-                    to={'/posts/list/:page/:limit/:categoryId'}
-                    className="list-link"
-                  >
-                    목록
-                  </Link>
-                </button>
+                {/* <button className="btn list"> */}
+                <Link
+                  to={'/posts/list/:page/:limit/:categoryId'}
+                  className="btn list-link"
+                >
+                  목록
+                </Link>
+                {/* </button> */}
               </div>
               <div className="ud-btn">
-                <button className="btn correction">수정</button>
-                <button className="btn delete">삭제</button>
+                {session.sellerId === seller.sellerId && (
+                  <>
+                    <Link
+                      // posts/edit 어진님이 백쪽 만들어주기로함
+                      to={`/posts/create`}
+                      className="btn correction"
+                      post={id}
+                    >
+                      수정
+                    </Link>
+                    <button className="btn delete">삭제</button>
+                  </>
+                )}
               </div>
             </div>
           </section>
           {/* 댓글 */}
-          <Comment />
+          <Comment postId={id} session={session} />
         </div>
       )}
     </>
