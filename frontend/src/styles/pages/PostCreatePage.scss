@@ -131,7 +131,7 @@ input[type='number']::-webkit-outer-spin-button {
   }
 }
 
-// 파일 등록 스타일
+// 사진 등록 디자인
 .upload-container {
   box-sizing: border-box;
   width: 100%;
@@ -175,8 +175,8 @@ input[type='number']::-webkit-outer-spin-button {
     justify-content: center;
     gap: 1rem;
     .image-preview {
-      width: 12rem;
-      height: 12rem;
+      width: 18%;
+      object-fit: cover;
       padding: 1rem;
       box-sizing: border-box;
       background-color: $bg-color;
@@ -243,8 +243,8 @@ input[type='number']::-webkit-outer-spin-button {
     }
     .image-preview-container {
       .image-preview {
-        width: 10rem;
-        height: 10rem;
+        width: 16%;
+        padding: 0.6rem;
       }
     }
   }

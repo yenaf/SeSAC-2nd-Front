@@ -20,8 +20,9 @@ const imageUrls = [
   'https://swiperjs.com/demos/images/nature-5.jpg',
 ];
 
-export default function SwiperMagnify() {
+export default function SwiperMagnify({ productImg }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  // console.log(productImg);
 
   return (
     <>

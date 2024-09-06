@@ -22,65 +22,51 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // 아이디 체크
-  const checkId = async (loginId) => {
-    try {
-      const res = await axios.get('', { params: { loginId } });
-      if (res.status === 409) {
-        setError('loginId', { type: 'manual', message: res.data.message });
-        return false;
-      }
-      return true;
-    } catch (error) {
-      setError('loginId', {
-        type: 'manual',
-        message:
-          '알 수 없는 오류로 로그인에 실패하였습니다.. 다시 로그인해주세요!',
-      });
-      return false;
-    }
-  };
-
-  // 비밀번호 체크
-  const checkPw = async (userPw) => {
-    try {
-      const res = await axios.get('', { params: { userPw } });
-      if (res.status === 409) {
-        setError('userPw', { type: 'manual', message: res.data.message });
-        return false;
-      }
-      return true;
-    } catch (error) {
-      setError('userPw', {
-        type: 'manual',
-        message:
-          '알 수 없는 오류로 로그인에 실패하였습니다.. 다시 로그인해주세요!',
-      });
-      return false;
-    }
-  };
-
   // 로그인
   const onSubmitApi = async (data) => {
     try {
-      // 아이디 검사
-      const isCheckId = await checkId(data.loginId);
-      if (!isCheckId) return;
+      const res = await axios.post('http://localhost:8080/user/login', data, {
+        // withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+      });
+      console.log('res >> ', res);
 
-      // 비밀번호 검사
-      const isCheckPw = await checkPw(data.userPw);
-      if (!isCheckPw) return;
-
-      const res = await axios.get('', data);
       if (res.status === 200) {
         alert('로그인 성공!');
+
+        // 로그인 성공시 로그인 모달 hidden
         const loginContainer = document.querySelector('.login-container');
-        loginContainer.style.display = 'none';
+        if (loginContainer) {
+          loginContainer.style.display = 'none';
+        }
+
+        // Redux를 통해 로그인 상태 관리 (dispatch 사용)
         dispatch(loginFn(true));
-        navigate('/'); // 메인페이지로 이동
+
+        // 메인페이지로 이동
+        navigate('/');
+      } else {
+        alert('로그인에 실패했습니다.');
       }
     } catch (error) {
       console.error('로그인 오류:', error);
+      console.log('error.response:', error.response);
+
+      // 백엔드에서 응답한 오류 메시지를 표시
+      const errorMessage = error.response?.data?.error;
+
+      if (errorMessage) {
+        // 백엔드에서 보낸 error 메시지가 있으면 그대로 표시
+        alert(errorMessage);
+      } else {
+        // 예상치 못한 에러 처리
+        if (error.response && error.response.status === 401) {
+          alert('아이디 또는 비밀번호를 찾을 수 없습니다.');
+        } else if (error.response && error.response.status === 404) {
+          alert('아이디 또는 비밀번호를 찾을 수 없습니다.');
+        } else {
+          alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+        }
+      }
     }
   };
 
@@ -91,14 +77,14 @@ export default function Login() {
   };
 
   // 임시 로그인
-  const onSubmit = (data) => {
-    console.log('onSubmit >> ', data);
-    alert('로그인 성공!');
-    const loginContainer = document.querySelector('.login-container');
-    loginContainer.style.display = 'none';
-    dispatch(loginFn(true));
-    navigate('/'); // 메인페이지로 이동
-  };
+  // const onSubmit = (data) => {
+  //   console.log('onSubmit >> ', data);
+  //   alert('로그인 성공!');
+  //   const loginContainer = document.querySelector('.login-container');
+  //   loginContainer.style.display = 'none';
+  //   dispatch(loginFn(true));
+  //   navigate('/'); // 메인페이지로 이동
+  // };
 
   return (
     <div className="login-container">
@@ -109,7 +95,7 @@ export default function Login() {
           </button>
         </div>
         <h2 className="login-title">로그인</h2>
-        <form action="#" id="login-form" onSubmit={handleSubmit(onSubmit)}>
+        <form action="#" id="login-form" onSubmit={handleSubmit(onSubmitApi)}>
           <div className="login-input">
             <input
               type="text"
