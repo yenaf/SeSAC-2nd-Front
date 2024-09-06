@@ -26,7 +26,7 @@ export default function Login() {
   const onSubmitApi = async (data) => {
     try {
       const res = await axios.post('http://localhost:8080/user/login', data, {
-        // withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+        withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
       });
       console.log('res >> ', res);
 

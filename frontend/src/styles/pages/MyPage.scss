@@ -227,6 +227,10 @@
   justify-content: center;
   border: 2px solid $border-color2;
   background-color: #fff;
+  &.sell-list {
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .seller-title {
@@ -301,5 +305,86 @@
 @media screen and (max-width: $md) {
   .mypage-content-container {
     margin: 0;
+  }
+}
+
+////////////////////////////////////////////////////////
+// SellListPage
+.sell-list-title {
+  color: black;
+  margin-bottom: 30px;
+}
+.sell-list-container {
+  width: 500px;
+
+  #sell-list {
+    display: flex;
+    flex-direction: column;
+
+    .sell-list-content {
+      border-bottom: 1px solid $border-color2;
+      box-sizing: border-box;
+      padding-bottom: 20px;
+    }
+
+    .sell-list-content-box {
+      display: flex;
+    }
+
+    .sell-list-img {
+      width: 100px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      margin-bottom: 10px;
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .sell-list-content-title {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    .sell-list-text {
+      margin-left: 20px;
+      h2 {
+        font-size: 15px;
+        margin-bottom: 10px;
+      }
+    }
+  }
+
+  #invoice-number-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    .sell-status {
+      font-size: 13px;
+      margin-bottom: 20px;
+      span {
+        color: red;
+      }
+    }
+    .invoice-content {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .readonly-invoice {
+        color: gray;
+      }
+    }
+    input {
+      width: 50%;
+      height: 30px;
+      border: 1px solid $border-color;
+      border-radius: 5px;
+      box-sizing: border-box;
+      margin: 10px 0;
+    }
+    button {
+      width: 70px;
+    }
   }
 }

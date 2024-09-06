@@ -54,7 +54,9 @@ export default function SellersPage() {
     console.log('form data >> ', data);
 
     try {
-      const res = await axios.post('http://localhost:8080/sellers', data);
+      const res = await axios.post('http://localhost:8080/sellers', data, {
+        withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+      });
       if (res.status === 200) {
         alert('판매자 정보 등록이 완료되었습니다!');
       } else {
