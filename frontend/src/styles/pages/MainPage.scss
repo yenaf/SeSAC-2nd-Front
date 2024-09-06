@@ -1,3 +1,39 @@
-@import '../common/reset';
 @import '../common/variables';
-@import '../common/utils';
+
+// 스와이퍼
+.main-page-swiper {
+  .swiper-slide img {
+    display: block;
+    object-fit: contain;
+    width: 100%;
+    max-height: 80vh;
+    margin: auto;
+  }
+
+  .swiper-button-prev {
+    left: 10px;
+  }
+  .swiper-button-next {
+    right: 10px;
+  }
+  .swiper-button-next,
+  .swiper-button-prev {
+    box-sizing: border-box;
+    width: 40px !important;
+    color: #fff; /* 버튼 색상 */
+    padding: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 20%;
+    background-color: rgba(227, 165, 199, 0.8);
+  }
+  .swiper-button-prev:after,
+  .swiper-button-next:after {
+    font-size: 2.5rem !important;
+    color: #fff;
+  }
+
+  .swiper-pagination-bullet-active {
+    background: $sub-color !important;
+  }
+}

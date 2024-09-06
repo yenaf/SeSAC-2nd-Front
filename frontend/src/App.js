@@ -38,7 +38,7 @@ function App() {
               {/* 판매글 작성 페이지 */}
               <Route path="/posts/create" element={<PostCreatePage />} />
               {/* 상품 상세 페이지 */}
-              <Route path="/posts/:postId" element={<PostDetailPage />} />
+              <Route path="/posts/page/:postId" element={<PostDetailPage />} />
               {/* 장바구니 페이지 */}
               <Route path="/cart" element={<CartPage />} />
               {/* 결제 페이지 */}
