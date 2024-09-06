@@ -43,7 +43,7 @@ export default function PostCreatePage() {
         const res = await insertPost(postData);
         console.log(res.data.newPost);
         const { postId } = res.data.newPost;
-        navigate(`/posts/page/${postId}`, { state: { formData: res.data } });
+        navigate(`/posts/${postId}`, { state: { formData: res.data } });
       }
     } catch (error) {
       console.log(error);

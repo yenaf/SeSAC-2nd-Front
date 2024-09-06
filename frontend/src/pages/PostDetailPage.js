@@ -8,12 +8,13 @@ import {
   faVolumeOff,
 } from '@fortawesome/free-solid-svg-icons';
 import priceToString from '../utils/priceMethods';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import Comment from '../components/Comment';
 import axios from 'axios';
 import { formatDate } from '../components/common/formatDate';
 import { getPost } from '../api/post';
 import { useSelector } from 'react-redux';
+import CartBtn from '../components/CartBtn';
 
 // 상세게시글에 들어오려면 판매글작성후 또는 게시글을 눌렀을때
 
@@ -22,12 +23,16 @@ export default function PostDetailPage() {
   const navigate = useNavigate();
   const [isDibbed, setIsDibbed] = useState(false);
   const [postData, setPostData] = useState(null);
+  const params = useParams();
+  const id = Number(params.postId);
+
+  console.log(params.postId);
 
   useEffect(() => {
     // url에서 postId 가져옴
-    const currentUrl = window.location.href;
-    const id = currentUrl.split('/').pop();
-    const res = getPost(id);
+    // const currentUrl = window.location.href;
+    // const id = currentUrl.split('/').pop();
+    const res = getPost(params.postId);
 
     res
       .then((res) => {
@@ -132,14 +137,7 @@ export default function PostDetailPage() {
                     onClick={handleChangeDibs}
                     style={{ color: isDibbed ? '#ba357e' : '#c9c9c9' }}
                   />
-                  <span className="link-container">
-                    <Link to={'/cart/:userId'} className="btn shopping">
-                      장바구니
-                    </Link>
-                    <Link to={'/order'} className="btn buy">
-                      구매하기
-                    </Link>
-                  </span>
+                  <CartBtn post={id} />
                 </div>
               </div>
             </div>
