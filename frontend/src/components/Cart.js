@@ -25,10 +25,7 @@ export default function Cart() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const userId = 1;
-    dispatch(loadCart(userId));
-  }, [dispatch]);
+  useEffect(() => {}, []);
 
   // 전체선택 체크
   const handleCheckAll = () => {
@@ -60,19 +57,20 @@ export default function Cart() {
 
   const postCartNumbers = async (e) => {
     e.preventDefault();
-    let cartIdArr = [];
+    let cartIds = [];
     const checkedItem = document.querySelectorAll(
       '.cartItem-check input:checked',
     );
     checkedItem.forEach((ele) => {
       const cartId = ele.getAttribute('data-cart');
       // cartId 배열로 만들기
-      cartIdArr.push(Number(cartId));
+      cartIds.push(Number(cartId));
     });
 
     try {
       const res = await axios.post('http://localhost:8080/order', {
-        cartIdArr,
+        cartIds,
+        userId: 1,
       });
       if (res.status === 200) {
         navigate('/order');

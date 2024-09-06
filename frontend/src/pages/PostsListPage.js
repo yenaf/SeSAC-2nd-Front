@@ -20,10 +20,6 @@ export default function PostsListPage() {
   // 카테고리 아이디
   const params = useParams();
   const categoryId = Number(params.categoryId);
-  const location = useLocation();
-  const queryString = location.search;
-  const [searchParams, setSearchParams] = useSearchParams();
-  const keyword = searchParams.get('order');
 
   useEffect(() => {
     // fetchListData(true, categoryId);
@@ -82,7 +78,7 @@ export default function PostsListPage() {
           itemCountPerPage={limit}
           pageCount={listPageCount}
           currentPage={page}
-          pageLocation={`/${categoryId}${queryString}`}
+          pageLocation={`/${categoryId}`}
         />
       </section>
     </div>

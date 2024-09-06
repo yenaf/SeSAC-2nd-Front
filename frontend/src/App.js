@@ -40,7 +40,7 @@ function App() {
               {/* 상품 상세 페이지 */}
               <Route path="/posts/:postId" element={<PostDetailPage />} />
               {/* 장바구니 페이지 */}
-              <Route path="/cart" element={<CartPage />} />
+              <Route path="/cart/:userId" element={<CartPage />} />
               {/* 결제 페이지 */}
               <Route path="/order" element={<OrderPage />} />
               {/* 결제 완료 페이지 */}

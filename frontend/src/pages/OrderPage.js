@@ -32,6 +32,7 @@ export default function OrderPage() {
 
   useEffect(() => {
     dispatch(loadOrder());
+    console.log(sellerByOrderData);
   }, [dispatch]);
 
   // 리블링 머니 사용

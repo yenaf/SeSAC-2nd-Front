@@ -10,7 +10,6 @@ import { deleteCartData } from '../api/cart';
 export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   const { items } = cart;
   const dispatch = useDispatch();
-  console.log(cart);
 
   if (!items || items.length === 0) {
     // items가 없거나 비어있을 때 아무 것도 렌더링하지 않음
@@ -69,7 +68,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
             {items.map((val, idx) => (
               <li key={val.postId} className="cartItem">
                 <div className="cartItem-check">
-                  {val.Post.sellStatus === '판매 중' ? (
+                  {val.Post.sellStatus === '판매중' ? (
                     <input
                       type="checkbox"
                       defaultChecked
@@ -88,18 +87,18 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                 </div>
                 <figure
                   className={
-                    val.Post.sellStatus === '판매 중'
+                    val.Post.sellStatus === '판매중'
                       ? `cartItem-img`
                       : `cartItem-img sellDone`
                   }
                 >
-                  {val.Post.sellStatus === '판매 중' ? null : (
+                  {val.Post.sellStatus === '판매중' ? null : (
                     <div className="img-filter">
                       <div className="img-label">{val.Post.sellStatus}</div>
                     </div>
                   )}
                   <img
-                    src={val.Post.Product_Image[0].imgName}
+                    src={val.Post.Product_Images[0].imgName}
                     alt={val.Post.postTitle}
                   />
                 </figure>
@@ -120,7 +119,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                   <div className="cartItem-price">
                     가격 : {priceToString(val.Post.productPrice)}원
                   </div>
-                  {val.Post.sellStatus === '판매 중' ? null : (
+                  {val.Post.sellStatus === '판매중' ? null : (
                     <div className="cartItem-sellStatus">
                       구매할 수 없는 상품입니다.
                     </div>
