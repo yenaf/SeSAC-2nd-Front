@@ -6,13 +6,13 @@ import formatDate from '../components/common/formatDate';
 export default function Comment({ postId, session }) {
   const { user, sellerId } = session;
   const { userId, nickName } = user;
-  console.log(
-    'sellerId, userId, nickName 세션에서 가져온 정보 >>',
-    sellerId,
-    userId,
-    nickName,
-  );
-  console.log(`postId >> ${postId}`);
+  // console.log(
+  //   'sellerId, userId, nickName 세션에서 가져온 정보 >>',
+  //   sellerId,
+  //   userId,
+  //   nickName,
+  // );
+  // console.log(`postId >> ${postId}`);
   // 해당 게시글의 댓글로 axios.post해야된다
 
   const [comments, setComments] = useState([]);

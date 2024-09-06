@@ -1,11 +1,15 @@
 import axios from 'axios';
 
-const postRouter = `http://localhost:8080/posts`;
+const url = `http://localhost:8080`;
+const postRouter = `${url}/posts`;
 
 const insertPost = async (data) =>
   await axios.post(`${postRouter}/create`, data);
 
 const getPost = async (postId) =>
-  await axios.get(`http://localhost:8080/posts/${postId}`);
+  await axios.get(`${postRouter}/page/${postId}`);
 
-export { insertPost, getPost };
+const insertComplaint = async (data) =>
+  await axios.post(`http://localhost:8080/complaints`, data);
+
+export { insertPost, getPost, insertComplaint };
