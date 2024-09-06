@@ -9,7 +9,11 @@ export default function MyPageMenu() {
           <Link to="/mypage">전체보기</Link>
         </li>
         <li>구매내역</li>
-        <li>판매내역</li>
+        {/* 판매자의 주문번호 별로 */}
+        <li>
+          <Link to="/mypage/salehistory">판매내역</Link>
+        </li>
+        {/* 판매자의 postId 별로 */}
         <li>판매글목록</li>
         <li>찜목록</li>
         <li>리블링머니</li>
