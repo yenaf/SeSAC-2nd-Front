@@ -7,7 +7,7 @@ export default function CartBtn({ post }) {
   return (
     <div>
       <span className="link-container">
-        <Link to={'/cart/:userId'} className="btn shopping">
+        <Link to={'/cart'} className="btn shopping">
           장바구니
         </Link>
         <Link to={'/order'} className="btn buy">
