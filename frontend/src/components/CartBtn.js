@@ -9,8 +9,8 @@ export default function CartBtn({ post }) {
     const cartModel = document.querySelector('.cart-modal');
     try {
       // 임시 userId 보내주기
-      // const res = await insertCart(post);
-      const res = await insertCart(post, 1);
+      // const res = await insertCart(post, 1);
+      const res = await insertCart(post);
       if (res.status === 200) {
         cartModel.style.display = 'block';
       }

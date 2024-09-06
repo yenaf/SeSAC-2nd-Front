@@ -1,12 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-// 임시 장바구니 데이터
-import cartData from '../data/fakedata/cartData';
-// 임시 결제페이지 데이터
-import orderData from '../data/fakedata/orderData';
 import axios from 'axios';
-import { getCartData, getOrderData } from '../api/cart';
+import { getCartData } from '../api/cart';
 
-// 임시 여기서 실험할거임
+// 이게 최종
 
 // 판매자별로 데이터 묶어주는 함수
 function groupBySeller(data) {
@@ -35,24 +31,16 @@ function groupBySeller(data) {
   return sellerByCartData;
 }
 
-const groupBySellerCart = groupBySeller(cartData);
-const groupBySellerOrder = groupBySeller(orderData.postInfo);
-
 export const loadCart = createAsyncThunk(
   // action 이름
   'load/cart',
   // 처리할 비동기 함수
-  async (userId) => {
+  async () => {
     // 서버에서 데이터 불러오기
-    const res = await getCartData(1);
+    const res = await getCartData();
     return res.data;
   },
 );
-
-export const loadOrder = createAsyncThunk('load/order', async () => {
-  const res = await getOrderData();
-  return res.data;
-});
 
 // 아이템 가격 합계 함수
 const sumAmount = (data) => {
@@ -88,26 +76,9 @@ const sumDeliveryFee = (data) => {
   }, 0);
 };
 
-// 카트 아이템 가격 합계
-const totalAmount = sumAmount(groupBySellerCart);
-// 카트 배송비 가격 합계
-const totalDeliveryFee = sumDeliveryFee(groupBySellerCart);
-// 오더 아이템 가격 합계
-const orderTotalAmount = sumAmount(groupBySellerOrder);
-// 오더 배송비 가격 합계
-const orderTotalDeliveryFee = sumDeliveryFee(groupBySellerOrder);
-
 const cartSlice = createSlice({
   name: 'cart',
   initialState: {
-    // cartData: groupBySellerCart,
-    // sellerByOrderData: groupBySellerOrder,
-    // totalAmount,
-    // totalDeliveryFee,
-    // totalPayment: totalAmount + totalDeliveryFee,
-    // orderTotalAmount,
-    // orderTotalDeliveryFee,
-    // orderTotalPayment: orderTotalAmount + orderTotalDeliveryFee,
     cartData: [],
     sellerByOrderData: [],
     orderData: [],
@@ -167,6 +138,13 @@ const cartSlice = createSlice({
       state.totalDeliveryFee = updatedDeliveryFee;
       state.totalPayment = updatedAmount + updatedDeliveryFee;
     },
+    sellerByOrder: (state, action) => {
+      state.sellerByOrderData = groupBySeller(action.payload.postInfo);
+      state.orderTotalAmount = sumAmount(state.sellerByOrderData);
+      state.orderTotalDeliveryFee = sumDeliveryFee(state.sellerByOrderData);
+      state.orderTotalPayment =
+        state.orderTotalAmount + state.orderTotalDeliveryFee;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -185,22 +163,6 @@ const cartSlice = createSlice({
         // 요청 실패
         state.loading = false;
         state.error = action.error.message;
-      })
-      .addCase(loadOrder.pending, (state, action) => {
-        state.loading = true;
-        state.orderData = action.payload;
-        const grouporderData = groupBySeller(action.payload);
-        state.sellerByOrderData = grouporderData;
-        state.orderTotalAmount = sumAmount(state.sellerByOrderData);
-        state.orderTotalDeliveryFee = sumDeliveryFee(state.sellerByOrderData);
-        state.orderTotalPayment =
-          state.orderTotalAmount + state.orderTotalDeliveryFee;
-      })
-      .addCase(loadOrder.fulfilled, (state, action) => {
-        state.loading = true;
-        console.log(action.payload);
-        state.sellerByOrderData = groupBySeller(action.payload);
-        console.log(state.sellerByOrderData);
       });
   },
 });
@@ -211,6 +173,7 @@ export const {
   deleteEachPrice,
   addEachPrice,
   deleteItem,
+  sellerByOrder,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

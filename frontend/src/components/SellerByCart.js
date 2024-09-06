@@ -3,7 +3,11 @@ import priceToString from '../utils/priceMethods';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { deleteEachPrice, addEachPrice, deleteItem } from '../store/cartSlice';
+import {
+  deleteEachPrice,
+  addEachPrice,
+  deleteItem,
+} from '../store/cartSliceTemp';
 import axios from 'axios';
 import { deleteCartData } from '../api/cart';
 

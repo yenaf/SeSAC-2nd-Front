@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AddressInput } from '../components/Register';
 import { useDispatch, useSelector } from 'react-redux';
-import orderData from '../data/fakedata/orderData';
 import PaymentInfo from '../components/PaymentInfo';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import priceToString from '../utils/priceMethods';
 import SellerByOrder from '../components/SellerByOrder';
 import axios from 'axios';
 import '../styles/pages/OrderPage.scss';
 import DeliverySelect from '../components/DeliverySelect';
-import { loadOrder } from '../store/cartSliceTemp';
+import { loadOrder, sellerByOrder } from '../store/cartSliceTemp';
 import { postOrderData } from '../api/cart';
 
 // 결제 페이지
@@ -19,46 +18,46 @@ export default function OrderPage() {
     orderTotalAmount,
     orderTotalDeliveryFee,
     orderTotalPayment,
-    // orderData,
   } = useSelector((state) => state.cart);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const orderData = location.state;
 
   const { userInfo, addressInfo, postInfo } = orderData;
-  const [orderCreate, setOrderCreate] = useState([]);
+  const [orderCheck, setOrderCheck] = useState('');
+  const [balanceComment, setBalanceComment] = useState('');
   const balanceInputRef = useRef();
 
   const dispatch = useDispatch();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    dispatch(loadOrder());
-    console.log(sellerByOrderData);
-  }, [dispatch]);
+    dispatch(sellerByOrder(orderData));
+  }, []);
 
   // 리블링 머니 사용
   const useBalance = (e) => {
     console.log(e.target.value);
-    const balanceComment = document.querySelector('.order-balanceComment');
     if (e.target.value > userInfo.balance) {
-      balanceComment.innerText = '잔액이 부족합니다.';
+      setBalanceComment('잔액이 부족합니다.');
       return (e.target.value = '');
     }
     if (e.target.value < 1) {
-      balanceComment.innerText = '0이상 입력해주세요.';
+      setBalanceComment('0이상 입력해주세요.');
       return (e.target.value = '');
     }
+    setBalanceComment('');
   };
 
   // 전액 사용 버튼 클릭
   const useAllBalance = (e) => {
     const balanceInput = balanceInputRef.current;
-    const balanceComment = document.querySelector('.order-balanceComment');
+
     if (userInfo.balance < orderTotalPayment) {
-      balanceComment.innerText = '잔액이 부족합니다.';
+      setBalanceComment('잔액이 부족합니다.');
       return;
     }
     balanceInput.value = orderTotalPayment;
-    console.log(balanceInput.value);
+    setBalanceComment('');
   };
 
   // 결제하기 버튼 클릭
@@ -66,29 +65,27 @@ export default function OrderPage() {
     e.preventDefault();
 
     const isOrderCheck = document.querySelector('#order-check');
-    const isOrdercheckComment =
-      isOrderCheck.nextElementSibling.nextElementSibling;
 
     // 판매불가 상품 있는 지 확인
     console.log(postInfo);
     postInfo.forEach((item) => {
       const { sellStatus } = item.Post;
-      console.log(sellStatus);
-      if (sellStatus !== '판매 중') {
-        isOrdercheckComment.innerText = '구매 불가 상품이 포함되어 있습니다.';
+      // console.log(sellStatus);
+      if (sellStatus !== '판매중') {
+        setOrderCheck('구매 불가 상품이 포함되어 있습니다.');
         return;
       }
     });
 
     // 결제 진행사항 동의 체크 여부 확인
     if (!isOrderCheck.checked) {
-      isOrdercheckComment.innerText = '결제 진행 필수사항을 동의해주세요.';
+      setOrderCheck('결제 진행 필수사항을 동의해주세요.');
       return;
     }
     // 리블링 머니 잔액 확인
     const balanceInput = balanceInputRef.current;
     if (balanceInput.value < orderTotalPayment || !balanceInput.value) {
-      isOrdercheckComment.innerText = '리블링머니를 입력해주세요.';
+      setOrderCheck('리블링머니를 입력해주세요.');
       return;
     }
 
@@ -126,13 +123,17 @@ export default function OrderPage() {
       return itemObj;
     });
     try {
-      const res = postOrderData(orderCreateData);
+      const res = await postOrderData({ orderData: orderCreateData });
+      console.log('결과', res);
+
       if (res.status === 201) {
-        const allOrderId = res.data;
+        console.log('결과', res);
+        const allOrderId = res.data.allOrderId;
         navigate(`/order/complete/${allOrderId}`);
       }
     } catch (err) {
-      console.error();
+      console.error(err);
+      alert('결제할 수 없습니다');
     }
   };
 
@@ -213,7 +214,7 @@ export default function OrderPage() {
                 <span>{priceToString(orderData.userInfo.balance)}</span>
                 <span> 원</span>
               </div>
-              <div className="order-balanceComment"></div>
+              <div className="order-balanceComment">{balanceComment}</div>
             </div>
           </section>
         </article>
@@ -237,7 +238,7 @@ export default function OrderPage() {
               <label htmlFor="order-check">
                 주문정보를 확인하였으며 결제에 동의합니다.
               </label>
-              <span></span>
+              <span>{orderCheck}</span>
             </div>
             <div className="order-paymentBtn">
               <Link to={'/order/complete/:orderId'} onClick={submitPayment}>
