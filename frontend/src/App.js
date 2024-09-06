@@ -30,11 +30,11 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               {/* 상품 목록 페이지 */}
               <Route
-                path="/posts/list/:page/:limit/:categoryId"
+                path="/posts/list/:page/:categoryId"
                 element={<PostsListPage />}
               />
               {/* 검색 결과 페이지 */}
-              <Route path="/posts/list/:page/:limit" element={<SearchPage />} />
+              <Route path="/posts/list/:page" element={<SearchPage />} />
               {/* 판매글 작성 페이지 */}
               <Route path="/posts/create" element={<PostCreatePage />} />
               {/* 상품 상세 페이지 */}
