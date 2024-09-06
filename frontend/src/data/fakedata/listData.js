@@ -50,7 +50,7 @@ const listDataFn = () => {
       Category: {
         categoryName: '애니메이션',
       },
-      sellStatus: '판매 중',
+      sellStatus: '판매 완료',
       isDeleted: false,
       createdAt: '2024-09-04 09:18:35',
     };

@@ -3,7 +3,7 @@ import ItemList from '../components/ItemList';
 import '../styles/pages/ListPage.scss';
 import listDataFn from '../data/fakedata/listData';
 import { getPostLists } from '../api/list';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import Pagination from '../components/Pagination';
 import { categoryData } from '../data/categoryData';
 import axios from 'axios';

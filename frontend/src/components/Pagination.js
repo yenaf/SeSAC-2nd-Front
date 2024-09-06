@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 
 export default function Pagination({
   totalItems, // 데이터 총 갯수
@@ -14,7 +14,7 @@ export default function Pagination({
   const noNext = start + pageCount - 1 >= totalPages; // 다음 페이지가 없는 경우
 
   const url = (page) => {
-    return `/posts/lists/${page}/${itemCountPerPage}`;
+    return `/posts/list/${page}`;
   };
 
   //const url = `/posts/lists/${currentPage}/${itemCountPerPage}`;
@@ -38,9 +38,9 @@ export default function Pagination({
                 key={idx}
                 className={`${currentPage === start + idx && 'active'}`}
               >
-                <Link to={`${url(start + idx)}${pageLocation}`}>
+                <NavLink to={`${url(start + idx)}${pageLocation}`}>
                   {start + idx}
-                </Link>
+                </NavLink>
               </li>
             ),
         )}

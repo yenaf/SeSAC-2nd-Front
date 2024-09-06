@@ -30,17 +30,17 @@ function App() {
               <Route path="/about" element={<AboutPage />} />
               {/* 상품 목록 페이지 */}
               <Route
-                path="/posts/list/:page/:limit/:categoryId"
+                path="/posts/list/:page/:categoryId"
                 element={<PostsListPage />}
               />
               {/* 검색 결과 페이지 */}
-              <Route path="/posts/list/:page/:limit" element={<SearchPage />} />
+              <Route path="/posts/list/:page" element={<SearchPage />} />
               {/* 판매글 작성 페이지 */}
               <Route path="/posts/create" element={<PostCreatePage />} />
               {/* 상품 상세 페이지 */}
               <Route path="/posts/:postId" element={<PostDetailPage />} />
               {/* 장바구니 페이지 */}
-              <Route path="/cart" element={<CartPage />} />
+              <Route path="/cart/:userId" element={<CartPage />} />
               {/* 결제 페이지 */}
               <Route path="/order" element={<OrderPage />} />
               {/* 결제 완료 페이지 */}

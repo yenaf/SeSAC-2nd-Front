@@ -42,9 +42,9 @@ export const loadCart = createAsyncThunk(
   // action 이름
   'load/cart',
   // 처리할 비동기 함수
-  async () => {
+  async (userId) => {
     // 서버에서 데이터 불러오기
-    const res = await getCartData();
+    const res = await getCartData(1);
     return res.data;
   },
 );
@@ -61,7 +61,7 @@ const sumAmount = (data) => {
       acc +
       cur.items.reduce((total, item) => {
         // 판매 중 상태의 상품만 합산
-        if (item.Post.sellStatus === '판매 중') {
+        if (item.Post.sellStatus === '판매중') {
           return total + item.Post.productPrice;
         }
         return total;
@@ -74,12 +74,12 @@ const sumAmount = (data) => {
 const sumDeliveryFee = (data) => {
   return data.reduce((acc, cur) => {
     const hasSellingItems = cur.items.some(
-      (item) => item.Post.sellStatus === '판매 중',
+      (item) => item.Post.sellStatus === '판매중',
     );
     if (hasSellingItems) {
       // const firstItem = cur.items[0];
       const firstItem = cur.items.find(
-        (item) => item.Post.sellStatus === '판매 중',
+        (item) => item.Post.sellStatus === '판매중',
       );
       const deliveryFee = firstItem.Post.Seller.Delivery.deliveryFee || 0;
       return acc + deliveryFee;
@@ -127,6 +127,7 @@ const cartSlice = createSlice({
       state.totalPayment = 0;
     },
     totalPrice: (state, action) => {
+      console.log(state);
       // 업데이트된 totalAmount와 totalDeliveryFee 계산
       const updatedAmount = sumAmount(state.cartData);
 
@@ -197,7 +198,9 @@ const cartSlice = createSlice({
       })
       .addCase(loadOrder.fulfilled, (state, action) => {
         state.loading = true;
+        console.log(action.payload);
         state.sellerByOrderData = groupBySeller(action.payload);
+        console.log(state.sellerByOrderData);
       });
   },
 });

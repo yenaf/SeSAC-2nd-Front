@@ -8,7 +8,7 @@ export default function Category() {
   // 혹은 className={({isActive})=>isActive?'active':''}
 
   return (
-    <ul className="">
+    <ul className="category-container">
       {categoryData.map((value) => (
         <li key={value.id}>
           <NavLink to={value.path}>{value.category}</NavLink>
