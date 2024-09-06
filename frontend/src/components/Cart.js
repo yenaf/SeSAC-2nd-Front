@@ -1,16 +1,10 @@
 import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import SellerByCart from '../components/SellerByCart';
-import priceToString from '../utils/priceMethods';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import {
-  totalPrice,
-  totalZero,
-  deleteItem,
-  loadCart,
-} from '../store/cartSliceTemp';
+import { totalPrice, totalZero } from '../store/cartSliceTemp';
 import PaymentInfo from './PaymentInfo';
-import axios from 'axios';
+import { getOrderData } from '../api/cart';
 
 export default function Cart() {
   const { cartData, totalAmount, totalDeliveryFee, totalPayment } = useSelector(
@@ -25,15 +19,13 @@ export default function Cart() {
 
   const navigate = useNavigate();
 
-  useEffect(() => {}, []);
-
   // 전체선택 체크
   const handleCheckAll = () => {
     // 전체선택 체크 해제시 전부 해제 선택 시 전부 선택
     const checkEach = document.querySelectorAll(
       '.cartItem-check input[type=checkbox]:enabled',
     );
-    console.log(checkEach);
+    // console.log(checkEach);
     checkEach.forEach((el) => (el.checked = checkAllRef.current.checked));
     const allCheck = checkAllRef.current.checked;
     // 전체선택 시 금액 표시 변경
@@ -68,12 +60,9 @@ export default function Cart() {
     });
 
     try {
-      const res = await axios.post('http://localhost:8080/order', {
-        cartIds,
-        userId: 1,
-      });
+      const res = await getOrderData({ cartIds });
       if (res.status === 200) {
-        navigate('/order');
+        navigate('/order', { state: res.data });
       }
     } catch (err) {
       console.error(err);
