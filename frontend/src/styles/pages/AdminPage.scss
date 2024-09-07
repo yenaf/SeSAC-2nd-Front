@@ -1,0 +1,86 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+// 관리자 페이지는 미디어쿼리 없이 웹 화면에서만 볼 수 있게 설정하기
+.admin-wrapper {
+  display: flex;
+  border-radius: 1rem;
+  margin: 5rem auto;
+  width: 100%;
+  padding: 5rem 0 6rem;
+  position: relative;
+  .admin-navigation {
+    position: relative;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    > ul {
+      position: sticky;
+      top: 11rem;
+      .admin-naviMenu {
+        text-align: center;
+        width: 100%;
+        padding: 1.3rem;
+        box-sizing: border-box;
+        border: 2px solid $border-color2;
+        border-radius: 0.5rem;
+        color: $main-color;
+        font-size: 1.3rem;
+        a {
+          &:hover {
+            color: $main-color;
+          }
+        }
+      }
+    }
+  }
+  .admin-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    min-height: 800px;
+    .admin-content {
+      margin-left: 7.5rem;
+      border: 2px solid $border-color2;
+      border-radius: 1rem;
+      box-sizing: border-box;
+      padding: 3rem;
+      .admin-title {
+        font-size: min(3.6vw, 3rem);
+        margin-bottom: 2rem;
+        color: $main-color;
+        font-weight: bold;
+      }
+      .admin-menuBtns {
+        box-sizing: border-box;
+        padding: 2rem 0 5rem;
+        ul {
+          display: flex;
+          justify-content: center;
+          flex-wrap: wrap;
+          gap: 2rem;
+          li {
+            border-radius: 2rem;
+            width: 45%;
+            box-sizing: border-box;
+            padding: 2rem;
+            background-color: $sub-color;
+            box-shadow: 2px 2px 1px 1px $bg-color2;
+            a {
+              width: 100%;
+              figure {
+                text-align: right;
+                figcaption {
+                  font-size: 2rem;
+                  color: #fff;
+                  font-weight: bold;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
