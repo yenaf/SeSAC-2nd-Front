@@ -34,10 +34,21 @@ export default function PostCreatePage() {
     // 만약에 userId는 있고, sellerId가 없는 상태에서 판매하기 버튼을 부르면 판매자 등록페이지로 이동
     // sellerId는 session에서 가져오기
     const sellerId = 2;
-    const postData = {
-      ...data,
-      sellerId,
-    };
+    const postData = new FormData();
+
+    Object.keys(data).forEach((key) => {
+      if (key !== 'imgName') {
+        postData.append(key, data[key]);
+      }
+    });
+    postData.append('sellerId', sellerId);
+
+    if (data.imgName) {
+      for (let i = 0; i < data.imgName.length; i++) {
+        postData.append('imgName', data.imgName[i]);
+      }
+    }
+
     try {
       if (sellerId) {
         const res = await insertPost(postData);

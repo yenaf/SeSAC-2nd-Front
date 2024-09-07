@@ -303,18 +303,26 @@
   }
 }
 
+// 신고하기 모달
 .report-modal-overlay {
   @include modalSetting;
   .report-modal-content {
     position: absolute;
-    @include center;
-    width: 40%;
-    padding: 2rem;
-    background: $bg-color;
+    right: 30%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 4rem 5rem;
+    background: #fff;
     box-sizing: border-box;
+    border-radius: 1rem;
 
     h2 {
-      font-size: 1.6rem;
+      font-size: 1.8rem;
+      color: red;
+      .report-icon {
+        margin-right: 1rem;
+      }
     }
     p {
       font-size: 1.6rem;
@@ -322,9 +330,52 @@
     }
     .report-label {
       display: flex;
+      color: #333;
       gap: 1rem;
       font-size: 1.5rem;
       margin-bottom: 1rem;
+      align-items: center;
+
+      input[type='radio'] {
+        margin-right: 1rem;
+        appearance: none;
+        width: 1.6rem;
+        height: 1.6rem;
+        line-height: 18px;
+        border: 1px solid #999;
+        vertical-align: middle;
+        cursor: pointer;
+
+        &:checked {
+          background-color: $sub-color;
+          border-color: violet;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+      }
+    }
+    .reports-btn {
+      text-align: center;
+      button {
+        padding: 1rem 2.5rem;
+        margin: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+
+        &:first-of-type {
+          background-color: $sub-color;
+          color: #fff;
+        }
+
+        &:last-of-type {
+          background-color: #ccc;
+          color: #333;
+        }
+      }
     }
   }
 }

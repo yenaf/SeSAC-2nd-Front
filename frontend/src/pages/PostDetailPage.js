@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import CartBtn from '../components/CartBtn';
 import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
+import axios from 'axios';
 
 // 상세게시글에 들어오려면 판매글작성후 또는 게시글을 눌렀을때
 
@@ -25,7 +26,7 @@ export default function PostDetailPage() {
   const [postData, setPostData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
   const params = useParams();
-  const id = Number(params.postId);
+  const id = params.postId;
 
   // 세션에 userId, sellerId 저장되고 그값을 가져온다고 가정
   // const sessionSellerId = sessionStorage.getItem('sellerId');
@@ -38,6 +39,7 @@ export default function PostDetailPage() {
     res
       .then((res) => {
         setPostData(res.data);
+        // console.log(res.data);
       })
       .catch((error) => {
         console.error('API 호출 중 오류 발생:', error);
@@ -56,44 +58,47 @@ export default function PostDetailPage() {
     }
   };
 
-  // 찜
-  const handleChangeDibs = () => {
+  // 찜 삭제하려면 wishlistId 필요함
+  const handleChangeDibs = async () => {
+    const wishData = { userId: session.user.userId, postId: id };
+    if (isDibbed) {
+      const res = await axios.post('http://localhost:8080/wishlist', wishData);
+      // .then((res) => {
+      //   console.log(res.data);
+      // });
+    } else {
+      // const res = await axios
+      //   .delete(`http://localhost:8080/wishlist/${wishlistId}`)
+      //   .then((res) => {
+      //     console.log(res);
+      //   });
+    }
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
 
   const {
+    Category,
+    Comments,
+    Product_Images,
+    Seller,
     postTitle,
-    Product_Images: productImg,
-    categoryId,
     postContent,
     productPrice,
     productStatus,
     productType,
     createdAt,
-    Seller: seller,
   } = postData || {};
 
   const handleReportClick = () => {
     setIsModalOpen(true); // 모달 열기
   };
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // 모달 닫기
+  };
 
-  const getCategoryLabel = (id) => {
-    switch (Number(id)) {
-      case 1:
-        return 'K-POP';
-      case 2:
-        return '영화/드라마';
-      case 3:
-        return '애니메이션';
-      case 4:
-        return '게임';
-      case 5:
-        return '스포츠';
-      case 6:
-        return '기타';
-      default:
-        return '알 수 없는 카테고리';
-    }
+  const handleConfirmReport = () => {
+    alert('신고가 완료되었습니다.');
+    setIsModalOpen(false); // 신고 후 모달 닫기
   };
 
   return (
@@ -101,8 +106,10 @@ export default function PostDetailPage() {
       {isModalOpen && (
         <ReportModal
           isOpen={isModalOpen}
-          // onClose={handleCloseModal}
-          // onConfirm={handleConfirmReport}
+          onClose={handleCloseModal}
+          onConfirm={handleConfirmReport}
+          session={session}
+          postData={postData}
         />
       )}
       {!postData ? (
@@ -113,22 +120,22 @@ export default function PostDetailPage() {
             {/* 상품이미지 */}
             <div className="post-top">
               <div className="product-img">
-                <SwiperMagnify productImg={productImg} />
+                <SwiperMagnify />
               </div>
               {/* 우측 나열될 정보 */}
               <div className="product-info">
                 <time>{elapsedTime(createdAt)}</time>
-                <strong>{getCategoryLabel(`${categoryId}`)}</strong>
+                <strong>{Category.categoryName}</strong>
                 <h2 title="">{postTitle}</h2>
                 <h3>{priceToString(`${productPrice}`)} 원</h3>
                 <div className="info-box">
                   <div>
                     <span>배송사</span>
-                    <span>우체국</span>
+                    <span>{Seller.Delivery.deliveryName}</span>
                   </div>
                   <div>
                     <span>배송비</span>
-                    <span>{priceToString('3000')}</span>
+                    <span>{priceToString(Seller.Delivery.deliveryFee)}</span>
                   </div>
                   <div>
                     <span>상품유형</span>
@@ -163,7 +170,7 @@ export default function PostDetailPage() {
                 <div className="seller-profile">
                   <img src="/img/cat.png" className="seller-img" />
                 </div>
-                <h3>{seller.sellerName}</h3>
+                <h3>{Seller.sellerName}</h3>
               </div>
               <div className="product-content">
                 <p>{postContent}</p>
@@ -185,7 +192,7 @@ export default function PostDetailPage() {
                 {/* </button> */}
               </div>
               <div className="ud-btn">
-                {session.sellerId === seller.sellerId && (
+                {session.sellerId === Seller.sellerId && (
                   <>
                     <Link
                       // posts/edit 어진님이 백쪽 만들어주기로함
