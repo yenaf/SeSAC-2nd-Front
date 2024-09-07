@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ItemList from '../components/ItemList';
 import '../styles/pages/ListPage.scss';
 import { getPostLists } from '../api/list';
@@ -35,37 +35,50 @@ export default function PostsListPage() {
 
   useEffect(() => {
     fetchListData(categoryId, order);
+    // 정렬 버튼 색깔
     btnRef.current.forEach((el, idx, arr) => {
       el.classList.remove('active');
       if (order === 'latest') arr[0].classList.add('active');
       else if (order === 'priceLow') arr[1].classList.add('active');
       else if (order === 'priceHigh') arr[2].classList.add('active');
     });
+
+    // console.log('파람스', params);
+
+    // const category = document.querySelectorAll('.category-container a');
+    // category[categoryId + 1].classList.add('active');
+    // console.log(categoryId);
+    // if (categoryId !== 0) {
+    //   category[categoryId + 1].classList.add('remove');
+    // }
   }, [categoryId, pageNum, order]);
 
   // axios 연결
-  const fetchListData = async (categoryId, order) => {
-    try {
-      const res = await getPostLists(pageNum, categoryId, order);
-      const { postList, postCount, pageSize, totalPages, currentPage } =
-        res.data;
+  const fetchListData = useCallback(
+    async (categoryId, order) => {
+      try {
+        const res = await getPostLists(pageNum, categoryId, order);
+        const { postList, postCount, pageSize, totalPages, currentPage } =
+          res.data;
 
-      // 상품들 데이터
-      setListData([...postList]);
-      // 페이지네이션 세팅
-      dispatch(
-        setPages({
-          totalItems: postCount,
-          limit: pageSize,
-          totalPages,
-          currentPage,
-        }),
-      );
-    } catch (err) {
-      console.error(err);
-      alert('페이지를 불러 올 수 없습니다.');
-    }
-  };
+        // 상품들 데이터
+        setListData([...postList]);
+        // 페이지네이션 세팅
+        dispatch(
+          setPages({
+            totalItems: postCount,
+            limit: pageSize,
+            totalPages,
+            currentPage,
+          }),
+        );
+      } catch (err) {
+        console.error(err);
+        alert('페이지를 불러 올 수 없습니다.');
+      }
+    },
+    [categoryId, order, pageNum],
+  );
 
   // 클릭 시 정렬 기능
   const sortData = (e) => {
@@ -76,7 +89,7 @@ export default function PostsListPage() {
   return (
     <div className="post-list">
       <section className="list-title">
-        <h2>{categoryData[categoryId + 1].category}</h2>
+        <h2>{categoryData[categoryId].category}</h2>
       </section>
       <section className="list-btns">
         <ul>
@@ -101,10 +114,10 @@ export default function PostsListPage() {
                 <ItemList key={item.postId} item={item} />
               ))
             ) : (
-              <li>상품이 없습니다.</li>
+              <li className="no-item">상품이 없습니다.</li>
             )
           ) : (
-            <li>상품이 없습니다.</li>
+            <li className="no-item">상품이 없습니다.</li>
           )}
         </ol>
       </section>
