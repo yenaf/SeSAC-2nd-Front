@@ -12,7 +12,7 @@ const insertPost = async (data) =>
   });
 
 const getPost = async (postId) =>
-  await axios.get(`${postRouter}/page/${postId}`);
+  await axios.get(`${postRouter}/page/${postId}`, { withCredentials: true });
 
 const insertComplaint = async (data) =>
   await axios.post(`http://localhost:8080/complaints`, data);

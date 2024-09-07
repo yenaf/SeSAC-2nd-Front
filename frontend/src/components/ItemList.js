@@ -6,9 +6,15 @@ import { Link } from 'react-router-dom';
 export default function ItemList({ item }) {
   return (
     <li className="list-item">
-      <Link to={`/posts/${item.postId}`}>
+      <Link to={`/posts/page/${item.postId}`}>
         <figure className="item-img">
-          <img src={item.Product_Images[0].imgName} alt={item.postTitle} />
+          <img
+            src={
+              'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/' +
+              item.Product_Images[0].imgName
+            }
+            alt={item.postTitle}
+          />
           {item.sellStatus === '판매중' ? null : (
             <div className="img-filter">
               <div className="img-label">{item.sellStatus}</div>

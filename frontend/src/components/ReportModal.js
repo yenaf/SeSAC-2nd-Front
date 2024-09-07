@@ -5,12 +5,15 @@ import { faFlag } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { insertComplaint } from '../api/post';
 
-const ReportModal = ({ isOpen, onClose, onConfirm, session, postData }) => {
+const ReportModal = ({
+  isOpen,
+  onClose,
+  onConfirm,
+  userId,
+  sellerId,
+  postId,
+}) => {
   const [selectedReason, setSelectedReason] = useState('');
-  const { user } = session;
-  const { postId, Seller } = postData;
-
-  // console.log(user.userId, postId, Seller.sellerId);
 
   if (!isOpen) return null;
 
@@ -18,9 +21,9 @@ const ReportModal = ({ isOpen, onClose, onConfirm, session, postData }) => {
     if (selectedReason) {
       try {
         const complaintsData = {
-          userId: user.userId, // 세션에서 사용자 ID를 가져오기
+          userId: userId, // 세션에서 사용자 ID를 가져오기
           postId: postId, // 신고할 게시글 ID
-          sellerId: Seller.sellerId, // 판매자 ID
+          sellerId: sellerId, // 판매자 ID
           complaintContent: selectedReason,
         };
         const res = insertComplaint(complaintsData);
