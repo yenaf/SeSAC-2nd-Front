@@ -9,10 +9,13 @@ export default function MainPage() {
       <section className="main-page">
         <MainSwiper />
         <div>
-          <h3>방금 등록된 상품</h3>
+          <h2>방금 등록된 상품</h2>
+          <ul>
+            <li></li>
+          </ul>
         </div>
         <div>
-          <h3>인기순</h3>
+          <h2>인기순</h2>
         </div>
       </section>
     </>
