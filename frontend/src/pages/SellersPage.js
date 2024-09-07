@@ -51,11 +51,23 @@ export default function SellersPage() {
 
   // API
   const onSubmitApi = async (data) => {
-    console.log('form data >> ', data);
+    const formData = new FormData();
+    formData.append('sellerImg', data.sellerImg[0]);
+    formData.append('sellerName', data.sellerName);
+    formData.append('sellerExplain', data.sellerExplain);
+    formData.append('deliveryId', data.deliveryId);
+
+    // FormData 내용 로깅
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
 
     try {
-      const res = await axios.post('http://localhost:8080/sellers', data, {
+      const res = await axios.post('http://localhost:8080/sellers', formData, {
         withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       });
       if (res.status === 200) {
         alert('판매자 정보 등록이 완료되었습니다!');
@@ -117,6 +129,7 @@ export default function SellersPage() {
                   type="file"
                   className="file-box"
                   id="sellerImgInput"
+                  name="sellerImg"
                   {...register('sellerImg', {
                     // required: '프로필 사진을 업로드해주세요.',
                   })}

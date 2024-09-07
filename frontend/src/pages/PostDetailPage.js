@@ -39,7 +39,7 @@ export default function PostDetailPage() {
     res
       .then((res) => {
         setPostData(res.data);
-        // console.log(res.data);
+        console.log(res.data);
       })
       .catch((error) => {
         console.error('API 호출 중 오류 발생:', error);
@@ -120,7 +120,7 @@ export default function PostDetailPage() {
             {/* 상품이미지 */}
             <div className="post-top">
               <div className="product-img">
-                <SwiperMagnify />
+                <SwiperMagnify productImg={Product_Images} />
               </div>
               {/* 우측 나열될 정보 */}
               <div className="product-info">
@@ -184,7 +184,7 @@ export default function PostDetailPage() {
                 </button>
                 {/* <button className="btn list"> */}
                 <Link
-                  to={'/posts/list/:page/:limit/:categoryId'}
+                  to={'/posts/list/1/0?order=latest'}
                   className="btn list-link"
                 >
                   목록
