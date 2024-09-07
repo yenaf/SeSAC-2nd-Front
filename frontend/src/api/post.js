@@ -17,4 +17,15 @@ const getPost = async (postId) =>
 const insertComplaint = async (data) =>
   await axios.post(`http://localhost:8080/complaints`, data);
 
-export { insertPost, getPost, insertComplaint };
+const getPostforEdit = async (postId) =>
+  await axios.get(`${postRouter}/${postId}`, { withCredentials: true });
+
+const patchPost = async (postId, data) =>
+  await axios.patch(`${postRouter}/${postId}`, data, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+export { insertPost, getPost, insertComplaint, getPostforEdit, patchPost };

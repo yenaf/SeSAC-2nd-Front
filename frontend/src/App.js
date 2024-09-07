@@ -8,6 +8,7 @@ import PostsListPage from './pages/PostsListPage';
 import PostCreatePage from './pages/PostCreatePage';
 import SearchPage from './pages/SearchPage';
 import PostDetailPage from './pages/PostDetailPage';
+import PostUpdatePage from './pages/PostUpdatePage';
 import CartPage from './pages/CartPage';
 import OrderPage from './pages/OrderPage';
 import OrderCompletePage from './pages/OrderCompletePage';
@@ -38,8 +39,10 @@ function App() {
               <Route path="/posts/list/:page" element={<SearchPage />} />
               {/* 판매글 작성 페이지 */}
               <Route path="/posts/create" element={<PostCreatePage />} />
-              {/* 상품 상세 페이지 */}
+              {/* 판매글 상세 페이지 */}
               <Route path="/posts/page/:postId" element={<PostDetailPage />} />
+              {/* 판매글 수정 페이지 */}
+              <Route path="/posts/edit/:postId" element={<PostUpdatePage />} />
               {/* 장바구니 페이지 */}
               <Route path="/cart" element={<CartPage />} />
               {/* 결제 페이지 */}

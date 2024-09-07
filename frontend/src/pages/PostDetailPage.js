@@ -211,7 +211,7 @@ export default function PostDetailPage() {
                   <>
                     <Link
                       // posts/edit 어진님이 백쪽 만들어주기로함
-                      to={`/posts/create`}
+                      to={`/posts/edit/${id}`}
                       className="btn correction"
                       post={id}
                     >

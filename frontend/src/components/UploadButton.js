@@ -1,9 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
-export default function UploadButton({ register = () => {} }) {
+export default function UploadButton({
+  register = () => {},
+  defaultValue = {},
+}) {
   const [previewImages, setPreviewImages] = useState([]);
+  useEffect(() => {
+    if (defaultValue.length > 0) {
+      const defaultImageUrls = defaultValue.map(
+        (item) =>
+          'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/' +
+          item.imgName,
+      );
+      setPreviewImages(defaultImageUrls);
+    }
+  }, [defaultValue]);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
@@ -20,6 +33,7 @@ export default function UploadButton({ register = () => {} }) {
         newPreviewImages.push(e.target.result);
         if (newPreviewImages.length === files.length) {
           setPreviewImages(newPreviewImages);
+          console.log([previewImages]);
         }
       };
       reader.readAsDataURL(file);
@@ -30,6 +44,7 @@ export default function UploadButton({ register = () => {} }) {
     files.forEach((file) => {
       formData.append('imgName', file);
     });
+    console.log('form Data >>>>', formData);
   };
 
   return (
