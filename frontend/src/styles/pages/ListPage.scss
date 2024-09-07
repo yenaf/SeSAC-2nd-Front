@@ -20,6 +20,9 @@
       .list-btn {
         position: relative;
         cursor: pointer;
+        &.active {
+          color: $border-color;
+        }
         &::before {
           content: '';
           position: absolute;
@@ -49,12 +52,14 @@
       grid-row-gap: min(2.5vw, 3.6rem);
       .list-item {
         .item-img {
+          position: relative;
           aspect-ratio: 1 /1;
           width: 100%;
           img {
             width: 100%;
             object-fit: cover;
           }
+          @include unablePurcheaseItem;
         }
         .item-category {
           color: $main-color;

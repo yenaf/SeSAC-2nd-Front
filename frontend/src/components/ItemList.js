@@ -8,7 +8,12 @@ export default function ItemList({ item }) {
     <li className="list-item">
       <Link to={`/posts/${item.postId}`}>
         <figure className="item-img">
-          <img src={item.Product_Image[0].imgName} alt={item.postTitle} />
+          <img src={item.Product_Images[0].imgName} alt={item.postTitle} />
+          {item.sellStatus === '판매중' ? null : (
+            <div className="img-filter">
+              <div className="img-label">{item.sellStatus}</div>
+            </div>
+          )}
         </figure>
         <h5 className="item-category">{item.Category.categoryName}</h5>
         <h4 className="item-title">{item.postTitle}</h4>

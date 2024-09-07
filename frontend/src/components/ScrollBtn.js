@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import '../styles/layout/ScrollBtn.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
+import handleScrollToTop from '../utils/handleScrollToTop';
 function ScrollBtn() {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -12,13 +13,6 @@ function ScrollBtn() {
     } else {
       setIsVisible(false);
     }
-  };
-
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
   };
 
   useEffect(() => {
