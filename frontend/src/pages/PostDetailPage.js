@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import CartBtn from '../components/CartBtn';
 import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
+import axios from 'axios';
 
 // 상세게시글에 들어오려면 판매글작성후 또는 게시글을 눌렀을때
 
@@ -57,8 +58,21 @@ export default function PostDetailPage() {
     }
   };
 
-  // 찜
-  const handleChangeDibs = () => {
+  // 찜 삭제하려면 wishlistId 필요함
+  const handleChangeDibs = async () => {
+    const wishData = { userId: session.user.userId, postId: id };
+    if (isDibbed) {
+      const res = await axios.post('http://localhost:8080/wishlist', wishData);
+      // .then((res) => {
+      //   console.log(res.data);
+      // });
+    } else {
+      // const res = await axios
+      //   .delete(`http://localhost:8080/wishlist/${wishlistId}`)
+      //   .then((res) => {
+      //     console.log(res);
+      //   });
+    }
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
 
