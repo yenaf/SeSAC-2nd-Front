@@ -20,6 +20,9 @@
       .list-btn {
         position: relative;
         cursor: pointer;
+        &.active {
+          color: $border-color;
+        }
         &::before {
           content: '';
           position: absolute;

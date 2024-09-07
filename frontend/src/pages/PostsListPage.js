@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import ItemList from '../components/ItemList';
 import '../styles/pages/ListPage.scss';
 import { getPostLists } from '../api/list';
@@ -15,6 +15,8 @@ export default function PostsListPage() {
     { title: '낮은가격순', order: 'priceLow' },
     { title: '높은가격순', order: 'priceHigh' },
   ];
+
+  const btnRef = useRef([]);
 
   const [listData, setListData] = useState([]); // 상품들 데이터
 
@@ -33,6 +35,12 @@ export default function PostsListPage() {
 
   useEffect(() => {
     fetchListData(categoryId, order);
+    btnRef.current.forEach((el, idx, arr) => {
+      el.classList.remove('active');
+      if (order === 'latest') arr[0].classList.add('active');
+      else if (order === 'priceLow') arr[1].classList.add('active');
+      else if (order === 'priceHigh') arr[2].classList.add('active');
+    });
   }, [categoryId, pageNum, order]);
 
   // axios 연결
@@ -75,9 +83,10 @@ export default function PostsListPage() {
           {btns.map((ele, idx) => (
             <li
               key={idx}
-              className="list-btn"
+              className={`list-btn ${idx === 0 ? 'active' : ''}`}
               onClick={sortData}
               data-order={ele.order}
+              ref={(el) => (btnRef.current[idx] = el)}
             >
               {ele.title}&nbsp;
             </li>

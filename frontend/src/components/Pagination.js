@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
+import handleScrollToTop from '../utils/handleScrollToTop';
 
 export default function Pagination({ pageLocation }) {
   const { limit, totalPages, currentPage, totalItems } = useSelector(
@@ -28,7 +29,12 @@ export default function Pagination({ pageLocation }) {
     <div className="page-wrapper">
       <ul>
         <li className={`move ${noPrev && 'invisible'}`}>
-          <Link to={`${url(start - 1)}${pageLocation}`}>이전</Link>
+          <Link
+            to={`${url(start - 1)}${pageLocation}`}
+            onClick={handleScrollToTop}
+          >
+            이전
+          </Link>
         </li>
         {pageArr.map(
           (num, idx) =>
@@ -37,14 +43,22 @@ export default function Pagination({ pageLocation }) {
                 key={idx}
                 className={`${currentPage === start + idx && 'active'}`}
               >
-                <NavLink to={`${url(start + idx)}${pageLocation}`}>
+                <NavLink
+                  to={`${url(start + idx)}${pageLocation}`}
+                  onClick={handleScrollToTop}
+                >
                   {start + idx}
                 </NavLink>
               </li>
             ),
         )}
         <li className={`move ${noNext && 'invisible'}`}>
-          <Link to={`${url(start + totalPages)}${pageLocation}`}>다음</Link>
+          <Link
+            to={`${url(start + totalPages)}${pageLocation}`}
+            onClick={handleScrollToTop}
+          >
+            다음
+          </Link>
         </li>
       </ul>
     </div>
