@@ -99,8 +99,8 @@ export default function PostCreatePage() {
               options={[
                 { value: 1, label: 'K-POP' },
                 { value: 2, label: '영화/드라마' },
-                { value: 3, label: '애니메이션' },
-                { value: 4, label: '게임' },
+                { value: 3, label: '게임' },
+                { value: 4, label: '애니메이션' },
                 { value: 5, label: '스포츠' },
                 { value: 6, label: '기타' },
               ]}
