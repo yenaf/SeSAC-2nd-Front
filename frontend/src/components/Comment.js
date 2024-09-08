@@ -22,6 +22,7 @@ export default function Comment({
   const [replyText, setReplyText] = useState('');
   const [charCount, setCharCount] = useState(0);
   const [reCharCount, setReCharCount] = useState(0);
+  const [isSecret, setIsSecret] = useState(false);
   const [activeReplyIndex, setActiveReplyIndex] = useState(null);
 
   // 상세페이지에서 뿌려주는 댓글데이터 담기
@@ -52,6 +53,11 @@ export default function Comment({
     setCharCount(e.target.value.length);
   };
 
+  // 비밀 댓글 토글
+  const toggleSecret = () => {
+    setIsSecret(!isSecret);
+  };
+
   // 댓글 등록
   const handleSubmit = (e) => {
     axios({
@@ -59,7 +65,7 @@ export default function Comment({
       url: `http://localhost:8080/comments/${postId}`,
       data: {
         comContent: commentText,
-        isSecret: false,
+        isSecret: isSecret,
       },
       withCredentials: true,
     }).then((res) => {
@@ -82,6 +88,7 @@ export default function Comment({
         ]);
         setCommentText('');
         setCharCount(0);
+        setIsSecret(false);
       }
     });
   };
@@ -181,9 +188,17 @@ export default function Comment({
           <span className="char-count">{charCount} / 100</span>
         </div>
         <div className="comment-btn-wrap">
-          <label className="lock-comment" htmlFor="secret">
+          <label
+            className={`lock-comment ${isSecret ? 'active' : ''}`}
+            htmlFor="secret"
+          >
             <FontAwesomeIcon icon={faLock} className="lock-icon" />
-            <input type="checkbox" id="secret" />
+            <input
+              type="checkbox"
+              id="secret"
+              checked={isSecret}
+              onChange={toggleSecret}
+            />
             비밀 댓글
           </label>
           <button className="comment-btn" onClick={handleSubmit}>
@@ -225,25 +240,27 @@ export default function Comment({
                       답글
                     </button>
                   </div>
-                  <div className="comment-edit-wrap">
-                    <button title="수정">
-                      <FontAwesomeIcon
-                        icon={faEraser}
-                        className="comment-edit-icon"
-                      />
-                    </button>
-                    <button
-                      title="삭제"
-                      onClick={() => {
-                        handleDeleteComment(comment.comId);
-                      }}
-                    >
-                      <FontAwesomeIcon
-                        icon={faX}
-                        className="comment-edit-icon"
-                      />
-                    </button>
-                  </div>
+                  {userId === comment.User.userId && (
+                    <div className="comment-edit-wrap">
+                      <button title="수정">
+                        <FontAwesomeIcon
+                          icon={faEraser}
+                          className="comment-edit-icon"
+                        />
+                      </button>
+                      <button
+                        title="삭제"
+                        onClick={() => {
+                          handleDeleteComment(comment.comId);
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faX}
+                          className="comment-edit-icon"
+                        />
+                      </button>
+                    </div>
+                  )}
                 </div>
                 {/* 대댓글 입력창*/}
                 <ul className="replt-list">
