@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginFn } from '../store/loginSlice';
 
@@ -11,6 +11,9 @@ export function UserProvider({ children }) {
   const { isLogin, isAdmin, isSeller, isBlackList, headerMenu } = useSelector(
     (state) => state.login,
   );
+
+  const dkdk = useContext(UserContext);
+  console.log(dkdk);
 
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
