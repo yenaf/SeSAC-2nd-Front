@@ -42,15 +42,6 @@ export default function PostsListPage() {
       else if (order === 'priceLow') arr[1].classList.add('active');
       else if (order === 'priceHigh') arr[2].classList.add('active');
     });
-
-    // console.log('파람스', params);
-
-    // const category = document.querySelectorAll('.category-container a');
-    // category[categoryId + 1].classList.add('active');
-    // console.log(categoryId);
-    // if (categoryId !== 0) {
-    //   category[categoryId + 1].classList.add('remove');
-    // }
   }, [categoryId, pageNum, order]);
 
   // axios 연결

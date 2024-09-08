@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faL, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import '../styles/pages/Login.scss';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import userData from '../data/fakedata/userData';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { loginFn } from '../store/loginSlice';
+import { UserContext } from '../hooks/useAuth';
+import { userLogin } from '../api/user';
 
 export default function Login() {
   const {
@@ -20,27 +19,25 @@ export default function Login() {
   });
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+
+  const { login } = useContext(UserContext);
+
+  const containerRef = useRef();
 
   // 로그인
   const onSubmitApi = async (data) => {
     try {
-      const res = await axios.post('http://localhost:8080/user/login', data, {
-        withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
-      });
-      console.log('res >> ', res);
-
+      const res = await userLogin(data);
       if (res.status === 200) {
         alert('로그인 성공!');
 
         // 로그인 성공시 로그인 모달 hidden
-        const loginContainer = document.querySelector('.login-container');
+        const loginContainer = containerRef.current;
         if (loginContainer) {
           loginContainer.style.display = 'none';
         }
-
-        // Redux를 통해 로그인 상태 관리 (dispatch 사용)
-        dispatch(loginFn(true));
+        const sessionUserdata = res.data.session;
+        login(sessionUserdata);
 
         // 메인페이지로 이동
         navigate('/');
@@ -72,22 +69,12 @@ export default function Login() {
 
   // 로그인창 닫기 버튼
   const loginClose = () => {
-    const loginContainer = document.querySelector('.login-container');
+    const loginContainer = containerRef.current;
     loginContainer.style.display = 'none';
   };
 
-  // 임시 로그인
-  // const onSubmit = (data) => {
-  //   console.log('onSubmit >> ', data);
-  //   alert('로그인 성공!');
-  //   const loginContainer = document.querySelector('.login-container');
-  //   loginContainer.style.display = 'none';
-  //   dispatch(loginFn(true));
-  //   navigate('/'); // 메인페이지로 이동
-  // };
-
   return (
-    <div className="login-container">
+    <div className="login-container" ref={containerRef}>
       <div className="login-content">
         <div className="login-close">
           <button>
