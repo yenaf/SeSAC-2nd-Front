@@ -20,7 +20,9 @@ export default function MyPageMenu() {
         <li>
           회원정보수정
           <ul className="mypage-edit">
-            <li>- 개인정보수정</li>
+            <li>
+              <Link to="/mypage/editUser">- 개인정보수정</Link>
+            </li>
             <li>- 배송지관리</li>
             <li>
               <Link to="/sellers">판매자정보등록</Link>
