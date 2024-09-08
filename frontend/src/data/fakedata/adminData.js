@@ -1,10 +1,110 @@
 const adminAllUserData = [
   // 제공되어야할 정보 [전체 회원(아이디, 닉네임, 판매자여부, 약관동의(필수), 약관동의(선택))]
   {
-    userId: '',
-    loginId: '',
-    nickName: '',
-    Seller: { sellerId: '' }, // 이 값이 없으면 판매자가 아닌거..?
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
+    Terms_Agree: {
+      isRequiredAgreed: true,
+      isOptionalAgreed: false,
+    },
+  },
+  {
+    userId: 1,
+    loginId: 'test01',
+    nickName: '테스트',
+    Seller: { sellerId: 1 }, // 이 값이 없으면 판매자가 아닌거..?
     Terms_Agree: {
       isRequiredAgreed: true,
       isOptionalAgreed: false,
