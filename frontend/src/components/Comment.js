@@ -16,25 +16,34 @@ export default function Comment({
   const [commentText, setCommentText] = useState('');
   const [replyText, setReplyText] = useState('');
   const [charCount, setCharCount] = useState(0);
+  const [reCharCount, setReCharCount] = useState(0);
   const [activeReplyIndex, setActiveReplyIndex] = useState(null);
 
+  // 상세페이지에서 뿌려주는 댓글데이터 담기
   useEffect(() => {
     if (Comments) {
       setComments(Comments);
     }
   }, [Comments]);
 
-  console.log(comments);
-
+  // 댓글 글자수
   useEffect(() => {
     setCharCount(commentText.length);
+    setReCharCount(replyText.length);
     if (commentText.length > 100) {
       setCommentText(commentText.slice(0, 100));
     }
-  }, [commentText]);
+    if (replyText.length > 100) {
+      setReplyText(replyText.slice(0, 100));
+    }
+  }, [commentText, replyText]);
 
   const handleCommentChange = (e) => {
     setCommentText(e.target.value);
+    setCharCount(e.target.value.length);
+  };
+  const handleReplyChange = (e) => {
+    setReplyText(e.target.value);
     setCharCount(e.target.value.length);
   };
 
@@ -53,10 +62,14 @@ export default function Comment({
       if (commentText.trim()) {
         setComments([
           {
+            User: {
+              nickname: res.data.User.nickname,
+              profileImg: res.data.User.profileImg || '/img/cat.png',
+            },
             comContent: res.data.comContent,
-            userName: res.data.User.userName,
-            profile: res.data.User.profileImg || '/img/cat.png',
-            createdAt: res.data.createdAt.slice(0, 10),
+            isDeleted: res.data.isDeleted,
+            isSecret: res.data.isSecret,
+            createdAt: res.data.createdAt,
             comId: res.data.comId,
             replies: [],
           },
@@ -68,9 +81,7 @@ export default function Comment({
     });
   };
 
-  const handleReplyChange = (e) => {
-    setReplyText(e.target.value);
-  };
+  console.log(comments);
 
   // 대댓글 등록
   const handleReplySubmit = (index, comId) => {
@@ -90,23 +101,28 @@ export default function Comment({
       })
         .then((res) => {
           console.log(res.data);
+          // comContent: '놉';
+          // comId: 50;
+          // createdAt: '2024-09-08T10:57:50.072Z';
+          // isDeleted: false;
+          // isSecret: false;
+          // parentComId: '42';
+          // postId: '4';
+          // updatedAt: '2024-09-08T10:57:50.072Z';
+          // userId: 1;
 
           // 서버에서 응답받은 대댓글 데이터 처리
           const updatedComments = [...comments];
-          updatedComments[index].replies.push(res.data.replyContent); // 서버에서 받은 대댓글 내용을 추가
+          updatedComments[index].replies.push(res.data); // 서버에서 받은 대댓글 내용을 추가
+          setComments(updatedComments);
+          console.log(updatedComments);
+
           // setComments([
           //   {
-          //     comContent: res.data.comContent,
-          //     userName: res.data.User.userName,
-          //     profile: res.data.User.profileImg || '/img/cat.png',
-          //     createdAt: res.data.createdAt.slice(0, 10),
-          //     comId: res.data.comId,
           //     replies: [],
           //   },
-          //   ...comments,
+          //   ...updatedComments,
           // ]);
-          // setComments(updatedComments);
-          console.log(comments);
 
           setReplyText('');
           setActiveReplyIndex(null);
@@ -122,8 +138,6 @@ export default function Comment({
   const handleInputReply = (index) => {
     setActiveReplyIndex(index === activeReplyIndex ? null : index);
   };
-
-  // const newcomments = Object.keys(comments);
 
   return (
     <section className="comment-container">
@@ -163,7 +177,7 @@ export default function Comment({
               <div className="comment-item">
                 <div className="user-wrap">
                   <img src="/img/cat.png" className="user-img" />
-                  <h3 className="nickname">{comment.userName}</h3>
+                  <h3 className="nickname">{comment.User.nickname}</h3>
                 </div>
                 <div className="text-box">
                   <p className="comment-text">{comment.comContent}</p>
@@ -198,10 +212,10 @@ export default function Comment({
                           value={replyText}
                           onChange={handleReplyChange}
                         />
-                        <span className="char-count">{charCount} / 100</span>
+                        <span className="char-count">{reCharCount} / 100</span>
                       </div>
                       <div className="comment-btn-wrap">
-                        <label className="lock-comment">
+                        <label className="lock-comment" htmlFor="secret">
                           <FontAwesomeIcon
                             icon={faLock}
                             className="lock-icon"
@@ -230,16 +244,16 @@ export default function Comment({
                         />
                         <div className="comment-item">
                           <div className="user-wrap">
-                            {/* <img
+                            <img
                               src={
                                 reply.User
                                   ? reply.User.profileImg || '/img/cat.png'
                                   : '/img/cat.png'
                               }
                               className="user-img"
-                            /> */}
+                            />
                             <h3 className="nickname">
-                              {/* {reply.User ? reply.User.userName : 'Unknown'} */}
+                              {reply.User ? reply.User.userName : 'Unknown'}
                             </h3>
                           </div>
                           <div className="text-box">
