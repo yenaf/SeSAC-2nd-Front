@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock, faArrowTurnUp } from '@fortawesome/free-solid-svg-icons';
+import {
+  faLock,
+  faArrowTurnUp,
+  faEraser,
+  faX,
+} from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import formatDate from '../components/common/formatDate';
 
@@ -17,6 +22,7 @@ export default function Comment({
   const [replyText, setReplyText] = useState('');
   const [charCount, setCharCount] = useState(0);
   const [reCharCount, setReCharCount] = useState(0);
+  const [isSecret, setIsSecret] = useState(false);
   const [activeReplyIndex, setActiveReplyIndex] = useState(null);
 
   // 상세페이지에서 뿌려주는 댓글데이터 담기
@@ -47,6 +53,11 @@ export default function Comment({
     setCharCount(e.target.value.length);
   };
 
+  // 비밀 댓글 토글
+  const toggleSecret = () => {
+    setIsSecret(!isSecret);
+  };
+
   // 댓글 등록
   const handleSubmit = (e) => {
     axios({
@@ -54,7 +65,7 @@ export default function Comment({
       url: `http://localhost:8080/comments/${postId}`,
       data: {
         comContent: commentText,
-        isSecret: false,
+        isSecret: isSecret,
       },
       withCredentials: true,
     }).then((res) => {
@@ -77,8 +88,27 @@ export default function Comment({
         ]);
         setCommentText('');
         setCharCount(0);
+        setIsSecret(false);
       }
     });
+  };
+
+  const handleDeleteComment = async (comId) => {
+    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      return;
+    }
+    try {
+      const response = await axios({
+        method: 'patch',
+        url: `http://localhost:8080/comments/delete/${comId}`,
+      });
+      setComments((prevComments) =>
+        prevComments.filter((comment) => comment.comId !== comId),
+      );
+    } catch (error) {
+      console.error('댓글 삭제 실패:', error);
+      alert('댓글 삭제에 실패했습니다.');
+    }
   };
 
   console.log(comments);
@@ -145,7 +175,7 @@ export default function Comment({
       {/* 댓글등록 */}
       <div className="comment-wrap">
         <div className="user-wrap">
-          <img src="/img/cat.png" className="user-img" />
+          <img src={profileImg || '/img/cat.png'} className="user-img" />
           <h3 className="nickname">{nickname}</h3>
         </div>
         <div className="textarea-box">
@@ -158,9 +188,17 @@ export default function Comment({
           <span className="char-count">{charCount} / 100</span>
         </div>
         <div className="comment-btn-wrap">
-          <label className="lock-comment" htmlFor="secret">
+          <label
+            className={`lock-comment ${isSecret ? 'active' : ''}`}
+            htmlFor="secret"
+          >
             <FontAwesomeIcon icon={faLock} className="lock-icon" />
-            <input type="checkbox" id="secret" />
+            <input
+              type="checkbox"
+              id="secret"
+              checked={isSecret}
+              onChange={toggleSecret}
+            />
             비밀 댓글
           </label>
           <button className="comment-btn" onClick={handleSubmit}>
@@ -172,103 +210,133 @@ export default function Comment({
       {/* 등록완료된 댓글 */}
       <div>
         <ul className="comment-complete-wrap">
-          {comments.map((comment, index) => (
-            <li key={index}>
-              <div className="comment-item">
-                <div className="user-wrap">
-                  <img src="/img/cat.png" className="user-img" />
-                  <h3 className="nickname">{comment.User.nickname}</h3>
-                </div>
-                <div className="text-box">
-                  <p className="comment-text">{comment.comContent}</p>
-                  <time>{formatDate(comment.createdAt)}</time>
-                </div>
-                <div className="comment-complete-btn">
-                  <button
-                    className="reply-btn"
-                    onClick={() => handleInputReply(index, comment.comId)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faArrowTurnUp}
-                      className="reply-icon"
-                    />
-                    답글
-                  </button>
-                </div>
-              </div>
-              {/* 대댓글 입력창*/}
-              <ul className="replt-list">
-                <li className="reply-input-wrap">
-                  {activeReplyIndex === index && (
-                    <div className="comment-wrap">
-                      <div className="user-wrap">
-                        <img src="/img/cat.png" className="user-img" />
-                        <h3 className="nickname">{nickname}</h3>
-                      </div>
-                      <div className="textarea-box">
-                        <textarea
-                          className="comment-text"
-                          placeholder="답글을 입력해주세요."
-                          value={replyText}
-                          onChange={handleReplyChange}
+          {comments
+            .filter((comment) => !comment.isDeleted)
+            .map((comment, index) => (
+              <li key={index}>
+                <div className="comment-item">
+                  <div className="user-wrap">
+                    <img src="/img/cat.png" className="user-img" />
+                    <h3 className="nickname">{comment.User.nickname}</h3>
+                  </div>
+                  <div className="text-box">
+                    <textarea
+                      className="comment-text"
+                      placeholder={comment.comContent}
+                      readOnly
+                    ></textarea>
+                    {/* <p className="comment-text">{comment.comContent}</p> */}
+                    <time>{formatDate(comment.createdAt)}</time>
+                  </div>
+                  <div className="comment-complete-btn">
+                    <button
+                      className="reply-btn"
+                      onClick={() => handleInputReply(index, comment.comId)}
+                    >
+                      <FontAwesomeIcon
+                        icon={faArrowTurnUp}
+                        className="reply-icon"
+                      />
+                      답글
+                    </button>
+                  </div>
+                  {userId === comment.User.userId && (
+                    <div className="comment-edit-wrap">
+                      <button title="수정">
+                        <FontAwesomeIcon
+                          icon={faEraser}
+                          className="comment-edit-icon"
                         />
-                        <span className="char-count">{reCharCount} / 100</span>
-                      </div>
-                      <div className="comment-btn-wrap">
-                        <label className="lock-comment" htmlFor="secret">
-                          <FontAwesomeIcon
-                            icon={faLock}
-                            className="lock-icon"
-                          />
-                          <input type="checkbox" id="secret" />
-                          비밀 댓글
-                        </label>
-                        <button
-                          className="comment-btn"
-                          onClick={() =>
-                            handleReplySubmit(index, comment.comId)
-                          }
-                        >
-                          답글 등록
-                        </button>
-                      </div>
+                      </button>
+                      <button
+                        title="삭제"
+                        onClick={() => {
+                          handleDeleteComment(comment.comId);
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faX}
+                          className="comment-edit-icon"
+                        />
+                      </button>
                     </div>
                   )}
-                  {/* 대댓글 등록완료 */}
-                  <ul className="replies-wrap">
-                    {comment.replies.map((reply, replyIndex) => (
-                      <li key={replyIndex} className="reply-item">
-                        <FontAwesomeIcon
-                          icon={faArrowTurnUp}
-                          className="re-reply-icon"
-                        />
-                        <div className="comment-item">
-                          <div className="user-wrap">
-                            <img
-                              src={
-                                reply.User
-                                  ? reply.User.profileImg || '/img/cat.png'
-                                  : '/img/cat.png'
-                              }
-                              className="user-img"
-                            />
-                            <h3 className="nickname">
-                              {reply.User ? reply.User.userName : 'Unknown'}
-                            </h3>
-                          </div>
-                          <div className="text-box">
-                            <p className="comment-text">{reply.comContent}</p>
-                            <time>{formatDate(reply.createdAt)}</time>
-                          </div>
-                          <div className="comment-complete-btn"></div>
+                </div>
+                {/* 대댓글 입력창*/}
+                <ul className="replt-list">
+                  <li className="reply-input-wrap">
+                    {activeReplyIndex === index && (
+                      <div className="comment-wrap">
+                        <div className="user-wrap">
+                          <img src="/img/cat.png" className="user-img" />
+                          <h3 className="nickname">{nickname}</h3>
                         </div>
-                      </li>
-                    ))}
-                  </ul>
-                </li>
-              </ul>
-            </li>
-          ))}
+                        <div className="textarea-box">
+                          <textarea
+                            className="comment-text"
+                            placeholder="답글을 입력해주세요."
+                            value={replyText}
+                            onChange={handleReplyChange}
+                          />
+                          <span className="char-count">
+                            {reCharCount} / 100
+                          </span>
+                        </div>
+                        <div className="comment-btn-wrap">
+                          <label className="lock-comment" htmlFor="secret">
+                            <FontAwesomeIcon
+                              icon={faLock}
+                              className="lock-icon"
+                            />
+                            <input type="checkbox" id="secret" />
+                            비밀 댓글
+                          </label>
+                          <button
+                            className="comment-btn"
+                            onClick={() =>
+                              handleReplySubmit(index, comment.comId)
+                            }
+                          >
+                            답글 등록
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                    {/* 대댓글 등록완료 */}
+                    <ul className="replies-wrap">
+                      {comment.replies.map((reply, replyIndex) => (
+                        <li key={replyIndex} className="reply-item">
+                          <FontAwesomeIcon
+                            icon={faArrowTurnUp}
+                            className="re-reply-icon"
+                          />
+                          <div className="comment-item">
+                            <div className="user-wrap">
+                              <img
+                                src={
+                                  reply.User
+                                    ? reply.User.profileImg || '/img/cat.png'
+                                    : '/img/cat.png'
+                                }
+                                className="user-img"
+                              />
+                              <h3 className="nickname">
+                                {reply.User ? reply.User.userName : 'Unknown'}
+                              </h3>
+                            </div>
+                            <div className="text-box">
+                              <p className="comment-text">{reply.comContent}</p>
+                              <time>{formatDate(reply.createdAt)}</time>
+                            </div>
+                            <div className="comment-complete-btn"></div>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            ))}
         </ul>
       </div>
     </section>

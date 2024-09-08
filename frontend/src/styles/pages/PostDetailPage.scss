@@ -531,10 +531,10 @@
       #secret {
         position: absolute;
         z-index: -10;
-        // opacity: 0;
-        &:checked .lock-comment {
-          color: #000;
-        }
+        opacity: 0;
+      }
+      &.active {
+        color: #272727;
       }
       .lock-icon {
         margin-right: 0.8rem;
@@ -562,6 +562,7 @@
 
 //댓글 완료
 .comment-item {
+  position: relative;
   border: 1px solid $bg-color2;
   border-radius: 1rem;
   overflow: hidden;
@@ -579,11 +580,27 @@
       word-wrap: break-word; /* 단어가 길 경우 줄바꿈 */
       overflow-wrap: break-word; /* 같은 효과, 브라우저 호환성 위해 사용 */
       white-space: normal;
+      resize: none;
+      border: none;
+      &:focus {
+        outline: none;
+      }
     }
     time {
       display: block;
       margin-top: 0.5rem;
       color: #949494;
+    }
+  }
+  .comment-edit-wrap {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    .comment-edit-icon {
+      color: $main-color;
+      cursor: pointer;
     }
   }
   .comment-complete-btn {

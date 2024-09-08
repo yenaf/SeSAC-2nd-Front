@@ -39,7 +39,7 @@ export default function SwiperMagnify({ productImg }) {
       >
         {imageUrls.map((url, index) => (
           <SwiperSlide key={index}>
-            <img src={url} alt={`nature-${index + 1}`} />
+            <img src={url} alt={`nature-${index + 1}`} className="swiper-img" />
           </SwiperSlide>
         ))}
       </Swiper>
