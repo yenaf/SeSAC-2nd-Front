@@ -17,6 +17,7 @@ import AdminPage from './pages/AdminPage';
 import store from './store';
 import SellersPage from './pages/SellersPage';
 import SellListPage from './pages/SellListPage';
+import EditUserPage from './pages/EditUserPage';
 
 function App() {
   return (
@@ -53,6 +54,8 @@ function App() {
               <Route path="/user/register" element={<RegisterPage />} />
               {/* 마이페이지 */}
               <Route path="/mypage" element={<MyPage />} />
+              {/* 개인정보 수정 페이지 */}
+              <Route path="/mypage/editUser" element={<EditUserPage />} />
               {/* 판매자 등록 페이지 */}
               <Route path="/sellers" element={<SellersPage />} />
               {/* 판매내역 리스트 페이지 */}
