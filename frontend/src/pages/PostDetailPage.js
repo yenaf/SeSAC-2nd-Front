@@ -205,7 +205,7 @@ export default function PostDetailPage() {
               {/* 판매자 img+nickname */}
               <div className="seller-info">
                 <div className="seller-profile">
-                  <img src="/img/cat.png" className="seller-img" />
+                  <img src={`${sellerImg}`} className="seller-img" />
                 </div>
                 <h3>{sellerName}</h3>
               </div>
