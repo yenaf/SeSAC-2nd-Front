@@ -1,66 +1,85 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ItemList from '../components/ItemList';
 import '../styles/pages/ListPage.scss';
-import listDataFn from '../data/fakedata/listData';
-import { getPostLists, getSearchLists } from '../api/list';
+import { getSearchLists } from '../api/list';
 import { useLocation, useParams, useSearchParams } from 'react-router-dom';
 import Pagination from '../components/Pagination';
-import axios from 'axios';
+import { setPages } from '../store/pageSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 // 검색 결과 목록 페이지
 export default function SearchPage() {
-  // 상품목록 임시데이터
-  const listData = listDataFn();
-  //  const [listData, setListData] = useState([]);
-  const [offset, setOffset] = useState(0);
-  const [limit, setLimit] = useState(20);
-  const [page, setPage] = useState(1);
+  const [listData, setListData] = useState([]);
 
+  // 페이지 세팅
   const params = useParams();
+  const pageNum = Number(params.page);
+
   // 키워드
   const location = useLocation();
   const queryString = location.search;
   const [searchParams, setSearchParams] = useSearchParams();
   const keyword = searchParams.get('postTitle');
 
+  const dispatch = useDispatch();
+  const { totalItems } = useSelector((state) => state.page);
+
   useEffect(() => {
-    // fetchListData(keyword);
-  }, []);
+    fetchListData(keyword);
+  }, [pageNum, keyword]);
 
-  const fetchListData = async (keyword) => {
-    try {
-      const res = await getSearchLists(1, 20, keyword);
-    } catch (err) {
-      console.error();
-    }
-  };
+  const fetchListData = useCallback(
+    async (keyword) => {
+      try {
+        const res = await getSearchLists(pageNum, keyword);
+        const { postList, postCount, pageSize, totalPages, currentPage } =
+          res.data;
 
-  const listLength = listData.length;
-  const listPageCount = Math.ceil(listData.length / limit);
+        setListData([...postList]);
+
+        // 페이지네이션 세팅
+        dispatch(
+          setPages({
+            totalItems: postCount,
+            limit: pageSize,
+            totalPages,
+            currentPage,
+          }),
+        );
+      } catch (err) {
+        console.error();
+      }
+    },
+    [pageNum, keyword],
+  );
+
   return (
     <div className="post-list">
       <section className="list-title">
-        <h2>&apos;{keyword}&apos; 검색결과</h2>
+        <h2>
+          <span>&apos;{keyword}&apos;</span> 검색결과
+        </h2>
+        <div className="list-resultNum">
+          총 <span>{totalItems}</span>개
+        </div>
       </section>
       <section className="list-items">
         <ol>
-          {listData.length > 0 ? (
-            listData.map((item, idx) => (
-              <ItemList key={item.postId} item={item} />
-            ))
+          {listData ? (
+            listData.length > 0 ? (
+              listData.map((item, idx) => (
+                <ItemList key={item.postId} item={item} />
+              ))
+            ) : (
+              <li className="no-item">상품이 없습니다.</li>
+            )
           ) : (
-            <li>상품이 없습니다.</li>
+            <li className="no-item">상품이 없습니다.</li>
           )}
         </ol>
       </section>
       <section className="list-page">
-        <Pagination
-          totalItems={listLength}
-          itemCountPerPage={limit}
-          pageCount={listPageCount}
-          currentPage={page}
-          pageLocation={queryString}
-        />
+        <Pagination pageLocation={queryString} />
       </section>
     </div>
   );

@@ -4,15 +4,13 @@ import elapsedTime from '../utils/elapsedTime';
 import { Link } from 'react-router-dom';
 
 export default function ItemList({ item }) {
+  const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
   return (
     <li className="list-item">
       <Link to={`/posts/page/${item.postId}`}>
         <figure className="item-img">
           <img
-            src={
-              'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/' +
-              item.Product_Images[0].imgName
-            }
+            src={`${imgUrl}${item.Product_Images[0].imgName}`}
             alt={item.postTitle}
           />
           {item.sellStatus === '판매중' ? null : (

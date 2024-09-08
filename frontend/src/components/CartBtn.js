@@ -44,7 +44,7 @@ export default function CartBtn({ post }) {
         <button className="btn shopping" onClick={addCart}>
           장바구니
         </button>
-        <button className="btn buy" onClick={buyItem}>
+        <button className="btn buy" onClick={addCart}>
           구매하기
         </button>
       </span>

@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Link, NavLink } from 'react-router-dom';
 import handleScrollToTop from '../utils/handleScrollToTop';
 
+// 상품목록페이지, 검색결과페이지의 페이지네이션 컴포넌트
 export default function Pagination({ pageLocation }) {
   const { limit, totalPages, currentPage, totalItems } = useSelector(
     (state) => state.page,
@@ -25,6 +26,14 @@ export default function Pagination({ pageLocation }) {
     if (currentPage < start) setStart((prev) => prev - totalPages);
   }, [currentPage, totalPages, start]);
 
+  const keepColor = () => {
+    const category = document.querySelectorAll('.category-container a');
+    console.log(category);
+    const categoryNum = Number(pageLocation.slice(1, 2));
+    if (isNaN(categoryNum)) return;
+    category[categoryNum + 1].classList.add('active');
+  };
+
   return (
     <div className="page-wrapper">
       <ul>
@@ -45,7 +54,9 @@ export default function Pagination({ pageLocation }) {
               >
                 <NavLink
                   to={`${url(start + idx)}${pageLocation}`}
-                  onClick={handleScrollToTop}
+                  onClick={() => {
+                    handleScrollToTop();
+                  }}
                 >
                   {start + idx}
                 </NavLink>
