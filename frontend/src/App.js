@@ -81,14 +81,21 @@ function App() {
                   requiredRole="seller"
                 />
                 {/* 판매글 수정 페이지 */}
-                <Route path="/posts/edit/:postId" element={<PostUpdatePage />} />
+                <Route
+                  path="/posts/edit/:postId"
+                  element={<ProtectedRoute element={PostUpdatePage} />}
+                  requiredRole="seller"
+                />
                 {/* 마이페이지 */}
                 <Route
                   path="/mypage"
                   element={<ProtectedRoute element={MyPage} />}
                 />
                 {/* 개인정보 수정 페이지 */}
-                <Route path="/mypage/editUser" element={<EditUserPage />} />
+                <Route
+                  path="/mypage/editUser"
+                  element={<ProtectedRoute element={EditUserPage} />}
+                />
                 {/* 판매자 등록 페이지 */}
                 <Route
                   path="/sellers"
