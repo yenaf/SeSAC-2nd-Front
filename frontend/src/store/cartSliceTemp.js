@@ -152,6 +152,7 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(loadCart.fulfilled, (state, action) => {
+        if (state.cartData.length < 0) return;
         // 요청 성공
         state.loading = true;
         state.cartData = groupBySeller(action.payload);
