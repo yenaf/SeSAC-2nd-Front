@@ -3,6 +3,7 @@ import priceToString from '../utils/priceMethods';
 
 export default function SellerByOrder({ order }) {
   const { items } = order;
+  const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
   return (
     <li className="order-itemList">
       {/* 판매자정보 */}
@@ -29,7 +30,7 @@ export default function SellerByOrder({ order }) {
                 </div>
               )}
               <img
-                src={val.Post.Product_Images[0].imgName}
+                src={`${imgUrl}${val.Post.Product_Images[0].imgName}`}
                 alt={val.Post.postTitle}
               />
             </figure>

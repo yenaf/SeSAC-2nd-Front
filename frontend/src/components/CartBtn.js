@@ -1,16 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { insertCart } from '../api/cart';
 
 export default function CartBtn({ post }) {
   const navigate = useNavigate();
+  const modalRef = useRef();
 
   const addCart = async () => {
-    const cartModel = document.querySelector('.cart-modal');
+    const cartModel = modalRef.current;
     try {
-      // 임시 userId 보내주기
-      // const res = await insertCart(post, 1);
-      const res = await insertCart(post);
+      const res = await insertCart(post, post);
       if (res.status === 200) {
         cartModel.style.display = 'block';
       }
@@ -48,7 +47,7 @@ export default function CartBtn({ post }) {
           구매하기
         </button>
       </span>
-      <div className="cart-modal">
+      <div className="cart-modal" ref={modalRef}>
         <div className="cart-modalContainer">
           <h3 className="cart-modalComment">장바구니에 상품을 담았습니다.</h3>
           <div className="cart-modalBtns">

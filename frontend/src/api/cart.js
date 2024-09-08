@@ -7,8 +7,8 @@ const url = 'http://localhost:8080';
 const getCartData = () => axios.get(`${url}/cart`, { withCredentials: true });
 
 // 장바구니 아이템 등록
-const insertCart = (postId) =>
-  axios.post(`${url}/cart/${postId}`, { withCredentials: true });
+const insertCart = (postId, data) =>
+  axios.post(`${url}/cart/${postId}`, data, { withCredentials: true });
 
 // 결제하기 페이지 이동
 const getOrderData = (data) =>
