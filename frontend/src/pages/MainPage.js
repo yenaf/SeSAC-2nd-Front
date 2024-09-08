@@ -25,26 +25,29 @@ export default function MainPage() {
       const res = await getPostLists(1, null, 'latest'); // 카테고리 ID를 null로 설정하여 모든 상품을 가져옴
       const { postList } = res.data;
 
-      console.log(res.data);
       const recentFilteredList = postList
         .filter((item) => item.sellStatus !== '판매완료')
         .slice(0, 8);
 
-      const tenThousandList = postList
-        .filter(
-          (item) =>
-            item.sellStatus !== '판매완료' &&
-            item.productPrice >= 0 &&
-            item.productPrice <= 19900,
-        )
-        .slice(0, 8);
+      const tenThousandList = postList.filter(
+        (item) =>
+          item.sellStatus !== '판매완료' &&
+          item.productPrice >= 0 &&
+          item.productPrice <= 19900,
+      );
+
+      const randomItems = getRandomItems(tenThousandList, 8);
 
       setRecentListData(recentFilteredList);
-      setTenThousandListData(tenThousandList);
+      setTenThousandListData(randomItems);
     } catch (err) {
       console.error(err);
       alert('상품 목록을 불러올 수 없습니다.');
     }
+  };
+  const getRandomItems = (array, count) => {
+    const shuffled = array.sort(() => 0.5 - Math.random()); // 배열 섞기
+    return shuffled.slice(0, count); // 랜덤하게 8개 선택
   };
   return (
     <>
