@@ -17,33 +17,34 @@ import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
 import axios from 'axios';
 
-// 상세게시글에 들어오려면 판매글작성후 또는 게시글을 눌렀을때
-
 export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
   const navigate = useNavigate();
   const [isDibbed, setIsDibbed] = useState(false);
+  const [wishlistId, setWishlistId] = useState(null);
   const [postData, setPostData] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 상태 추가
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useParams();
   const id = params.postId;
 
   // 세션에 userId, sellerId 저장되고 그값을 가져온다고 가정
   // const sessionSellerId = sessionStorage.getItem('sellerId');
-  const session = { user: { userId: 5, nickName: '로미' }, sellerId: 1 };
+  // const session = { user: { userId: 5, nickName: '로미' } };
   // 상세페이지의 수정삭제버튼은 세션의 sellerId와 post의 sellerid가 같을때 보여준다
 
+  // 상세페이지 data호출
   useEffect(() => {
-    // url에서 postId 가져옴
-    const res = getPost(id);
-    res
-      .then((res) => {
+    const fetchPostData = async () => {
+      try {
+        const res = await getPost(id);
         setPostData(res.data);
-        console.log(res.data);
-      })
-      .catch((error) => {
+        setIsDibbed(res.data.isInWishlist);
+        console.log('상세페이지api', res.data);
+      } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
-      });
+      }
+    };
+    fetchPostData();
   }, [id]);
 
   // 뒤로가기
@@ -51,55 +52,90 @@ export default function PostDetailPage() {
     if (previousUrl === '/posts/create') {
       const goBackConfirm = confirm('메인페이지로 가시겠습니까?');
       if (goBackConfirm) {
-        navigate('/'); // 메인 페이지로 이동
+        navigate('/');
       }
     } else {
-      navigate(-1); // 이전 페이지로 이동
+      navigate(-1);
     }
   };
 
-  // 찜 삭제하려면 wishlistId 필요함
+  // 찜 추가, 해제
   const handleChangeDibs = async () => {
-    const wishData = { userId: session.user.userId, postId: id };
-    if (isDibbed) {
+    const wishData = { userId: userId, postId: id };
+    if (!isDibbed) {
       const res = await axios.post('http://localhost:8080/wishlist', wishData);
-      // .then((res) => {
-      //   console.log(res.data);
-      // });
+      const newWishlistId = res.data.wishlistId;
+      setWishlistId(newWishlistId);
+      console.log(res);
     } else {
-      // const res = await axios
-      //   .delete(`http://localhost:8080/wishlist/${wishlistId}`)
-      //   .then((res) => {
-      //     console.log(res);
-      //   });
+      const res = await axios.delete(
+        `http://localhost:8080/wishlist/${wishlistId}`,
+      );
+      console.log(res);
     }
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
 
-  const {
-    Category,
-    Comments,
-    Product_Images,
-    Seller,
-    postTitle,
-    postContent,
-    productPrice,
-    productStatus,
-    productType,
-    createdAt,
-  } = postData || {};
-
+  // 신고
   const handleReportClick = () => {
     setIsModalOpen(true); // 모달 열기
   };
   const handleCloseModal = () => {
     setIsModalOpen(false); // 모달 닫기
   };
-
   const handleConfirmReport = () => {
     alert('신고가 완료되었습니다.');
     setIsModalOpen(false); // 신고 후 모달 닫기
   };
+
+  // 게시물 삭제
+  const handleDeletePost = async () => {
+    const confirmDelete = window.confirm(
+      '정말로 이 게시물을 삭제하시겠습니까?',
+    );
+    if (confirmDelete) {
+      try {
+        const res = await axios
+          .patch(`http://localhost:8080/posts/delete/${id}`)
+          .then((res) => {
+            alert('게시물이 삭제되었습니다.');
+            navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
+          });
+      } catch (error) {
+        console.error('게시물 삭제 중 오류 발생:', error);
+        alert('게시물 삭제에 실패했습니다.');
+      }
+    }
+  };
+
+  if (!postData) {
+    return <div>로딩 중...</div>;
+  }
+
+  const {
+    getPost: {
+      createdAt,
+      postTitle,
+      postId,
+      productPrice,
+      productType,
+      productStatus,
+      postContent,
+      Category: { categoryName },
+      Product_Images,
+      sellStatus,
+      Seller: {
+        Delivery: { deliveryFee, deliveryName },
+        sellerId,
+        sellerImg,
+        // sellerImg가 안옴
+        sellerName,
+      },
+      Comments,
+    },
+    isInWishlist,
+    session: { nickname, profileImg, sellerId: sessionSellerId, userId },
+  } = postData;
 
   return (
     <>
@@ -108,8 +144,9 @@ export default function PostDetailPage() {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           onConfirm={handleConfirmReport}
-          session={session}
-          postData={postData}
+          userId={userId}
+          sellerId={sellerId}
+          postId={postId}
         />
       )}
       {!postData ? (
@@ -125,17 +162,17 @@ export default function PostDetailPage() {
               {/* 우측 나열될 정보 */}
               <div className="product-info">
                 <time>{elapsedTime(createdAt)}</time>
-                <strong>{Category.categoryName}</strong>
+                <strong>{categoryName}</strong>
                 <h2 title="">{postTitle}</h2>
                 <h3>{priceToString(`${productPrice}`)} 원</h3>
                 <div className="info-box">
                   <div>
                     <span>배송사</span>
-                    <span>{Seller.Delivery.deliveryName}</span>
+                    <span>{deliveryName}</span>
                   </div>
                   <div>
                     <span>배송비</span>
-                    <span>{priceToString(Seller.Delivery.deliveryFee)}</span>
+                    <span>{priceToString(deliveryFee)}</span>
                   </div>
                   <div>
                     <span>상품유형</span>
@@ -165,12 +202,12 @@ export default function PostDetailPage() {
                 title="신고하기"
                 onClick={handleReportClick}
               />
-              {/* 판매자 배너 */}
+              {/* 판매자 img+nickname */}
               <div className="seller-info">
                 <div className="seller-profile">
                   <img src="/img/cat.png" className="seller-img" />
                 </div>
-                <h3>{Seller.sellerName}</h3>
+                <h3>{sellerName}</h3>
               </div>
               <div className="product-content">
                 <p>{postContent}</p>
@@ -192,24 +229,33 @@ export default function PostDetailPage() {
                 {/* </button> */}
               </div>
               <div className="ud-btn">
-                {session.sellerId === Seller.sellerId && (
+                {sessionSellerId === sellerId && (
                   <>
                     <Link
                       // posts/edit 어진님이 백쪽 만들어주기로함
-                      to={`/posts/create`}
+                      to={`/posts/edit/${id}`}
                       className="btn correction"
                       post={id}
                     >
                       수정
                     </Link>
-                    <button className="btn delete">삭제</button>
+                    <button className="btn delete" onClick={handleDeletePost}>
+                      삭제
+                    </button>
                   </>
                 )}
               </div>
             </div>
           </section>
           {/* 댓글 */}
-          <Comment postId={id} session={session} />
+          <Comment
+            postId={id}
+            sessionSellerId={sessionSellerId}
+            userId={userId}
+            nickname={nickname}
+            profileImg={profileImg}
+            Comments={Comments}
+          />
         </div>
       )}
     </>

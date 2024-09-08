@@ -8,6 +8,7 @@ import PostsListPage from './pages/PostsListPage';
 import PostCreatePage from './pages/PostCreatePage';
 import SearchPage from './pages/SearchPage';
 import PostDetailPage from './pages/PostDetailPage';
+import PostUpdatePage from './pages/PostUpdatePage';
 import CartPage from './pages/CartPage';
 import OrderPage from './pages/OrderPage';
 import OrderCompletePage from './pages/OrderCompletePage';
@@ -26,6 +27,7 @@ import SellListPage from './pages/SellListPage';
 import { UserProvider } from './hooks/useAuth';
 import ProtectedRoute from './layout/routes/ProtectedRoute';
 import NonLoginRoute from './layout/routes/NonLoginRoute';
+import EditUserPage from './pages/EditUserPage';
 
 function App() {
   return (
@@ -78,11 +80,15 @@ function App() {
                   element={<ProtectedRoute element={PostCreatePage} />}
                   requiredRole="seller"
                 />
+                {/* 판매글 수정 페이지 */}
+                <Route path="/posts/edit/:postId" element={<PostUpdatePage />} />
                 {/* 마이페이지 */}
                 <Route
                   path="/mypage"
                   element={<ProtectedRoute element={MyPage} />}
                 />
+                {/* 개인정보 수정 페이지 */}
+                <Route path="/mypage/editUser" element={<EditUserPage />} />
                 {/* 판매자 등록 페이지 */}
                 <Route
                   path="/sellers"

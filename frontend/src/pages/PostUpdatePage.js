@@ -4,18 +4,47 @@ import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
 import UploadButton from '../components/UploadButton';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
-import { insertPost } from '../api/post';
+import { useNavigate, useParams } from 'react-router-dom';
+import { patchPost, getPostforEdit } from '../api/post';
 import { useDispatch } from 'react-redux';
 import { setPreviousUrl } from '../store/navigationSlice';
 
-// 판매글 작성 페이지
-export default function PostCreatePage() {
+// 판매글 수정 페이지
+export default function PostUpdatePage() {
   const { register, handleSubmit, watch, setValue } = useForm();
   const navigate = useNavigate();
   const [charCount, setCharCount] = useState(0);
+  const [postData, setPostData] = useState(null);
   const textValue = watch('postContent', '');
   const dispatch = useDispatch();
+  const params = useParams();
+  const postId = params.postId;
+  const [initImages, setInitImages] = useState([]);
+  const [categoryId, setCategoryId] = useState('');
+  const [productType, setProductType] = useState('');
+  const [productStatus, setProductStatus] = useState('');
+
+  useEffect(() => {
+    const fetchPostData = async () => {
+      try {
+        const res = await getPostforEdit(postId);
+        setPostData(res.data);
+        // Set initial values
+        setValue('postTitle', res.data.post.postTitle);
+        setValue('productPrice', res.data.post.productPrice);
+        setValue('postContent', res.data.post.postContent);
+        console.log(res.data);
+        setCategoryId(res.data.post.categoryId);
+        setProductType(res.data.post.productType);
+        setProductStatus(res.data.post.productStatus);
+        setInitImages(res.data.post.Product_Images);
+      } catch (error) {
+        console.error('API 호출 중 오류 발생:', error);
+      }
+    };
+
+    fetchPostData();
+  }, [postId, setValue]);
 
   useEffect(() => {
     dispatch(setPreviousUrl(window.location.pathname));
@@ -33,25 +62,25 @@ export default function PostCreatePage() {
     // userId가 있어야 판매하기가 보여짐
     // 만약에 userId는 있고, sellerId가 없는 상태에서 판매하기 버튼을 부르면 판매자 등록페이지로 이동
     // sellerId는 session에서 가져오기
-    const sellerId = 1;
-    const postData = new FormData();
+    const sellerId = 2;
+    const updateData = new FormData();
 
     Object.keys(data).forEach((key) => {
       if (key !== 'imgName') {
-        postData.append(key, data[key]);
+        updateData.append(key, data[key]);
       }
     });
     postData.append('sellerId', sellerId);
 
     if (data.imgName) {
       for (let i = 0; i < data.imgName.length; i++) {
-        postData.append('imgName', data.imgName[i]);
+        updateData.append('imgName', data.imgName[i]);
       }
     }
 
     try {
       if (sellerId) {
-        const res = await insertPost(postData);
+        const res = await patchPost(postId, updateData);
         console.log(res.data.newPost);
         const { postId } = res.data.newPost;
         navigate(`/posts/page/${postId}`, { state: { formData: res.data } });
@@ -63,19 +92,18 @@ export default function PostCreatePage() {
 
   const onCancel = () => {
     const confirmCancel = window.confirm(
-      '작성한 내용이 사라집니다. 정말 나가시겠습니까?',
+      '수정 내용이 저장되지 않습니다. 정말 나가시겠습니까?',
     );
     if (confirmCancel) {
-      navigate('/'); // 메인 페이지로 이동
+      navigate(-1); // 이전 페이지로 이동
     }
   };
 
   return (
     <>
       <section className="post-write">
-        <h2 className="title">판매글 작성</h2>
+        <h2 className="title">판매글 수정</h2>
         <form
-          // action="/posts/create"
           method="POST"
           encType="multipart/form-data"
           id="form"
@@ -106,6 +134,7 @@ export default function PostCreatePage() {
               ]}
               required
               register={register}
+              defaultValue={categoryId}
             />
           </FormGroup>
 
@@ -118,6 +147,7 @@ export default function PostCreatePage() {
               ]}
               required
               register={register}
+              defaultValue={productType}
             />
           </FormGroup>
 
@@ -130,26 +160,8 @@ export default function PostCreatePage() {
               ]}
               required
               register={register}
+              defaultValue={productStatus}
             />
-          </FormGroup>
-
-          <FormGroup label="상품가격">
-            <input
-              type="number"
-              id="price"
-              name="price"
-              min="0"
-              max="100000000"
-              step="0.01"
-              placeholder="가격을 입력하세요"
-              required
-              {...register('productPrice', {
-                validate: {
-                  positive: (value) => value > 0 || '가격은 0보다 커야 합니다.',
-                },
-              })}
-            />
-            <span className="won">원</span>
           </FormGroup>
 
           <div className="form-group product-info">
@@ -171,13 +183,13 @@ export default function PostCreatePage() {
             <span>{charCount} / 600</span>
           </div>
 
-          <UploadButton register={register} />
+          <UploadButton register={register} defaultValue={initImages} />
 
           <div className="btn-group">
             <button type="button" onClick={onCancel}>
               취소
             </button>
-            <button type="submit">등록</button>
+            <button type="submit">수정</button>
           </div>
         </form>
       </section>
