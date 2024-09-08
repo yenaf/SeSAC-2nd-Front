@@ -77,11 +77,17 @@ export default function MainPage() {
           </ul>
         </section>
         <section className="list-items">
-          <h2>
-            <FontAwesomeIcon icon={faWonSign} className="won" />
-            만원의 행복
-            <FontAwesomeIcon icon={faWonSign} className="won" />
-          </h2>
+          <div>
+            <h2>
+              <FontAwesomeIcon icon={faWonSign} className="won" />
+              만원의 행복
+              <FontAwesomeIcon icon={faWonSign} className="won" />
+            </h2>
+            <Link to="/posts/list/1/0?order=priceLow" className="load-more">
+              더보기
+              <FontAwesomeIcon icon={faChevronRight} className="more-icon" />
+            </Link>
+          </div>
           <ul>
             {tenThousandListData ? (
               tenThousandListData.length > 0 ? (
