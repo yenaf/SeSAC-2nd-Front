@@ -1,21 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import '../styles/layout/Header.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faChevronLeft, faL } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
+import { faBars, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 import HeaderSideMenu from '../components/HeaderSideMenu';
-import { loginMenu } from '../data/loginData';
 import Category from '../components/Category';
 import Search from '../components/Search';
 import Login from '../components/Login';
+import { UserContext } from '../hooks/useAuth';
+import { userLogout } from '../api/user';
 
 // header 컴포넌트
 export default function Header() {
-  // 임시 로그인 상태 리덕스
-  const { isLogin, isAdmin, isSeller, isBlackList } = useSelector(
+  // 로그인 상태 리덕스
+  const { isLogin, isAdmin, isSeller, isBlackList, headerMenu } = useSelector(
     (state) => state.login,
   );
+
+  const navigate = useNavigate();
+
+  // 로그아웃 불러오기
+  const { logout } = useContext(UserContext);
 
   // 모바일 요소 useRef
   const headerRef = useRef([]);
@@ -43,15 +49,55 @@ export default function Header() {
     }, 300);
   };
 
-  const openLogin = (e) => {
+  const headerBtnFn = async (e) => {
     e.preventDefault();
+    const path = e.currentTarget.getAttribute('href');
     const loginContainer = document.querySelector('.login-container');
-    if (loginContainer) {
-      loginContainer.style.display = 'block';
+    if (path.includes('login')) {
+      // 로그인
+      if (loginContainer) {
+        loginContainer.style.display = 'block';
+      }
+    } else if (path.includes('register')) {
+      // 회원가입 페이지 이동
+      navigate('/user/register');
+    } else if (path.includes('logout')) {
+      // 로그아웃
+      const res = await userLogout();
+      if (res.status === 200) {
+        // 세션에 저장되어 있는 정보 지우기
+        logout();
+        // 메인페이지로 이동
+        navigate('/');
+      }
+    } else if (path.includes('cart')) {
+      // 장바구니
+      if (!isLogin) {
+        alert('로그인 후에 이용 가능합니다.');
+        return (loginContainer.style.display = 'block');
+      } else if (isAdmin) {
+        alert('관리자 계정은 장바구니를 이용할 수 없습니다.');
+        return;
+      }
+      navigate('/cart');
+    } else if (path.includes('mypage')) {
+      // 마이페이지 이동
+      navigate('/mypage');
+    } else if (path.includes('admin')) {
+      // 관리자페이지 이동
+      navigate('/admin');
     }
   };
 
-  const loginFn = () => {};
+  const createPost = (e) => {
+    e.preventDefault();
+    if (isBlackList) {
+      // 블랙리스트는 글을 쓰지 못함
+      alert('신고가 누적되어 블랙리스트에 올라 글을 작성할 수 없습니다.');
+      return;
+    }
+    navigate('/posts/create');
+  };
 
   return (
     <header>
@@ -73,8 +119,10 @@ export default function Header() {
             <div className="sales-btn">
               {/* 판매자일때만 판매하기 버튼 출력 */}
               {/* 블랙리스트일때는 판매하기 버튼 눌러도 판매하기로 이동 X */}
-              {isLogin && isSeller && !isAdmin && (
-                <Link to="/posts/create">판매하기</Link>
+              {isLogin && !isSeller && !isAdmin && (
+                <Link to="/posts/create" onClick={createPost}>
+                  판매하기
+                </Link>
               )}
             </div>
             {/* 회원정보 버튼들 */}
@@ -83,14 +131,23 @@ export default function Header() {
               {isLogin ? (
                 isAdmin ? (
                   // 관리자
-                  <HeaderSideMenu logstate={loginMenu[2]} loginFn={loginFn} />
+                  <HeaderSideMenu
+                    logstate={headerMenu}
+                    headerBtnFn={headerBtnFn}
+                  />
                 ) : (
                   // 로그인
-                  <HeaderSideMenu logstate={loginMenu[0]} loginFn={loginFn} />
+                  <HeaderSideMenu
+                    logstate={headerMenu}
+                    headerBtnFn={headerBtnFn}
+                  />
                 )
               ) : (
                 // 로그아웃
-                <HeaderSideMenu logstate={loginMenu[1]} loginFn={openLogin} />
+                <HeaderSideMenu
+                  logstate={headerMenu}
+                  headerBtnFn={headerBtnFn}
+                />
               )}
             </aside>
           </div>

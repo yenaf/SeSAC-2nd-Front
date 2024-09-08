@@ -10,7 +10,6 @@ export default function Cart() {
   const { cartData, totalAmount, totalDeliveryFee, totalPayment } = useSelector(
     (state) => state.cart,
   );
-  // console.log(cartData);
 
   const checkAllRef = useRef();
   const checkEachRef = useRef([]);

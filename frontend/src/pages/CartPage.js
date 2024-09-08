@@ -5,6 +5,7 @@ import '../styles/pages/CartPage.scss';
 import Cart from '../components/Cart';
 import CartEmpty from '../components/CartEmpty';
 import { loadCart } from '../store/cartSliceTemp';
+import { getCartData } from '../api/cart';
 
 // 장바구니 페이지
 export default function CartPage() {
@@ -13,8 +14,14 @@ export default function CartPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    //fetchCartData();
     dispatch(loadCart());
   }, []);
+
+  const fetchCartData = async () => {
+    const res = await getCartData();
+    console.log(res);
+  };
 
   return (
     <>
