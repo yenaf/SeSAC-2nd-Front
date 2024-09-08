@@ -115,6 +115,8 @@ export default function PostDetailPage() {
     session: { nickname, profileImg, sellerId: sessionSellerId, userId },
   } = postData;
 
+  // console.log(typeof Comments);
+
   return (
     <>
       {isModalOpen && (
