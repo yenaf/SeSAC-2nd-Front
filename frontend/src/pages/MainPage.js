@@ -53,7 +53,7 @@ export default function MainPage() {
     <>
       <section className="main-page">
         <MainSwiper />
-        <section className="list-items">
+        <section className="list-items" id="content">
           <div>
             <h2>
               <FontAwesomeIcon icon={faHeart} className="heart" />
