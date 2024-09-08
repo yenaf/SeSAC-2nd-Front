@@ -21,6 +21,7 @@ export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
   const navigate = useNavigate();
   const [isDibbed, setIsDibbed] = useState(false);
+  const [wishlistId, setWishlistId] = useState(null);
   const [postData, setPostData] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useParams();
@@ -31,13 +32,14 @@ export default function PostDetailPage() {
   // const session = { user: { userId: 5, nickName: '로미' } };
   // 상세페이지의 수정삭제버튼은 세션의 sellerId와 post의 sellerid가 같을때 보여준다
 
+  // 상세페이지 data호출
   useEffect(() => {
     const fetchPostData = async () => {
       try {
         const res = await getPost(id);
         setPostData(res.data);
         setIsDibbed(res.data.isInWishlist);
-        // console.log('상세페이지api', res.data);
+        console.log('상세페이지api', res.data);
       } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
       }
@@ -57,33 +59,53 @@ export default function PostDetailPage() {
     }
   };
 
-  // 찜 삭제하려면 wishlistId 필요함
+  // 찜 추가, 해제
   const handleChangeDibs = async () => {
     const wishData = { userId: userId, postId: id };
-    if (isDibbed) {
-      // 찜 해제
-      // const res = await axios.delete(
-      //   `http://localhost:8080/wishlist/${wishlistId}`,
-      // );
-      // console.log(res);
-    } else {
-      // 찜 추가
+    if (!isDibbed) {
       const res = await axios.post('http://localhost:8080/wishlist', wishData);
+      const newWishlistId = res.data.wishlistId;
+      setWishlistId(newWishlistId);
+      console.log(res);
+    } else {
+      const res = await axios.delete(
+        `http://localhost:8080/wishlist/${wishlistId}`,
+      );
       console.log(res);
     }
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
 
+  // 신고
   const handleReportClick = () => {
     setIsModalOpen(true); // 모달 열기
   };
   const handleCloseModal = () => {
     setIsModalOpen(false); // 모달 닫기
   };
-
   const handleConfirmReport = () => {
     alert('신고가 완료되었습니다.');
     setIsModalOpen(false); // 신고 후 모달 닫기
+  };
+
+  // 게시물 삭제
+  const handleDeletePost = async () => {
+    const confirmDelete = window.confirm(
+      '정말로 이 게시물을 삭제하시겠습니까?',
+    );
+    if (confirmDelete) {
+      try {
+        const res = await axios
+          .patch(`http://localhost:8080/posts/delete/${id}`)
+          .then((res) => {
+            alert('게시물이 삭제되었습니다.');
+            navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
+          });
+      } catch (error) {
+        console.error('게시물 삭제 중 오류 발생:', error);
+        alert('게시물 삭제에 실패했습니다.');
+      }
+    }
   };
 
   if (!postData) {
@@ -114,8 +136,6 @@ export default function PostDetailPage() {
     isInWishlist,
     session: { nickname, profileImg, sellerId: sessionSellerId, userId },
   } = postData;
-
-  // console.log(typeof Comments);
 
   return (
     <>
@@ -219,7 +239,9 @@ export default function PostDetailPage() {
                     >
                       수정
                     </Link>
-                    <button className="btn delete">삭제</button>
+                    <button className="btn delete" onClick={handleDeletePost}>
+                      삭제
+                    </button>
                   </>
                 )}
               </div>

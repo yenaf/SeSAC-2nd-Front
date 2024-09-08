@@ -1,4 +1,6 @@
+@import '../common/reset';
 @import '../common/variables';
+@import '../common/utils';
 
 // 스와이퍼
 .main-page-swiper {
@@ -40,7 +42,98 @@
 
 .main-page {
   color: $main-color;
-  h2 {
-    font-size: 2.3rem;
+  .list-items {
+    margin-bottom: 3rem;
+    div {
+      position: relative;
+      .load-more {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        font-size: 1.4rem;
+        color: $main-color;
+        .more-icon {
+          margin-left: 1.5rem;
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+    h2 {
+      font-size: 2.3rem;
+      padding: 4rem 0;
+      .heart {
+        margin: 0 1rem;
+        color: $sub-color;
+      }
+      .won {
+        display: inline-block;
+        width: 1.5rem;
+        height: 1.5rem;
+        color: #787878;
+        border: 2px solid #9f9f23;
+        background: #f5e378;
+        border-radius: 50%;
+        padding: 0.5rem;
+        vertical-align: middle;
+        margin: 0 1rem;
+      }
+    }
+    ul {
+      width: 100%;
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-column-gap: min(5vw, 6.5rem);
+      grid-row-gap: min(5.5vh, 4.6rem);
+      .no-item {
+        text-align: center;
+        position: absolute;
+        font-size: min(2.6vw, 2.6rem);
+        @include center;
+      }
+      .list-item {
+        .item-img {
+          position: relative;
+          aspect-ratio: 1 /1;
+          width: 100%;
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+          @include unablePurcheaseItem;
+        }
+        .item-category {
+          color: $main-color;
+          padding: 1rem 0 0.6rem;
+          font-size: min(1.8vw, 1.2rem);
+        }
+        .item-title {
+          font-size: min(2vw, 1.5rem);
+          margin-bottom: 1rem;
+        }
+        .item-price {
+          font-weight: bold;
+          font-size: min(2vw, 1.5rem);
+          margin-bottom: 0.6rem;
+        }
+        .item-time {
+          font-size: min(1.8vw, 1.2rem);
+          color: #555;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $md) {
+  .main-page {
+    .list-items {
+      ul {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   }
 }
