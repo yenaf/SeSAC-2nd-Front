@@ -4,18 +4,12 @@ import axios from 'axios';
 const url = 'http://localhost:8080';
 
 // 장바구니 조회
-const getCartData = (userId) =>
-  axios.get(`${url}/cart`, { withCredentials: true });
-// const getCartData = async (userId) => await axios.get(`${url}/cart/${userId}`);
+const getCartData = () => axios.get(`${url}/cart`, { withCredentials: true });
 
 // 장바구니 아이템 등록
-const insertCart = (postId) =>
-  axios.post(`${url}/cart/${postId}`, { withCredentials: true });
-// 임시 아이디 주는거
-// const insertCart = (postId, data) =>
-//   axios.post(`${url}/cart/${postId}`, { userId: data });
+const insertCart = (postId, data) =>
+  axios.post(`${url}/cart/${postId}`, data, { withCredentials: true });
 
-// const getOrderData = async () => await axios.get(`${url}/order`);
 // 결제하기 페이지 이동
 const getOrderData = (data) =>
   axios.post(`${url}/order`, data, { withCredentials: true });
