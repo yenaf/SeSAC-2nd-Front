@@ -8,12 +8,12 @@ import {
   addEachPrice,
   deleteItem,
 } from '../store/cartSliceTemp';
-import axios from 'axios';
 import { deleteCartData } from '../api/cart';
 
 export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   const { items } = cart;
   const dispatch = useDispatch();
+  const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
 
   if (!items || items.length === 0) {
     // items가 없거나 비어있을 때 아무 것도 렌더링하지 않음
@@ -102,7 +102,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                     </div>
                   )}
                   <img
-                    src={val.Post.Product_Images[0].imgName}
+                    src={`${imgUrl}${val.Post.Product_Images[0].imgName}`}
                     alt={val.Post.postTitle}
                   />
                 </figure>

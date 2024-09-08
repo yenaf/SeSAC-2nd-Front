@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { AddressInput } from '../components/Register';
 import { useDispatch, useSelector } from 'react-redux';
 import PaymentInfo from '../components/PaymentInfo';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import priceToString from '../utils/priceMethods';
 import SellerByOrder from '../components/SellerByOrder';
-import axios from 'axios';
 import '../styles/pages/OrderPage.scss';
 import DeliverySelect from '../components/DeliverySelect';
 import { loadOrder, sellerByOrder } from '../store/cartSliceTemp';
 import { postOrderData } from '../api/cart';
+import { getAddressList } from '../api/address';
 
 // 결제 페이지
 export default function OrderPage() {
@@ -26,6 +25,7 @@ export default function OrderPage() {
   const { userInfo, addressInfo, postInfo } = orderData;
   const [orderCheck, setOrderCheck] = useState('');
   const [balanceComment, setBalanceComment] = useState('');
+  const [address, setAddress] = useState([]);
   const balanceInputRef = useRef();
 
   const dispatch = useDispatch();
@@ -137,6 +137,19 @@ export default function OrderPage() {
     }
   };
 
+  // 배송지 변경
+  const changeAdress = async (e) => {
+    const deliveryContainer = document.querySelector('.delivery-container');
+    deliveryContainer.style.display = 'block';
+    try {
+      const res = await getAddressList();
+      console.log(res.data);
+      setAddress([...res.data]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <div className="order">
       <h2 className="order-title">주문서</h2>
@@ -173,7 +186,9 @@ export default function OrderPage() {
           <section className="order-addrInfo">
             <div className="order-addrTitle">
               <h2>배송지</h2>
-              <button className="order-chgAddrBtn">배송지 변경</button>
+              <button className="order-chgAddrBtn" onClick={changeAdress}>
+                배송지 변경
+              </button>
             </div>
             <div className="order-addrInfoBx">
               <div className="order-addrName">
@@ -249,7 +264,7 @@ export default function OrderPage() {
         </article>
       </div>
       {/* 배송지 변경 컴포넌트 */}
-      {/* <DeliverySelect /> */}
+      <DeliverySelect address={address} />
     </div>
   );
 }
