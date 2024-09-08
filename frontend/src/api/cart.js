@@ -29,7 +29,8 @@ const getOrderCompleteData = (allOrderId) =>
   axios.get(`${url}/order/complete/${allOrderId}`, { withCredentials: true });
 
 // 장바구니 아이템 삭제
-const deleteCartData = (targetId) => axios.delete(`${url}/cart/${targetId}`);
+const deleteCartData = (targetId) =>
+  axios.delete(`${url}/cart/${targetId}`, { withCredentials: true });
 
 export {
   getCartData,

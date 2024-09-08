@@ -13,8 +13,7 @@ export default function CartPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const userId = 1;
-    dispatch(loadCart(userId));
+    dispatch(loadCart());
   }, []);
 
   return (

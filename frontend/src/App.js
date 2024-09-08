@@ -14,10 +14,17 @@ import OrderPage from './pages/OrderPage';
 import OrderCompletePage from './pages/OrderCompletePage';
 import RegisterPage from './pages/RegisterPage';
 import MyPage from './pages/MyPage';
-import AdminPage from './pages/AdminPage';
+import Admin from './layout/Admin';
+import AdminPage from './pages/adminPages/AdminPage';
+import AdminAlluserPage from './pages/adminPages/AdminAlluserPage';
+import AdminSellerPage from './pages/adminPages/AdminSellerPage';
+import AdminSellerComplaintPage from './pages/adminPages/AdminSellerComplaintPage';
+import AdminBlacklistPage from './pages/adminPages/AdminBlacklistPage';
+import AdminOrderLogsPage from './pages/adminPages/AdminOrderLogsPage';
 import store from './store';
 import SellersPage from './pages/SellersPage';
 import SellListPage from './pages/SellListPage';
+import EditUserPage from './pages/EditUserPage';
 
 function App() {
   return (
@@ -56,12 +63,35 @@ function App() {
               <Route path="/user/register" element={<RegisterPage />} />
               {/* 마이페이지 */}
               <Route path="/mypage" element={<MyPage />} />
+              {/* 개인정보 수정 페이지 */}
+              <Route path="/mypage/editUser" element={<EditUserPage />} />
               {/* 판매자 등록 페이지 */}
               <Route path="/sellers" element={<SellersPage />} />
               {/* 판매내역 리스트 페이지 */}
               <Route path="/mypage/salehistory" element={<SellListPage />} />
               {/* 관리자페이지 */}
-              <Route path="/admin" element={<AdminPage />} />
+              <Route path="/admin" element={<Admin />}>
+                <Route path="/admin" element={<AdminPage />} />
+                {/* 전체 회원 관리 */}
+                <Route path="/admin/allUser" element={<AdminAlluserPage />} />
+                {/* 판매자 관리 */}
+                <Route path="/admin/seller" element={<AdminSellerPage />} />
+                {/* 판매자 신고글 관리 */}
+                <Route
+                  path="/admin/complaint/:sellerId"
+                  element={<AdminSellerComplaintPage />}
+                />
+                {/* 블랙리스트 관리 */}
+                <Route
+                  path="/admin/blacklist"
+                  element={<AdminBlacklistPage />}
+                />
+                {/* 거래내역 관리 */}
+                <Route
+                  path="/admin/orderlogs"
+                  element={<AdminOrderLogsPage />}
+                />
+              </Route>
             </Route>
           </Routes>
         </BrowserRouter>

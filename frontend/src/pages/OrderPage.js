@@ -248,6 +248,7 @@ export default function OrderPage() {
           </section>
         </article>
       </div>
+      {/* 배송지 변경 컴포넌트 */}
       {/* <DeliverySelect /> */}
     </div>
   );
