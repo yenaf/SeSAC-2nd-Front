@@ -531,6 +531,9 @@
         margin-right: 0.5rem;
         font-size: 1.5rem;
       }
+      &:checked .lock-comment {
+        color: #000;
+      }
     }
     .comment-btn {
       background: $btn-color;
