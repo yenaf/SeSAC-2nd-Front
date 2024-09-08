@@ -13,8 +13,6 @@ library.add(faBasketShopping, faUser, faRightFromBracket, faRightToBracket);
 
 // header 회원정보 버튼들 컴포넌트
 export default function HeaderSideMenu({ logstate, headerBtnFn }) {
-  console.log(logstate);
-
   return (
     <ul>
       {logstate.map((value, idx) => (

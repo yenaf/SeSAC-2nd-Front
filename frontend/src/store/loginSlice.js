@@ -72,7 +72,6 @@ const loginSlice = createSlice({
       state.isSeller = action.payload.isSeller;
       state.isBlackList = action.payload.isBlackList;
       const whoAmI = action.payload.headerMenu;
-      console.log(whoAmI);
       if (whoAmI === 'user') {
         state.headerMenu = loginMenu[0];
       } else if (whoAmI === 'admin') {

@@ -6,20 +6,26 @@ export const UserContext = createContext(null);
 
 export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const { isLogin, isAdmin, isSeller, isBlackList, headerMenu } = useSelector(
     (state) => state.login,
   );
 
-  const dkdk = useContext(UserContext);
-  console.log(dkdk);
-
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
-    if (storedUser) {
-      const userInfo = JSON.parse(storedUser);
-      // dispatch(loginFn());
+    const userInfo = JSON.parse(storedUser);
+    console.log('저장', storedUser);
+    if (userInfo) {
+      dispatch(
+        loginFn({
+          isLogin: true,
+          isAdmin: userInfo.admin || false,
+          isSeller: userInfo.sellerId !== '' ? true : false,
+          isBlackList: userInfo.isBlacklist || false,
+          headerMenu: userInfo.admin ? 'admin' : 'user',
+        }),
+      );
       if (!userInfo.admin) {
         // 일반 유저인 경우
         const { userId, sellerId, isBlacklist } = userInfo;
@@ -60,18 +66,19 @@ export function UserProvider({ children }) {
         );
       }
       setUser(userInfo);
-      setIsLoggedIn(isLogin);
-    } else {
-      dispatch(
-        loginFn({
-          isLogin: false,
-          isAdmin: false,
-          isSeller: false,
-          isBlackList: false,
-          headerMenu: 'logout',
-        }),
-      );
+      setLoading(false);
     }
+    // else {
+    //   dispatch(
+    //     loginFn({
+    //       isLogin: false,
+    //       isAdmin: false,
+    //       isSeller: false,
+    //       isBlackList: false,
+    //       headerMenu: 'logout',
+    //     }),
+    //   );
+    // }
   }, [dispatch]);
 
   const login = (userData) => {
@@ -104,7 +111,7 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </UserContext.Provider>
   );
