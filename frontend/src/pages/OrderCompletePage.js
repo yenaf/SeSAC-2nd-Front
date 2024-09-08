@@ -15,7 +15,6 @@ export default function OrderCompletePage() {
         const res = await getOrderCompleteData(allOrderId);
         if (res.status === 200) {
           const orderData = res.data.orderDetails;
-          console.log(orderData);
           setOrderInfo(orderData);
         }
       } catch (err) {
