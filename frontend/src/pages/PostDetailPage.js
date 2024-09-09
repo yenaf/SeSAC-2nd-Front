@@ -269,12 +269,10 @@ export default function PostDetailPage() {
           </section>
           {/* 댓글 */}
           <Comment
-          // postId={id}
-          // sessionSellerId={sessionSellerId}
-          // userId={userId}
-          // nickname={nickname}
-          // profileImg={profileImg}
-          // Comments={Comments}
+            postId={id}
+            postSellerId={sellerId}
+            postSellerImg={sellerImg}
+            postSellerName={sellerName}
           />
         </div>
       )}
