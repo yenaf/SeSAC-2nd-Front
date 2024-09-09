@@ -262,8 +262,14 @@
 
 // 스와이퍼 디자인
 .product-img {
+  @include unablePurcheaseItem;
   .mySwiper2 {
-    border-radius: 2rem;
+    border-radius: 1rem;
+    .img-label {
+      top: 5px;
+      left: 5px;
+      border-radius: 0.5rem;
+    }
   }
   .swiper {
     --swiper-navigation-color: #ffffff00;
