@@ -9,13 +9,12 @@ import { getCartData } from '../api/cart';
 
 // 장바구니 페이지
 export default function CartPage() {
-  // const { userId } = useParams();
   const cart = useSelector((state) => state.cart.cartData);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    //fetchCartData();
     dispatch(loadCart());
+    console.log(cart);
   }, []);
 
   const fetchCartData = async () => {

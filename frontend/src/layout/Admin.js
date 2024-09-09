@@ -30,6 +30,9 @@ export default function AdminPage() {
       <section className="admin-container">
         <Outlet />
       </section>
+      <div className="admin-display">
+        관리자 페이지는 웹 환경에서 사용 가능합니다.
+      </div>
     </div>
   );
 }

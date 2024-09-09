@@ -10,6 +10,7 @@ export default function Cart() {
   const { cartData, totalAmount, totalDeliveryFee, totalPayment } = useSelector(
     (state) => state.cart,
   );
+  console.log(cartData);
 
   const checkAllRef = useRef();
   const checkEachRef = useRef([]);
@@ -61,6 +62,8 @@ export default function Cart() {
     try {
       const res = await getOrderData({ cartIds });
       if (res.status === 200) {
+        console.log(res.data);
+
         navigate('/order', { state: res.data });
       }
     } catch (err) {
