@@ -18,7 +18,7 @@ export default function CartBtn({ post, sellStatus, sellerId }) {
       return;
     }
     if (isLogin) {
-      if (sellStatus !== '판매중') {
+      if (sellStatus !== '판매 중') {
         alert('이미 판매된 상품입니다.');
         return;
       }
