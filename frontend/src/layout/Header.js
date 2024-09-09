@@ -10,6 +10,7 @@ import Search from '../components/Search';
 import Login from '../components/Login';
 import { UserContext } from '../hooks/useAuth';
 import { userLogout } from '../api/user';
+import axios from 'axios';
 
 // header 컴포넌트
 export default function Header() {
@@ -89,14 +90,30 @@ export default function Header() {
     }
   };
 
-  const createPost = (e) => {
-    e.preventDefault();
-    if (isBlackList) {
-      // 블랙리스트는 글을 쓰지 못함
-      alert('신고가 누적되어 블랙리스트에 올라 글을 작성할 수 없습니다.');
-      return;
+  const createPost = async (e) => {
+    try {
+      const res = await axios.get('http://localhost:8080/posts/create', {
+        withCredentials: true,
+      });
+
+      // 응답 데이터 처리
+      if (res.data.isSeller === false) {
+        const confirmSellerRegi = window.confirm(res.data.message);
+        if (confirmSellerRegi) {
+          navigate('/sellers');
+        } else {
+          return;
+        }
+      } else if (res.data.isBlacklist === true) {
+        alert(res.data.message);
+      } else {
+        // 판매자 등록이 되어 있는 경우
+        navigate('/posts/create');
+      }
+    } catch (error) {
+      console.error('오류 발생:', error);
+      alert('문제가 발생했습니다. 다시 시도해 주세요.');
     }
-    navigate('/posts/create');
   };
 
   return (
@@ -119,10 +136,8 @@ export default function Header() {
             <div className="sales-btn">
               {/* 판매자일때만 판매하기 버튼 출력 */}
               {/* 블랙리스트일때는 판매하기 버튼 눌러도 판매하기로 이동 X */}
-              {isLogin && !isSeller && !isAdmin && (
-                <Link to="/posts/create" onClick={createPost}>
-                  판매하기
-                </Link>
+              {isLogin && !isAdmin && (
+                <Link onClick={createPost}>판매하기</Link>
               )}
             </div>
             {/* 회원정보 버튼들 */}
