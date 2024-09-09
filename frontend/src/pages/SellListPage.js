@@ -150,12 +150,8 @@ export default function SellListPage() {
                           <div key={idx} className="sell-list-content-box">
                             <div className="sell-list-img">
                               <img
-                                src={
-                                  item.Post?.Product_Images[0]?.imgName ||
-                                  '/img/duck.jpg'
-                                }
+                                src={`${imgUrl}${item.Post?.Product_Images[0].imgName || '/img/duck.jpg'}`}
                                 alt="상품 이미지"
-                                // src={`${imgUrl}${item.Product_Images[0].imgName}`}
                               />
                             </div>
                             <div className="sell-list-text">
