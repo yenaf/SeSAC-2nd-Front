@@ -83,6 +83,7 @@ export function UserProvider({ children }) {
 
   const login = (userData) => {
     setUser(userData);
+    setLoading(false);
 
     dispatch(
       loginFn({
@@ -98,6 +99,7 @@ export function UserProvider({ children }) {
 
   const logout = () => {
     setUser(null);
+    setLoading(true);
     dispatch(
       loginFn({
         isLogin: false,
