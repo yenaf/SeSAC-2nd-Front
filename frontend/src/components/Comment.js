@@ -70,6 +70,10 @@ export default function Comment({
 
   // 댓글 등록
   async function handleCommentSubmit() {
+    if (!commentText) {
+      alert('1자 이상 입력해주세요');
+      return;
+    }
     try {
       const res = await axios.post(
         `http://localhost:8080/comments/${postId}`,
@@ -112,6 +116,10 @@ export default function Comment({
 
   // 댓글 수정
   async function handleUpdateComment(comId) {
+    if (!editingCommentText) {
+      alert('1자 이상 입력해주세요');
+      return;
+    }
     try {
       const res = await axios.patch(
         `http://localhost:8080/comments/update/${comId}`,
@@ -149,8 +157,6 @@ export default function Comment({
       return;
     }
   };
-  // 판매자 자신이 작성한 글에서 작성한 댓글에서는 판매자 정보(이름, 프로필 사진)가 보여야 한다.
-  // postSellerId === sellerId
 
   useEffect(() => {
     getCommentList();
@@ -226,8 +232,10 @@ export default function Comment({
                     value={
                       isEditing === comment.comId
                         ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
-                        : comment.isSecret && userId !== comment.User.userId
-                          ? '🔒 비밀 댓글입니다' // 비밀 댓글일 경우
+                        : comment.isSecret &&
+                            userId !== comment.User.userId &&
+                            postSellerId !== sellerId
+                          ? '비밀 댓글입니다.' // 비밀 댓글일 경우
                           : comment.comContent
                     }
                     onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
