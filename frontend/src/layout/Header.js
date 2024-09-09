@@ -96,18 +96,22 @@ export default function Header() {
         withCredentials: true,
       });
 
-      // 응답 데이터 처리
-      if (res.data.isSeller === false) {
+      console.log(res.data);
+      // 판매자 정보 없으면
+      if (res.data.isSeller === false && res.data.isBlacklist === false) {
         const confirmSellerRegi = window.confirm(res.data.message);
         if (confirmSellerRegi) {
           navigate('/sellers');
         } else {
           return;
         }
-      } else if (res.data.isBlacklist === true) {
+      }
+      // 블랙리스트 여부 확인
+      if (res.data.isSeller === false && res.data.isBlacklist === true) {
         alert(res.data.message);
-      } else {
-        // 판매자 등록이 되어 있는 경우
+      }
+
+      if (res.data.isSeller === true && res.data.isBlacklist === false) {
         navigate('/posts/create');
       }
     } catch (error) {
