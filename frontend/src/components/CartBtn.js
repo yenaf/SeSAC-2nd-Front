@@ -9,7 +9,6 @@ export default function CartBtn({ post, sellStatus, sellerId }) {
   const navigate = useNavigate();
   const modalRef = useRef();
   const { user } = useContext(UserContext);
-  console.log(user.sellerId);
 
   const addCart = async () => {
     const cartModel = modalRef.current;
