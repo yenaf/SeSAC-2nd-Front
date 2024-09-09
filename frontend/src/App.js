@@ -27,6 +27,8 @@ import SellListPage from './pages/SellListPage';
 import { UserProvider } from './hooks/useAuth';
 import ProtectedRoute from './layout/routes/ProtectedRoute';
 import NonLoginRoute from './layout/routes/NonLoginRoute';
+import AdminRoute from './layout/routes/AdminRoute';
+import SellerRoute from './layout/routes/SellerRoute';
 import EditUserPage from './pages/EditUserPage';
 
 function App() {
@@ -77,14 +79,12 @@ function App() {
                 {/* 판매글 작성 페이지 */}
                 <Route
                   path="/posts/create"
-                  element={<ProtectedRoute element={PostCreatePage} />}
-                  requiredRole="seller"
+                  element={<SellerRoute element={PostCreatePage} />}
                 />
                 {/* 판매글 수정 페이지 */}
                 <Route
                   path="/posts/edit/:postId"
-                  element={<ProtectedRoute element={PostUpdatePage} />}
-                  requiredRole="seller"
+                  element={<SellerRoute element={PostUpdatePage} />}
                 />
                 {/* 마이페이지 */}
                 <Route
@@ -108,47 +108,35 @@ function App() {
                   requiredRole="seller"
                 />
                 {/* 관리자페이지 */}
-                <Route
-                  path="/admin"
-                  element={<ProtectedRoute element={Admin} />}
-                  requiredRole="admin"
-                >
+                <Route path="/admin" element={<AdminRoute element={Admin} />}>
                   <Route
                     path="/admin"
-                    element={<ProtectedRoute element={AdminPage} />}
-                    requiredRole="admin"
+                    element={<AdminRoute element={AdminPage} />}
                   />
                   {/* 전체 회원 관리 */}
                   <Route
                     path="/admin/allUser"
-                    element={<ProtectedRoute element={AdminAlluserPage} />}
-                    requiredRole="admin"
+                    element={<AdminRoute element={AdminAlluserPage} />}
                   />
                   {/* 판매자 관리 */}
                   <Route
                     path="/admin/seller"
-                    element={<ProtectedRoute element={AdminSellerPage} />}
-                    requiredRole="admin"
+                    element={<AdminRoute element={AdminSellerPage} />}
                   />
                   {/* 판매자 신고글 관리 */}
                   <Route
                     path="/admin/complaint/:sellerId"
-                    element={
-                      <ProtectedRoute element={AdminSellerComplaintPage} />
-                    }
-                    requiredRole="admin"
+                    element={<AdminRoute element={AdminSellerComplaintPage} />}
                   />
                   {/* 블랙리스트 관리 */}
                   <Route
                     path="/admin/blacklist"
-                    element={<ProtectedRoute element={AdminBlacklistPage} />}
-                    requiredRole="admin"
+                    element={<AdminRoute element={AdminBlacklistPage} />}
                   />
                   {/* 거래내역 관리 */}
                   <Route
                     path="/admin/orderlogs"
-                    element={<ProtectedRoute element={AdminOrderLogsPage} />}
-                    requiredRole="admin"
+                    element={<AdminRoute element={AdminOrderLogsPage} />}
                   />
                 </Route>
               </Route>

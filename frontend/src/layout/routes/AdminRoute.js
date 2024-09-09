@@ -22,5 +22,9 @@ export default function ProtectedRoute({ element: Element, ...rest }) {
     return <Navigate to="/" />;
   }
 
+  if (!isAdmin) {
+    return <Navigate to="/" />;
+  }
+
   return <Element {...rest} />;
 }
