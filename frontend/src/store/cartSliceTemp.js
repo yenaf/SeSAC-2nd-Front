@@ -152,12 +152,10 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(loadCart.fulfilled, (state, action) => {
-        if (state.cartData.length < 0) return;
-        // 요청 성공
+        console.log(state.cartData.length);
         state.loading = true;
-        console.log(state.cartData);
-
-        if (state.cartData.length < 0) return;
+        if (state.cartData.length < 1) return;
+        // 요청 성공
         state.cartData = groupBySeller(action.payload);
         state.totalAmount = sumAmount(state.cartData);
         state.totalDeliveryFee = sumDeliveryFee(state.cartData);
