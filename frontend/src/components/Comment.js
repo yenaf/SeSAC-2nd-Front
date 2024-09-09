@@ -111,7 +111,7 @@ export default function Comment({
     }
   };
 
-  console.log(comments);
+  // console.log(comments);
 
   // 대댓글 등록
   const handleReplySubmit = (index, comId) => {

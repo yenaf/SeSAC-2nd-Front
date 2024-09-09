@@ -71,7 +71,7 @@ export default function OrderPage() {
     postInfo.forEach((item) => {
       const { sellStatus } = item.Post;
       // console.log(sellStatus);
-      if (sellStatus !== '판매중') {
+      if (sellStatus !== '판매 중') {
         setOrderCheck('구매 불가 상품이 포함되어 있습니다.');
         return;
       }

@@ -29,7 +29,6 @@ export default function PostUpdatePage() {
       try {
         const res = await getPostforEdit(postId);
         setPostData(res.data);
-        // Set initial values
         setValue('postTitle', res.data.post.postTitle);
         setValue('productPrice', res.data.post.productPrice);
         setValue('postContent', res.data.post.postContent);
@@ -59,10 +58,16 @@ export default function PostUpdatePage() {
   }, [textValue, setValue]);
 
   const onSubmit = async (data) => {
-    // userId가 있어야 판매하기가 보여짐
-    // 만약에 userId는 있고, sellerId가 없는 상태에서 판매하기 버튼을 부르면 판매자 등록페이지로 이동
-    // sellerId는 session에서 가져오기
-    const sellerId = 2;
+    let sellerId;
+    const userString = window.sessionStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      sellerId = user.sellerId;
+      console.log(sellerId);
+    } else {
+      console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
+    }
+
     const updateData = new FormData();
 
     Object.keys(data).forEach((key) => {
@@ -70,7 +75,7 @@ export default function PostUpdatePage() {
         updateData.append(key, data[key]);
       }
     });
-    postData.append('sellerId', sellerId);
+    updateData.append('sellerId', sellerId);
 
     if (data.imgName) {
       for (let i = 0; i < data.imgName.length; i++) {
@@ -81,8 +86,6 @@ export default function PostUpdatePage() {
     try {
       if (sellerId) {
         const res = await patchPost(postId, updateData);
-        console.log(res.data.newPost);
-        const { postId } = res.data.newPost;
         navigate(`/posts/page/${postId}`, { state: { formData: res.data } });
       }
     } catch (error) {
@@ -162,6 +165,25 @@ export default function PostUpdatePage() {
               register={register}
               defaultValue={productStatus}
             />
+          </FormGroup>
+
+          <FormGroup label="상품가격">
+            <input
+              type="number"
+              id="price"
+              name="price"
+              min="0"
+              max="100000000"
+              step="0.01"
+              placeholder="가격을 입력하세요"
+              required
+              {...register('productPrice', {
+                validate: {
+                  positive: (value) => value > 0 || '가격은 0보다 커야 합니다.',
+                },
+              })}
+            />
+            <span className="won">원</span>
           </FormGroup>
 
           <div className="form-group product-info">

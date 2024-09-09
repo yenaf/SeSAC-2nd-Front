@@ -49,7 +49,7 @@ const sumAmount = (data) => {
       acc +
       cur.items.reduce((total, item) => {
         // 판매 중 상태의 상품만 합산
-        if (item.Post.sellStatus === '판매중') {
+        if (item.Post.sellStatus === '판매 중') {
           return total + item.Post.productPrice;
         }
         return total;
@@ -62,12 +62,12 @@ const sumAmount = (data) => {
 const sumDeliveryFee = (data) => {
   return data.reduce((acc, cur) => {
     const hasSellingItems = cur.items.some(
-      (item) => item.Post.sellStatus === '판매중',
+      (item) => item.Post.sellStatus === '판매 중',
     );
     if (hasSellingItems) {
       // const firstItem = cur.items[0];
       const firstItem = cur.items.find(
-        (item) => item.Post.sellStatus === '판매중',
+        (item) => item.Post.sellStatus === '판매 중',
       );
       const deliveryFee = firstItem.Post.Seller.Delivery.deliveryFee || 0;
       return acc + deliveryFee;

@@ -26,12 +26,12 @@ export default function MainPage() {
       const { postList } = res.data;
 
       const recentFilteredList = postList
-        .filter((item) => item.sellStatus !== '판매완료')
+        .filter((item) => item.sellStatus !== '판매 완료')
         .slice(0, 8);
 
       const tenThousandList = postList.filter(
         (item) =>
-          item.sellStatus !== '판매완료' &&
+          item.sellStatus !== '판매 완료' &&
           item.productPrice >= 0 &&
           item.productPrice <= 19900,
       );

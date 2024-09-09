@@ -9,6 +9,9 @@ const userLogin = (data) =>
   });
 
 // 로그아웃
-const userLogout = () => axios.get(`${url}/user/logout`);
+const userLogout = () =>
+  axios.get(`${url}/user/logout`, {
+    withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+  });
 
 export { userLogin, userLogout };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../styles/pages/PostCreatePage.scss';
 import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { insertPost } from '../api/post';
 import { useDispatch } from 'react-redux';
 import { setPreviousUrl } from '../store/navigationSlice';
+import { UserContext } from '../hooks/useAuth';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
@@ -16,6 +17,8 @@ export default function PostCreatePage() {
   const [charCount, setCharCount] = useState(0);
   const textValue = watch('postContent', '');
   const dispatch = useDispatch();
+  const { user } = useContext(UserContext);
+  const { userId, sellerId } = user;
 
   useEffect(() => {
     dispatch(setPreviousUrl(window.location.pathname));
@@ -30,10 +33,6 @@ export default function PostCreatePage() {
   }, [textValue, setValue]);
 
   const onSubmit = async (data) => {
-    // userId가 있어야 판매하기가 보여짐
-    // 만약에 userId는 있고, sellerId가 없는 상태에서 판매하기 버튼을 부르면 판매자 등록페이지로 이동
-    // sellerId는 session에서 가져오기
-    const sellerId = 1;
     const postData = new FormData();
 
     Object.keys(data).forEach((key) => {
