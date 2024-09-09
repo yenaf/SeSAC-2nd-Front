@@ -1,29 +1,47 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { insertCart } from '../api/cart';
+import { UserContext } from '../hooks/useAuth';
 
-export default function CartBtn({ post }) {
+export default function CartBtn({ post, sellStatus, sellerId }) {
+  const { isLogin, isAdmin, isSeller } = useSelector((state) => state.login);
   const navigate = useNavigate();
   const modalRef = useRef();
+  const { user } = useContext(UserContext);
+  console.log(user.sellerId);
 
   const addCart = async () => {
     const cartModel = modalRef.current;
-    try {
-      const res = await insertCart(post, post);
-      if (res.status === 200) {
-        cartModel.style.display = 'block';
+    if (isAdmin) {
+      alert('관리자 계정은 장바구니를 이용할 수 없습니다.');
+      return;
+    }
+    if (isLogin) {
+      if (sellStatus !== '판매중') {
+        alert('이미 판매된 상품입니다.');
+        return;
       }
-      console.log(res);
-    } catch (err) {
-      console.error(err);
-      if (err.status === 409) {
-        alert('이미 장바구니에 담겨 있는 상품입니다.');
+      if (user.sellerId === sellerId) {
+        alert('자기 자신의 물건은 장바구니에 담을 수 없습니다.');
+        return;
       }
+      try {
+        const res = await insertCart(post, post);
+        if (res.status === 200) {
+          cartModel.style.display = 'block';
+        }
+        console.log(res);
+      } catch (err) {
+        console.error(err);
+        if (err.status === 409) {
+          alert('이미 장바구니에 담겨 있는 상품입니다.');
+        }
+      }
+    } else {
+      alert('로그인이 필요합니다.');
     }
   };
-
-  // 결제하기 이거 얘기해봐야할듯!
-  const buyItem = () => {};
 
   const closeModal = (e) => {
     const modal = e.target.parentNode.parentNode.parentNode;
@@ -36,7 +54,6 @@ export default function CartBtn({ post }) {
     navigate('/cart');
   };
 
-  // console.log(post);
   return (
     <div>
       <span className="link-container">

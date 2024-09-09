@@ -3,7 +3,7 @@ import { Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { UserContext } from '../../hooks/useAuth';
 
-export default function ProtectedRoute({ element: Element, ...rest }) {
+export default function SellerRoute({ element: Element, ...rest }) {
   const { isLogin, isAdmin, isSeller, isBlackList } = useSelector(
     (state) => state.login,
   );
@@ -19,6 +19,10 @@ export default function ProtectedRoute({ element: Element, ...rest }) {
   }
 
   if (!isLogin) {
+    return <Navigate to="/" />;
+  }
+
+  if (!isSeller || isBlackList) {
     return <Navigate to="/" />;
   }
 

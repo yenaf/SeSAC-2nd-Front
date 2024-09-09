@@ -20,7 +20,7 @@ export function UserProvider({ children }) {
         loginFn({
           isLogin: true,
           isAdmin: userInfo.admin || false,
-          isSeller: userInfo.sellerId !== '' ? true : false,
+          isSeller: userInfo.sellerId !== null ? true : false,
           isBlackList: userInfo.isBlacklist || false,
           headerMenu: userInfo.admin ? 'admin' : 'user',
         }),
@@ -28,7 +28,7 @@ export function UserProvider({ children }) {
       if (!userInfo.admin) {
         // 일반 유저인 경우
         const { userId, sellerId, isBlacklist } = userInfo;
-        if (sellerId !== '') {
+        if (!sellerId) {
           // 판매자가 아닌 경우
           dispatch(
             loginFn({
@@ -83,12 +83,11 @@ export function UserProvider({ children }) {
   const login = (userData) => {
     setUser(userData);
     setLoading(false);
-
     dispatch(
       loginFn({
         isLogin: true,
         isAdmin: userData.admin || false,
-        isSeller: !userData.sellerId,
+        isSeller: userData.sellerId ? true : false,
         isBlackList: userData.isBlacklist,
         headerMenu: userData.admin ? 'admin' : 'user',
       }),

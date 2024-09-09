@@ -85,33 +85,80 @@
           }
         }
       }
+      .admin-allUserCount {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+        span {
+          color: $main-color;
+        }
+      }
       .admin-allUserTable {
-        width: 100%;
-        border-collapse: collapse;
-        font-size: 1.4rem;
-        margin-bottom: 3rem;
-        thead {
+        @include adminTable;
+        tbody {
           tr {
-            background-color: $border-color2;
-            border-bottom: 1px double $border-color;
-            text-align: left;
-            th {
-              padding: 1rem;
+            td {
+              &:last-child,
+              &:nth-child(4),
+              &:nth-child(3) {
+                text-align: center;
+              }
             }
           }
         }
+      }
+      .admin-sellersTable {
+        @include adminTable;
         tbody {
           tr {
-            &:nth-child(odd) {
-              background-color: $bg-color;
-            }
-            &:last-child {
-              td {
-                border-bottom: 2px solid $border-color;
+            td {
+              &:first-child,
+              &:last-child {
+                text-align: center;
               }
             }
+          }
+        }
+      }
+      .admin-addBlackList {
+        button {
+          background-color: $btn-color;
+          padding: 1rem 2rem;
+          border-radius: 0.5rem;
+          color: #fff;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+      .admin-complaintUser {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        span {
+          color: $main-color;
+        }
+      }
+      .admin-complaintTable {
+        @include adminTable;
+        margin-top: 2rem;
+        table-layout: fixed;
+        overflow: hidden;
+        tbody {
+          tr {
             td {
-              padding: 1rem;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              word-break: break-all;
+              &:first-child {
+                width: 20%;
+              }
+              &:nth-child(2) {
+                width: 50%;
+              }
+              &:last-child {
+                width: 30%;
+              }
             }
           }
         }
