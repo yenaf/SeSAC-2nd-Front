@@ -10,6 +10,9 @@
   width: 100%;
   padding: 5rem 0 6rem;
   position: relative;
+  .admin-display {
+    display: none;
+  }
   .admin-navigation {
     position: relative;
     width: 20%;
@@ -163,6 +166,49 @@
           }
         }
       }
+      .admin-blacklistTable {
+        @include adminTable;
+      }
+      .admin-orderlogTable {
+        @include adminTable;
+        // table-layout: fixed;
+        overflow: hidden;
+        tbody {
+          tr {
+            td {
+              max-width: 100px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              word-break: break-all;
+              &:first-child,
+              &:nth-child(2),
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// 관리자 페이지는 1024px 이하 접근 ㄴㄴ
+// 768px 이하 미디어쿼리
+@media screen and (max-width: $lg) {
+  .admin-wrapper {
+    .admin-navigation {
+      display: none;
+    }
+    .admin-container {
+      display: none;
+    }
+    .admin-display {
+      display: block;
+      margin: 0 auto;
+      font-size: 3rem;
+      text-align: center;
     }
   }
 }

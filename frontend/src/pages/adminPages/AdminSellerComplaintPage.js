@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getComplaint } from '../../api/admin';
+import { useParams, Link, useLocation, useNavigate } from 'react-router-dom';
+import { getComplaint, updateBlacklist } from '../../api/admin';
+import handleScrollToTop from '../../utils/handleScrollToTop';
 
 export default function AdminSellerComplaintPage() {
   const [complaintUser, setComplaintUser] = useState('');
   const [complaintList, setComplaintList] = useState(null);
 
-  const navigate = useNavigate();
-
   const params = useParams();
   const sellerId = Number(params.sellerId);
+
+  const location = useLocation();
+  const userId = location.state.userId;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchComplaintList(sellerId);
@@ -18,11 +22,20 @@ export default function AdminSellerComplaintPage() {
   const fetchComplaintList = async (sellerId) => {
     try {
       const res = await getComplaint(sellerId);
-      console.log(res.data);
       setComplaintUser(res.data[0].Seller.sellerName);
       setComplaintList(res.data);
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  // 블랙리스트 추가
+  const addBlackList = async (userId) => {
+    try {
+      const res = await updateBlacklist({ userId });
+      navigate('/admin/seller');
+    } catch (error) {
+      console.error(error);
     }
   };
   return (
@@ -34,7 +47,7 @@ export default function AdminSellerComplaintPage() {
           님의 신고된 글
         </div>
         <div className="admin-addBlackList">
-          <button>블랙리스트 추가</button>
+          <button onClick={() => addBlackList(userId)}>블랙리스트 추가</button>
         </div>
       </h3>
       <table className="admin-complaintTable">
@@ -51,12 +64,18 @@ export default function AdminSellerComplaintPage() {
               complaintList.map((complaint, idx) => (
                 <tr key={idx}>
                   <td>
-                    <Link to={`/posts/page/${complaint.Post.postId}`}>
+                    <Link
+                      to={`/posts/page/${complaint.Post.postId}`}
+                      onClick={handleScrollToTop}
+                    >
                       {complaint.Post.postTitle}
                     </Link>
                   </td>
                   <td>
-                    <Link to={`/posts/page/${complaint.Post.postId}`}>
+                    <Link
+                      to={`/posts/page/${complaint.Post.postId}`}
+                      onClick={handleScrollToTop}
+                    >
                       {complaint.Post.postContent}
                     </Link>
                   </td>

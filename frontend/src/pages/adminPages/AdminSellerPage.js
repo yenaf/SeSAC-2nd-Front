@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { getSellers } from '../../api/admin';
+import { Link, useNavigate } from 'react-router-dom';
+import { getSellers, getComplaint, updateBlacklist } from '../../api/admin';
 
 export default function AdminSellerPage() {
   const [sellerList, setSellerList] = useState(null);
+  const [selectUser, setSelectUser] = useState(0);
+  const navigate = useNavigate();
   useEffect(() => {
     fetchSellers();
   }, []);
@@ -13,12 +15,40 @@ export default function AdminSellerPage() {
       const res = await getSellers();
       if (res.status === 200) {
         setSellerList(res.data);
-        console.log(res.data);
       }
     } catch (err) {
       console.error(err);
     }
   };
+
+  const fetchComplaintList = async (e, sellerId, userId) => {
+    e.preventDefault();
+    try {
+      const res = await getComplaint(sellerId);
+      if (res.data.length < 1) {
+        alert('신고된 내역이 없습니다.');
+        return;
+      }
+      navigate(`/admin/complaint/${sellerId}`, { state: { userId } });
+    } catch (err) {
+      console.error(err);
+      alert('신고된 내역이 없습니다.');
+    }
+  };
+
+  // 블랙리스트 추가
+  const addBlackList = async () => {
+    try {
+      const res = await updateBlacklist({ userId: selectUser });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const selectBlackList = (e, userId) => {
+    setSelectUser(userId);
+  };
+
   return (
     <div className="admin-content">
       <h2 className="admin-title">판매자 관리</h2>
@@ -37,15 +67,29 @@ export default function AdminSellerPage() {
               sellerList.map((seller, idx) => (
                 <tr key={idx}>
                   <td>
-                    <input type="checkbox" />
+                    <input
+                      type="radio"
+                      name="blacklist"
+                      onChange={(e) => selectBlackList(e, seller.userId)}
+                    />
                   </td>
                   <td>
-                    <Link to={`/admin/complaint/${seller.sellerId}`}>
+                    <Link
+                      to={`/admin/complaint/${seller.sellerId}`}
+                      onClick={(e) =>
+                        fetchComplaintList(e, seller.sellerId, seller.userId)
+                      }
+                    >
                       {seller.loginId}
                     </Link>
                   </td>
                   <td>
-                    <Link to={`/admin/complaint/${seller.sellerId}`}>
+                    <Link
+                      to={`/admin/complaint/${seller.sellerId}`}
+                      onClick={(e) =>
+                        fetchComplaintList(e, seller.sellerId, seller.userId)
+                      }
+                    >
                       {seller.sellerName}
                     </Link>
                   </td>
@@ -65,7 +109,7 @@ export default function AdminSellerPage() {
         </tbody>
       </table>
       <div className="admin-addBlackList">
-        <button>블랙리스트 추가</button>
+        <button onClick={addBlackList}>블랙리스트 추가</button>
       </div>
     </div>
   );

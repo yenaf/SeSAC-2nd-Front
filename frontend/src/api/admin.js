@@ -12,4 +12,25 @@ const getSellers = () => axios.get(`${url}/seller`, { withCredentials: true });
 const getComplaint = (sellId) =>
   axios.get(`${url}/complaint/${sellId}`, { withCredentials: true });
 
-export { getUsers, getSellers, getComplaint };
+// 블랙리스트 관리 페이지 이동
+const getBlacklist = () => {
+  axios.get(`${url}/blacklist`, { withCredentials: true });
+};
+
+// 블랙리스트 추가
+const updateBlacklist = (userId) => {
+  axios.patch(`${url}/blacklist`, userId, { withCredentials: true });
+};
+
+// 거래내역 조회 페이지 이동
+const getOrderLogs = () =>
+  axios.get(`${url}/orderlogs`, { withCredentials: true });
+
+export {
+  getUsers,
+  getSellers,
+  getComplaint,
+  getBlacklist,
+  updateBlacklist,
+  getOrderLogs,
+};

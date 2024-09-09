@@ -206,7 +206,7 @@ export default function OrderPage() {
               <div className="order-addr">
                 <div>주소&nbsp;</div>
                 <div>
-                  <span>{`(${addressInfo.zipCode}) ${addressInfo.address} ${addressInfo.detailedAddress}`}</span>
+                  <span>{`(${addressInfo.zipCode}) ${addressInfo.address} ${addressInfo.detailedAddress ? addressInfo.detailedAddress : ''}`}</span>
                 </div>
               </div>
             </div>
