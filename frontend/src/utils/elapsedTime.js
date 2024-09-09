@@ -21,8 +21,13 @@ const elapsedTime = (date) => {
   const days = hours / 24;
   if (days < 7) return `${Math.floor(days)}일 전`;
 
+  const year = start.getFullYear();
+  const month = start.getMonth() + 1;
+  const day = start.getDay();
+
+  const addZero = (num) => (num < 10 ? '0' + num : num);
   // 7일이 지나면 날짜로 표시
-  return `${start.toLocaleDateString()}`;
+  `${year}-${addZero(month)}-${addZero(day)}`;
 };
 
 export default elapsedTime;

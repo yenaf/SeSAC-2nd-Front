@@ -65,7 +65,6 @@ const sumDeliveryFee = (data) => {
       (item) => item.Post.sellStatus === '판매 중',
     );
     if (hasSellingItems) {
-      // const firstItem = cur.items[0];
       const firstItem = cur.items.find(
         (item) => item.Post.sellStatus === '판매 중',
       );
@@ -154,7 +153,6 @@ const cartSlice = createSlice({
       .addCase(loadCart.fulfilled, (state, action) => {
         console.log(state.cartData.length);
         state.loading = true;
-        if (state.cartData.length < 1) return;
         // 요청 성공
         state.cartData = groupBySeller(action.payload);
         state.totalAmount = sumAmount(state.cartData);
