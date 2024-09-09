@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
+import { UserContext } from '../hooks/useAuth';
 
 export default function SellersPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
@@ -14,6 +15,8 @@ export default function SellersPage() {
   } = useForm({
     mode: 'onBlur',
   });
+
+  const { sellerRegister } = useContext(UserContext);
 
   // 파일 체크 함수
   const fileExtCheck = (obj) => {
@@ -70,7 +73,9 @@ export default function SellersPage() {
         },
       });
       if (res.status === 200) {
+        console.log(res.data);
         alert('판매자 정보 등록이 완료되었습니다!');
+        sellerRegister(res.data.seller);
       } else {
         alert('판매자 정보 등록에 실패했습니다. 다시 시도해주세요.');
       }

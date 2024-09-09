@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import '../styles/pages/PostDetailPage.scss';
 import SwiperMagnify from '../components/SwiperMagnify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,6 +16,7 @@ import CartBtn from '../components/CartBtn';
 import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
 import axios from 'axios';
+import { UserContext } from '../hooks/useAuth';
 
 export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
@@ -27,10 +28,9 @@ export default function PostDetailPage() {
   const params = useParams();
   const id = params.postId;
 
-  // 세션에 userId, sellerId 저장되고 그값을 가져온다고 가정
-  // const sessionSellerId = sessionStorage.getItem('sellerId');
-  // const session = { user: { userId: 5, nickName: '로미' } };
   // 상세페이지의 수정삭제버튼은 세션의 sellerId와 post의 sellerid가 같을때 보여준다
+  // 찜, 장바구니,신고 구매하기 등 유저 아이디가 있어야 클릭가능
+  // 유저아이디없으면 입력클릭 기타등등 로그인후 가능
 
   // 상세페이지 data호출
   useEffect(() => {
@@ -61,6 +61,11 @@ export default function PostDetailPage() {
 
   // 찜 추가, 해제
   const handleChangeDibs = async () => {
+    if (!userId) {
+      alert('로그인 후 이용 가능합니다.');
+      return;
+    }
+
     const wishData = { userId: userId, postId: id };
     if (!isDibbed) {
       const res = await axios.post('http://localhost:8080/wishlist', wishData);
@@ -78,6 +83,10 @@ export default function PostDetailPage() {
 
   // 신고
   const handleReportClick = () => {
+    if (!userId) {
+      alert('로그인 후 이용 가능합니다.');
+      return;
+    }
     setIsModalOpen(true); // 모달 열기
   };
   const handleCloseModal = () => {
@@ -90,20 +99,22 @@ export default function PostDetailPage() {
 
   // 게시물 삭제
   const handleDeletePost = async () => {
-    const confirmDelete = window.confirm(
-      '정말로 이 게시물을 삭제하시겠습니까?',
-    );
-    if (confirmDelete) {
-      try {
-        const res = await axios
-          .patch(`http://localhost:8080/posts/delete/${id}`)
-          .then((res) => {
-            alert('게시물이 삭제되었습니다.');
-            navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
-          });
-      } catch (error) {
-        console.error('게시물 삭제 중 오류 발생:', error);
-        alert('게시물 삭제에 실패했습니다.');
+    if (sellStatus === '판매 중') {
+      const confirmDelete = window.confirm(
+        '정말로 이 게시물을 삭제하시겠습니까?',
+      );
+      if (confirmDelete) {
+        try {
+          const res = await axios
+            .patch(`http://localhost:8080/posts/delete/${id}`)
+            .then((res) => {
+              alert('게시물이 삭제되었습니다.');
+              navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
+            });
+        } catch (error) {
+          console.error('게시물 삭제 중 오류 발생:', error);
+          alert('게시물 삭제에 실패했습니다.');
+        }
       }
     }
   };
@@ -131,7 +142,6 @@ export default function PostDetailPage() {
         // sellerImg가 안옴
         sellerName,
       },
-      Comments,
     },
     isInWishlist,
     session: { nickname, profileImg, sellerId: sessionSellerId, userId },
@@ -190,7 +200,11 @@ export default function PostDetailPage() {
                     onClick={handleChangeDibs}
                     style={{ color: isDibbed ? '#ba357e' : '#c9c9c9' }}
                   />
-                  <CartBtn post={id} />
+                  <CartBtn
+                    post={id}
+                    sellStatus={sellStatus}
+                    sellerId={sellerId}
+                  />
                 </div>
               </div>
             </div>
@@ -205,7 +219,10 @@ export default function PostDetailPage() {
               {/* 판매자 img+nickname */}
               <div className="seller-info">
                 <div className="seller-profile">
-                  <img src={`${sellerImg}`} className="seller-img" />
+                  <img
+                    src={sellerImg || '/img/duck.jpg'}
+                    className="seller-img"
+                  />
                 </div>
                 <h3>{sellerName}</h3>
               </div>
@@ -248,14 +265,14 @@ export default function PostDetailPage() {
             </div>
           </section>
           {/* 댓글 */}
-          <Comment
+          {/* <Comment
             postId={id}
             sessionSellerId={sessionSellerId}
             userId={userId}
             nickname={nickname}
             profileImg={profileImg}
             Comments={Comments}
-          />
+          /> */}
         </div>
       )}
     </>

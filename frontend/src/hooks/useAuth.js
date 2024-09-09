@@ -15,7 +15,6 @@ export function UserProvider({ children }) {
   useEffect(() => {
     const storedUser = sessionStorage.getItem('user');
     const userInfo = JSON.parse(storedUser);
-    console.log('저장', storedUser);
     if (userInfo) {
       dispatch(
         loginFn({
@@ -112,8 +111,26 @@ export function UserProvider({ children }) {
     sessionStorage.removeItem('user');
   };
 
+  // 판매자 등록
+  const sellerRegister = (userData) => {
+    setUser(userData);
+    setLoading(false);
+    dispatch(
+      loginFn({
+        isLogin: true,
+        isAdmin: userData.admin || false,
+        isSeller: true,
+        isBlackList: true,
+        headerMenu: 'user',
+      }),
+    );
+    sessionStorage.setItem('user', JSON.stringify(userData));
+  };
+
   return (
-    <UserContext.Provider value={{ user, login, logout, loading }}>
+    <UserContext.Provider
+      value={{ user, login, logout, loading, sellerRegister }}
+    >
       {children}
     </UserContext.Provider>
   );
