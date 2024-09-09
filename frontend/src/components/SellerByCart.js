@@ -72,7 +72,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
             {items.map((val, idx) => (
               <li key={val.postId} className="cartItem">
                 <div className="cartItem-check">
-                  {val.Post.sellStatus === '판매중' ? (
+                  {val.Post.sellStatus === '판매 중' ? (
                     <input
                       type="checkbox"
                       defaultChecked
@@ -91,12 +91,12 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                 </div>
                 <figure
                   className={
-                    val.Post.sellStatus === '판매중'
+                    val.Post.sellStatus === '판매 중'
                       ? `cartItem-img`
                       : `cartItem-img sellDone`
                   }
                 >
-                  {val.Post.sellStatus === '판매중' ? null : (
+                  {val.Post.sellStatus === '판매 중' ? null : (
                     <div className="img-filter">
                       <div className="img-label">{val.Post.sellStatus}</div>
                     </div>
@@ -123,7 +123,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                   <div className="cartItem-price">
                     가격 : {priceToString(val.Post.productPrice)}원
                   </div>
-                  {val.Post.sellStatus === '판매중' ? null : (
+                  {val.Post.sellStatus === '판매 중' ? null : (
                     <div className="cartItem-sellStatus">
                       구매할 수 없는 상품입니다.
                     </div>
