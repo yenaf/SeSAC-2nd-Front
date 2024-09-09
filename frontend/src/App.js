@@ -30,6 +30,7 @@ import NonLoginRoute from './layout/routes/NonLoginRoute';
 import AdminRoute from './layout/routes/AdminRoute';
 import SellerRoute from './layout/routes/SellerRoute';
 import EditUserPage from './pages/EditUserPage';
+import OrderHistoryPage from './pages/OrderHistoryPage';
 
 function App() {
   return (
@@ -106,6 +107,11 @@ function App() {
                   path="/mypage/salehistory"
                   element={<ProtectedRoute element={SellListPage} />}
                   requiredRole="seller"
+                />
+                {/* 구매내역 리스트 페이지 */}
+                <Route
+                  path="/mypage/orderhistory"
+                  element={<ProtectedRoute element={OrderHistoryPage} />}
                 />
                 {/* 관리자페이지 */}
                 <Route path="/admin" element={<AdminRoute element={Admin} />}>

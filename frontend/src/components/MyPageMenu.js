@@ -8,7 +8,9 @@ export default function MyPageMenu() {
         <li>
           <Link to="/mypage">전체보기</Link>
         </li>
-        <li>구매내역</li>
+        <li>
+          <Link to="/mypage/orderhistory">구매내역</Link>
+        </li>
         {/* 판매자의 주문번호 별로 */}
         <li>
           <Link to="/mypage/salehistory">판매내역</Link>
