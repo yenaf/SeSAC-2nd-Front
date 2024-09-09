@@ -262,8 +262,14 @@
 
 // 스와이퍼 디자인
 .product-img {
+  @include unablePurcheaseItem;
   .mySwiper2 {
-    border-radius: 2rem;
+    border-radius: 1rem;
+    .img-label {
+      top: 5px;
+      left: 5px;
+      border-radius: 0.5rem;
+    }
   }
   .swiper {
     --swiper-navigation-color: #ffffff00;
@@ -569,6 +575,9 @@
   overflow: hidden;
   margin-bottom: 2rem;
   @include userView;
+  .lock-icon {
+    margin-left: 1rem;
+  }
   .text-box {
     width: 100%;
     padding: 0 1rem;
@@ -584,7 +593,7 @@
       resize: none;
       border: none;
       &:focus {
-        outline: none;
+        outline: transparent;
       }
     }
     time {
@@ -602,6 +611,7 @@
     .comment-edit-icon {
       color: $main-color;
       cursor: pointer;
+      font-size: 1.8rem;
     }
   }
   .comment-complete-btn {

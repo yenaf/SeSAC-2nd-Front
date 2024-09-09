@@ -14,7 +14,7 @@ import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 // 판매자가 등록한 이미지
 const imageUrls = [];
 
-export default function SwiperMagnify({ productImg }) {
+export default function SwiperMagnify({ productImg, sellStatus }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
 
@@ -39,7 +39,16 @@ export default function SwiperMagnify({ productImg }) {
       >
         {imageUrls.map((url, index) => (
           <SwiperSlide key={index}>
-            <img src={url} alt={`nature-${index + 1}`} className="swiper-img" />
+            <img
+              src={url}
+              alt={`nature-${index + 1}`}
+              className="swiper-img item-img"
+            />
+            {sellStatus === '판매 중' ? null : (
+              <div className="img-filter">
+                <div className="img-label">{sellStatus}</div>
+              </div>
+            )}
           </SwiperSlide>
         ))}
       </Swiper>

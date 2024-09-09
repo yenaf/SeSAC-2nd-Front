@@ -167,7 +167,10 @@ export default function PostDetailPage() {
             {/* 상품이미지 */}
             <div className="post-top">
               <div className="product-img">
-                <SwiperMagnify productImg={Product_Images} />
+                <SwiperMagnify
+                  productImg={Product_Images}
+                  sellStatus={sellStatus}
+                />
               </div>
               {/* 우측 나열될 정보 */}
               <div className="product-info">
@@ -265,14 +268,12 @@ export default function PostDetailPage() {
             </div>
           </section>
           {/* 댓글 */}
-          {/* <Comment
+          <Comment
             postId={id}
-            sessionSellerId={sessionSellerId}
-            userId={userId}
-            nickname={nickname}
-            profileImg={profileImg}
-            Comments={Comments}
-          /> */}
+            postSellerId={sellerId}
+            postSellerImg={sellerImg}
+            postSellerName={sellerName}
+          />
         </div>
       )}
     </>
