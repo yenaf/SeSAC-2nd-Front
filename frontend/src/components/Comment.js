@@ -190,6 +190,22 @@ export default function Comment({
     }
   }
 
+  // 대댓글 삭제
+  async function handleReplyDelete(comId) {
+    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      return;
+    }
+    try {
+      const res = await axios.patch(
+        `http://localhost:8080/comments/reply/delete/${comId}`,
+      );
+
+      getCommentList();
+    } catch (error) {
+      console.error('대댓글 삭제 실패:', error);
+    }
+  }
+
   useEffect(() => {
     getCommentList();
   }, [postId]);
@@ -237,7 +253,10 @@ export default function Comment({
           <li key={index}>
             <div className="comment-item">
               <div className="user-wrap">
-                <img src={profileImg || '/img/user.jpg'} className="user-img" />
+                <img
+                  src={comment.User.profileImg || '/img/user.jpg'}
+                  className="user-img"
+                />
                 <h3 className="nickname">
                   {comment.User.nickname}
                   {comment.isSecret && (
@@ -385,35 +404,42 @@ export default function Comment({
                         src={reply.User.profileImg || '/img/user.jpg'}
                         className="user-img"
                       />
-                      <h3 className="nickname">{reply.User.nickname}</h3>
+                      <h3 className="nickname">
+                        {reply.User.nickname}{' '}
+                        {reply.isSecret && (
+                          <FontAwesomeIcon
+                            icon={faLock}
+                            className="lock-icon"
+                          />
+                        )}
+                      </h3>
                     </div>
                     <div className="text-box">
                       <textarea
                         className="comment-text"
                         value={
-                          isEditing === comment.comId
+                          isEditing === reply.comId
                             ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
-                            : comment.isSecret &&
-                                userId !== comment.User.userId &&
+                            : reply.isSecret &&
+                                userId !== reply.User.userId &&
                                 postSellerId !== sellerId
                               ? '비밀 댓글입니다.' // 비밀 댓글일 경우
                               : reply.comContent
                         }
                         onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
-                        readOnly={isEditing !== comment.comId} // 수정 중인 댓글만 수정 가능하게
+                        readOnly={isEditing !== reply.comId} // 수정 중인 댓글만 수정 가능하게
                         onKeyDown={(e) => handleKeyDown(e, comment.comId)}
                       />
-                      {/* <p className="comment-text">{reply.comContent}</p> */}
                       <time>{formatDate(reply.createdAt)}</time>
                     </div>
                     <div className="comment-complete-btn">
-                      {userId === comment.User.userId && (
+                      {userId === reply.User.userId && (
                         <div className="comment-edit-wrap">
-                          {isEditing === comment.comId ? (
+                          {isEditing === reply.comId ? (
                             <button
                               title="저장"
                               className="comment-edit-icon"
-                              onClick={() => handleUpdateComment(comment.comId)}
+                              onClick={() => handleUpdateComment(reply.comId)}
                             >
                               <FontAwesomeIcon icon={faCheck} />
                             </button>
@@ -423,8 +449,8 @@ export default function Comment({
                                 title="수정"
                                 onClick={() =>
                                   handleEditComment(
-                                    comment.comId,
-                                    comment.comContent,
+                                    reply.comId,
+                                    reply.comContent,
                                   )
                                 }
                               >
@@ -436,7 +462,7 @@ export default function Comment({
                               <button
                                 title="삭제"
                                 onClick={() => {
-                                  handleDeleteComment(comment.comId);
+                                  handleReplyDelete(reply.comId);
                                 }}
                               >
                                 <FontAwesomeIcon
