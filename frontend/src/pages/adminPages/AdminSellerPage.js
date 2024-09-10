@@ -18,7 +18,6 @@ export default function AdminSellerPage() {
   const fetchSellers = async () => {
     try {
       const res = await getSellers();
-      console.log(res.data);
       if (res.status === 200) {
         setSellerList(res.data);
         setSellerCount(res.data.length);
