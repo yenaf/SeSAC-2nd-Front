@@ -98,7 +98,7 @@ export default function Header() {
         withCredentials: true,
       });
 
-      console.log(res.data);
+      // console.log(res.data);
       // 판매자 정보 없으면
       if (res.data.isSeller === false && res.data.isBlacklist === false) {
         const confirmSellerRegi = window.confirm(res.data.message);
@@ -109,7 +109,10 @@ export default function Header() {
         }
       }
       // 블랙리스트 여부 확인
-      if (res.data.isSeller === false && res.data.isBlacklist === true) {
+      if (
+        (res.data.isSeller === false && res.data.isBlacklist === true) ||
+        (res.data.isSeller === true && res.data.isBlacklist === true)
+      ) {
         alert(res.data.message);
       }
 
