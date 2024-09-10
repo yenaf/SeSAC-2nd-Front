@@ -1,9 +1,13 @@
 @import '../common/reset';
 @import '../common/variables';
 @import '../common/utils';
-@import './Delivery.scss';
+@import './Address.scss';
 
 .order {
+  .order-addressSelect {
+    display: none;
+    @include modalSetting;
+  }
   .order-title {
     font-size: min(5vw, 3rem);
     text-align: center;

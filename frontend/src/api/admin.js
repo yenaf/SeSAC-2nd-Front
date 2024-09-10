@@ -13,14 +13,12 @@ const getComplaint = (sellId) =>
   axios.get(`${url}/complaint/${sellId}`, { withCredentials: true });
 
 // 블랙리스트 관리 페이지 이동
-const getBlacklist = () => {
+const getBlacklist = () =>
   axios.get(`${url}/blacklist`, { withCredentials: true });
-};
 
 // 블랙리스트 추가
-const updateBlacklist = (userId) => {
+const updateBlacklist = (userId) =>
   axios.patch(`${url}/blacklist`, userId, { withCredentials: true });
-};
 
 // 거래내역 조회 페이지 이동
 const getOrderLogs = () =>

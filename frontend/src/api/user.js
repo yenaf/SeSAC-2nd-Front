@@ -14,4 +14,17 @@ const userLogout = () =>
     withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
   });
 
-export { userLogin, userLogout };
+const checkNickAtServer = async (nickname) =>
+  await axios.post(`${url}/user/checkNickname`, {
+    nickname,
+  });
+
+const updateUserInfo = async (userId, data) =>
+  await axios.patch(`${url}/user/${userId}`, data, {
+    withCredentials: true,
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  });
+
+export { userLogin, userLogout, checkNickAtServer, updateUserInfo };

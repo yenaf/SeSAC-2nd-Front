@@ -3,6 +3,7 @@ import cartReducer from './cartSliceTemp';
 import loginReducer from './loginSlice';
 import navigationReducer from './navigationSlice';
 import pageReducer from './pageSlice';
+import addressSlice from './addressSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     login: loginReducer,
     navigation: navigationReducer,
     page: pageReducer,
+    address: addressSlice,
   },
 });
 

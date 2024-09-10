@@ -12,10 +12,15 @@ import React, { useState, useEffect } from 'react';
 // }
 
 // AddressInput 컴포넌트
-export function AddressInput({ register, setValue, errors }) {
+export function AddressInput({ register, setValue, errors, defaultVal }) {
   const [zipCode, setZipCode] = useState('');
   const [address, setAddress] = useState('');
   const [detailedAddress, setDetailedAddress] = useState('');
+  const [zipcodeBox, setZipcodeBox] = useState({
+    zipcode: '',
+    address: '',
+    detailedAddress: '',
+  });
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
@@ -27,6 +32,22 @@ export function AddressInput({ register, setValue, errors }) {
       },
     }).open();
   };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때만 defaultVal로 초기화
+    if (defaultVal && !zipCode && !address && !detailedAddress) {
+      setZipCode(defaultVal.zipCode || '');
+      setAddress(defaultVal.address || '');
+      setDetailedAddress(defaultVal.detailedAddress || '');
+
+      // form 값도 초기화
+      setValue('zipCode', defaultVal.zipCode || '', { shouldValidate: true });
+      setValue('address', defaultVal.address || '', { shouldValidate: true });
+      setValue('detailedAddress', defaultVal.detailedAddress || '', {
+        shouldValidate: true,
+      });
+    }
+  }, [defaultVal, zipCode, address, detailedAddress, setValue]);
 
   return (
     <div className="register-input">
@@ -55,6 +76,7 @@ export function AddressInput({ register, setValue, errors }) {
         readOnly
         {...register('address', { required: '주소를 입력해주세요!' })}
       />
+      <br />
       <br />
       <input
         type="text"

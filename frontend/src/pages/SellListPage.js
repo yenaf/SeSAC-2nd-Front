@@ -22,7 +22,7 @@ export default function SellListPage() {
     }, {});
 
     return Object.keys(groupByOrderData).map((key) => ({
-      allOrderId: parseInt(key, 10),
+      allOrderId: key,
       items: groupByOrderData[key],
     }));
   };

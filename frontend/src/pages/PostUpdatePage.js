@@ -29,6 +29,7 @@ export default function PostUpdatePage() {
       try {
         const res = await getPostforEdit(postId);
         setPostData(res.data);
+        // Set initial values
         setValue('postTitle', res.data.post.postTitle);
         setValue('productPrice', res.data.post.productPrice);
         setValue('postContent', res.data.post.postContent);
@@ -58,6 +59,9 @@ export default function PostUpdatePage() {
   }, [textValue, setValue]);
 
   const onSubmit = async (data) => {
+    // userId가 있어야 판매하기가 보여짐
+    // 만약에 userId는 있고, sellerId가 없는 상태에서 판매하기 버튼을 부르면 판매자 등록페이지로 이동
+    // sellerId는 session에서 가져오기
     let sellerId;
     const userString = window.sessionStorage.getItem('user');
     if (userString) {
@@ -67,6 +71,7 @@ export default function PostUpdatePage() {
     } else {
       console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
     }
+    updateData.append('sellerId', sellerId);
 
     const updateData = new FormData();
 
@@ -75,7 +80,6 @@ export default function PostUpdatePage() {
         updateData.append(key, data[key]);
       }
     });
-    updateData.append('sellerId', sellerId);
 
     if (data.imgName) {
       for (let i = 0; i < data.imgName.length; i++) {
@@ -211,7 +215,9 @@ export default function PostUpdatePage() {
             <button type="button" onClick={onCancel}>
               취소
             </button>
-            <button type="submit">수정</button>
+            <button type="submit" onClick={onSubmit}>
+              수정
+            </button>
           </div>
         </form>
       </section>
