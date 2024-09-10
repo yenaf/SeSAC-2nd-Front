@@ -236,6 +236,8 @@
 .seller-title {
   margin-bottom: 30px;
   color: black;
+  display: flex;
+  justify-content: center;
 }
 
 .seller-img {
@@ -468,6 +470,61 @@
           color: red;
           margin-top: 20px;
         }
+      }
+    }
+  }
+}
+
+////////////////////////////////////////////////////////
+/// SellPostListPage
+///
+.mypage-content-container {
+  &.post-list {
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+  }
+  .postList-title {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    h2 {
+      color: black;
+      font-size: 2rem;
+    }
+  }
+  .post-list-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 5px 10px;
+  }
+  .post-list-content {
+    margin: 5px 10px;
+    .post-img {
+      width: 150px;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      img {
+        width: 100%;
+        object-fit: cover;
+      }
+    }
+    .post-list-text {
+      width: 150px;
+      margin-top: 10px;
+      h2 {
+        font-size: 15px;
+        margin-bottom: 5px;
+        word-wrap: break-word; // 줄바꿈
+        color: $main-color;
+      }
+      :first-child {
+        font-size: 12px;
+      }
+      :nth-child(2),
+      :nth-child(3) {
+        color: black;
       }
     }
   }

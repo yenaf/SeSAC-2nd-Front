@@ -31,6 +31,7 @@ import AdminRoute from './layout/routes/AdminRoute';
 import SellerRoute from './layout/routes/SellerRoute';
 import EditUserPage from './pages/EditUserPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
+import SellPostListPage from './pages/SellPostListPage';
 
 function App() {
   return (
@@ -107,6 +108,12 @@ function App() {
                   path="/mypage/salehistory"
                   element={<ProtectedRoute element={SellListPage} />}
                   requiredRole="seller"
+                />
+                {/* 판매글목록 페이지 */}
+                <Route
+                  path="/mypage/postlist"
+                  element={<ProtectedRoute element={SellPostListPage} />}
+                  // requiredRole="seller"
                 />
                 {/* 구매내역 리스트 페이지 */}
                 <Route

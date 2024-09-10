@@ -150,3 +150,5 @@ export default function OrderHistoryPage() {
     </div>
   );
 }
+
+// 상품이 환불처리되었습니다. (신고가 누적된 판매자)
