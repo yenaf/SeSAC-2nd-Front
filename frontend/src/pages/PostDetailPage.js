@@ -67,7 +67,7 @@ export default function PostDetailPage() {
     }
 
     const wishData = { userId: userId, postId: id };
-    if (!isDibbed) {
+    if (isDibbed === null) {
       // 찜등록
       const res = await axios.post('http://localhost:8080/wishlist', wishData);
       const newWishlistId = res.data.wishlistId;
@@ -76,7 +76,7 @@ export default function PostDetailPage() {
     } else {
       // 찜삭제
       const res = await axios.delete(
-        `http://localhost:8080/wishlist/${wishlistId}`,
+        `http://localhost:8080/wishlist/${isInWishlist.wishlistId}`,
       );
       console.log('wishlist delete>>', res);
     }
