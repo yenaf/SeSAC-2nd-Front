@@ -68,15 +68,17 @@ export default function PostDetailPage() {
 
     const wishData = { userId: userId, postId: id };
     if (!isDibbed) {
+      // 찜등록
       const res = await axios.post('http://localhost:8080/wishlist', wishData);
       const newWishlistId = res.data.wishlistId;
       setWishlistId(newWishlistId);
-      console.log(res);
+      console.log('wishlist add>>', res);
     } else {
+      // 찜삭제
       const res = await axios.delete(
         `http://localhost:8080/wishlist/${wishlistId}`,
       );
-      console.log(res);
+      console.log('wishlist delete>>', res);
     }
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
