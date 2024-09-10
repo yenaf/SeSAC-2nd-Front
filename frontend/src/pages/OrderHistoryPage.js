@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MyPageMenu from '../components/MyPageMenu'; // 컴포넌트
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function OrderHistoryPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
@@ -94,50 +95,83 @@ export default function OrderHistoryPage() {
               <div id="order-list">
                 {orderData.map((order, index) => (
                   <div key={index} className="order-list-content">
-                    <div className="order-list-content-title">
-                      <h2>주문번호 : {order.allOrderId}</h2>
-                    </div>
-                    <div className="order-list-content-box">
-                      <div className="order-img">
-                        <img
-                          src={`${imgUrl}${order.Post.Product_Images[0].imgName}`}
-                          alt="이미지"
-                        />
-                      </div>
-                      <div className="order-text">
-                        <h2>상품명 : {order.Post.postTitle}</h2>
-                        <h2>가격 : {order.Post.productPrice}</h2>
-                        <h2>배송상태 : {order.deliveryStatus}</h2>
+                    <Link to={`/posts/page/${order.Post.postId}`}>
+                      <div className="order-list-content-title">
                         <h2>
-                          송장번호 : {order.invoiceNumber || '배송 전 입니다.'}
+                          <span className="txt-black">주문번호 : </span>
+                          <span className="txt-main">{order.allOrderId}</span>
                         </h2>
-
-                        {/* 배송 상태가 "배송 완료"일 때만 버튼 또는 메시지 표시 */}
-                        {order.deliveryStatus === '배송 완료' && (
-                          <>
-                            {/* 구매 확정되지 않은 경우 버튼 표시 */}
-                            {!order.isConfirmed ? (
-                              <div className="order-btn">
-                                <button
-                                  onClick={() =>
-                                    orderBtn(order.orderId, order.Post.postId)
-                                  } // orderId와 postId 전달
-                                  id="order-btn"
-                                >
-                                  구매확정하기
-                                </button>
-                              </div>
-                            ) : (
-                              <div className="order-btn">
-                                <p className="order-msg">
-                                  이미 구매 확정되었습니다.
-                                </p>
-                              </div>
-                            )}
-                          </>
-                        )}
                       </div>
-                    </div>
+                      <div className="order-list-content-box">
+                        <div className="order-img">
+                          <img
+                            src={`${imgUrl}${order.Post.Product_Images[0].imgName}`}
+                            alt="이미지"
+                            className={
+                              order.logStatus === '환불' ? 'refund' : ''
+                            }
+                          />
+                        </div>
+                        <div className="order-text">
+                          <h2>
+                            <span className="txt-black">상품명 :</span>{' '}
+                            <span className="txt-main">
+                              {order.Post.postTitle}
+                            </span>
+                          </h2>
+                          <h2>
+                            <span className="txt-black">가격 :</span>{' '}
+                            <span className="txt-main">
+                              {order.Post.productPrice.toLocaleString()} 원
+                            </span>
+                          </h2>
+                          <h2>
+                            <span className="txt-black">배송상태 :</span>{' '}
+                            <span className="txt-main">
+                              {order.deliveryStatus}
+                            </span>
+                          </h2>
+                          <h2>
+                            <span className="txt-black">송장번호 :</span>{' '}
+                            <span className="txt-main">
+                              {order.invoiceNumber || '배송 전 입니다.'}
+                            </span>
+                          </h2>
+
+                          {/* 환불된 상품인 경우 메시지 표시 */}
+                          {order.logStatus === '환불' && (
+                            <p className="refund-msg">
+                              상품이 환불 처리되었습니다. (신고 누적된 판매자)
+                            </p>
+                          )}
+
+                          {/* 배송 상태가 "배송 완료"일 때만 버튼 또는 메시지 표시 */}
+                          {order.deliveryStatus === '배송 완료' && (
+                            <>
+                              {/* 구매 확정되지 않은 경우 버튼 표시 */}
+                              {!order.isConfirmed ? (
+                                <div className="order-btn">
+                                  <button
+                                    onClick={() =>
+                                      orderBtn(order.orderId, order.Post.postId)
+                                    } // orderId와 postId 전달
+                                    id="order-btn"
+                                  >
+                                    구매확정하기
+                                  </button>
+                                </div>
+                              ) : (
+                                <div className="order-btn">
+                                  <p className="order-msg">
+                                    이미 구매 확정되었습니다.
+                                  </p>
+                                </div>
+                              )}
+                            </>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -151,4 +185,5 @@ export default function OrderHistoryPage() {
   );
 }
 
-// 상품이 환불처리되었습니다. (신고가 누적된 판매자)
+// 상품이 환불 처리되었습니다. (신고 누적된 판매자)
+// userId 2번으로 로그인 햇을 때 orderId 9번이 환불이 떠야함.
