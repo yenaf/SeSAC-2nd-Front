@@ -632,6 +632,10 @@
 .reply-input-wrap {
   width: 90%;
   margin-left: 10%;
+}
+.replies-wrap {
+  width: 90%;
+  margin-left: 10%;
   .reply-item {
     position: relative;
     background-color: #fff7f7;
@@ -639,7 +643,7 @@
       transform: rotate(90deg);
       position: absolute;
       top: 20%;
-      left: -5%;
+      left: -8%;
       font-size: 3rem;
       color: $border-color;
     }
