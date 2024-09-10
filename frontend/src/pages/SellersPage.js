@@ -4,6 +4,7 @@ import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
 import { UserContext } from '../hooks/useAuth';
+import { postSellerData } from '../api/seller';
 
 export default function SellersPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
@@ -66,12 +67,8 @@ export default function SellersPage() {
     }
 
     try {
-      const res = await axios.post('http://localhost:8080/sellers', formData, {
-        withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
+      const res = await postSellerData(formData);
+
       if (res.status === 200) {
         console.log(res.data);
         alert('판매자 정보 등록이 완료되었습니다!');

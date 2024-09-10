@@ -144,7 +144,10 @@ export default function SellListPage() {
                     <div id="sell-list">
                       <div className="sell-list-content">
                         <div className="sell-list-content-title">
-                          <h2>주문번호 : {val.allOrderId}</h2>
+                          <h2>
+                            <span className="txt-black">주문번호 :</span>{' '}
+                            {val.allOrderId}
+                          </h2>
                         </div>
                         {val.items.map((item, idx) => (
                           <div key={idx} className="sell-list-content-box">
@@ -156,10 +159,14 @@ export default function SellListPage() {
                             </div>
                             <div className="sell-list-text">
                               <h2>
-                                상품명 : {item.Post?.postTitle || '상품명 없음'}
+                                <span className="txt-black">상품명 :</span>{' '}
+                                {item.Post?.postTitle || '상품명 없음'}
                               </h2>
                               <h2>
-                                가격 : {item.Post?.productPrice || '가격 없음'}
+                                <span className="txt-black">가격 :</span>{' '}
+                                {item.Post?.productPrice.toLocaleString() ||
+                                  '가격 없음'}{' '}
+                                원
                               </h2>
                               <input
                                 type="hidden"
@@ -192,7 +199,7 @@ export default function SellListPage() {
                           <form id="invoice-number-container" noValidate>
                             <h2 className="sell-status">
                               판매 상태 :
-                              <span> {val.items[0]?.Post?.sellStatus}</span>
+                              <span>{val.items[0]?.Post?.sellStatus}</span>
                             </h2>
                             <h2>송장번호 입력</h2>
                             <div className="invoice-content">

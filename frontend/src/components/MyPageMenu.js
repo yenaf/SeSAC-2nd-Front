@@ -1,7 +1,21 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function MyPageMenu() {
+  const [sellerId, setSellerId] = useState();
+  useEffect(() => {
+    const userString = window.sessionStorage.getItem('user');
+    if (userString) {
+      const user = JSON.parse(userString);
+      setSellerId(user.sellerId);
+    } else {
+      console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
+    }
+  }, [sellerId]);
+
+  // if (!sellerId) {
+  //   return <div>로딩 중...</div>;
+  // }
   return (
     <nav className="mypage-list-container display-big">
       <ul>
@@ -19,19 +33,28 @@ export default function MyPageMenu() {
         <li>
           <Link to="/mypage/postlist">판매글목록</Link>
         </li>
-        <li>찜목록</li>
+        <li>
+          <Link to="/mypage/wishlist">찜목록</Link>
+        </li>
         <li>리블링머니</li>
         <li>
-          회원정보수정
+          회원정보
           <ul className="mypage-edit">
             <li>
               <Link to="/mypage/editUser">- 개인정보수정</Link>
             </li>
             <li>- 배송지관리</li>
+            {sellerId ? (
+              ''
+            ) : (
+              <li>
+                <Link to="/sellers">- 판매자정보등록</Link>
+              </li>
+            )}
+
             <li>
-              <Link to="/sellers">판매자정보등록</Link>
+              <Link to="/sellers/editSeller">- 판매자정보수정</Link>
             </li>
-            <li>- 판매자정보수정</li>
             <li>- 회원탈퇴</li>
           </ul>
         </li>
