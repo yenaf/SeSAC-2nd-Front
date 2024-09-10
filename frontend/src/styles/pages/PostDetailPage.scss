@@ -542,6 +542,11 @@
         z-index: -10;
         opacity: 0;
       }
+      #reSecret {
+        position: absolute;
+        z-index: -10;
+        opacity: 0;
+      }
       &.active {
         color: #272727;
       }
