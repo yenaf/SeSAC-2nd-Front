@@ -31,7 +31,7 @@ export default function AdminBlacklistPage() {
         </thead>
         <tbody>
           {blacklist ? (
-            blacklist.length > 0 ? (
+            blacklist.length > 0 && blacklist[0].userId ? (
               blacklist.map((list, idx) => (
                 <tr key={idx}>
                   <td>{list.loginId}</td>

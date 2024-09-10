@@ -56,6 +56,7 @@ export function AddressInput({ register, setValue, errors }) {
         {...register('address', { required: '주소를 입력해주세요!' })}
       />
       <br />
+      <br />
       <input
         type="text"
         id="detailedAddress"
