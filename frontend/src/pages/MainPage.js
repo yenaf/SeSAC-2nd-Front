@@ -10,6 +10,7 @@ import {
   faHeart,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
 // 메인 페이지
 export default function MainPage() {
@@ -22,23 +23,12 @@ export default function MainPage() {
 
   const fetchRecentPosts = async () => {
     try {
-      const res = await getPostLists(1, null, 'latest'); // 카테고리 ID를 null로 설정하여 모든 상품을 가져옴
-      const { postList } = res.data;
+      const res = await axios.get(`http://localhost:8080`);
+      const { newPostList, lowPriceList } = res.data;
 
-      const recentFilteredList = postList
-        .filter((item) => item.sellStatus !== '판매 완료')
-        .slice(0, 8);
+      const randomItems = getRandomItems(lowPriceList, 8);
 
-      const tenThousandList = postList.filter(
-        (item) =>
-          item.sellStatus !== '판매 완료' &&
-          item.productPrice >= 0 &&
-          item.productPrice <= 19900,
-      );
-
-      const randomItems = getRandomItems(tenThousandList, 8);
-
-      setRecentListData(recentFilteredList);
+      setRecentListData(newPostList);
       setTenThousandListData(randomItems);
     } catch (err) {
       console.error(err);

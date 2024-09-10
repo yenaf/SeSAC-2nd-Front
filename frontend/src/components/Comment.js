@@ -23,9 +23,10 @@ export default function Comment({
   const [charCount, setCharCount] = useState(0);
   const [reCharCount, setReCharCount] = useState(0);
   const [isSecret, setIsSecret] = useState(false);
-  const [activeReplyIndex, setActiveReplyIndex] = useState(null);
+  const [isReSecret, setIsReSecret] = useState(false);
   const [isEditing, setIsEditing] = useState(null);
   const [editingCommentText, setEditingCommentText] = useState('');
+  const [replyVisible, setReplyVisible] = useState({}); // 각 댓글에 대한 대댓글 입력창 표시 여부
 
   // 댓글 목록 조회
   async function getCommentList() {
@@ -109,6 +110,7 @@ export default function Comment({
     }
   }
 
+  // 해당 댓글의 대댓글 입력창 토글
   const handleEditComment = (comId, currentContent) => {
     setEditingCommentText(currentContent);
     setIsEditing(comId);
@@ -150,6 +152,10 @@ export default function Comment({
     setIsSecret(!isSecret);
   };
 
+  const toggleReSecret = () => {
+    setIsReSecret(!isReSecret);
+  };
+
   // userId가 있을때만 댓글에 접근가능
   const userCheck = () => {
     if (!userId) {
@@ -157,6 +163,34 @@ export default function Comment({
       return;
     }
   };
+
+  // 해당 댓글의 대댓글 입력창 토글
+  const handleReplyToggle = (commentId) => {
+    setReplyVisible((prev) => ({
+      ...prev,
+      [commentId]: !prev[commentId],
+    }));
+  };
+
+  // 대댓글 등록
+  async function handleReplySubmit(comId) {
+    try {
+      const res = await axios.post(
+        `http://localhost:8080/comments/reply/${comId}`,
+        { postId: postId, comContent: replyText, isSecret: isSecret },
+        {
+          withCredentials: true,
+        },
+      );
+      console.log('대댓글>>', res.data);
+      getCommentList();
+      setReplyText('');
+      setIsEditing(null);
+      setReplyVisible('');
+    } catch (error) {
+      console.error('대댓글 등록 실패:', error);
+    }
+  }
 
   useEffect(() => {
     getCommentList();
@@ -247,7 +281,7 @@ export default function Comment({
                 <div className="comment-complete-btn">
                   <button
                     className="reply-btn"
-                    // onClick={() => handleInputReply(index, comment.comId)}
+                    onClick={() => handleReplyToggle(comment.comId)}
                   >
                     <FontAwesomeIcon
                       icon={faArrowTurnUp}
@@ -295,6 +329,69 @@ export default function Comment({
                   </div>
                 )}
               </div>
+              {/* 대댓글 입력창 */}
+              {replyVisible[comment.comId] && (
+                <ul className="replt-list">
+                  <li className="reply-input-wrap">
+                    <div className="comment-wrap" onMouseDown={userCheck}>
+                      <div className="user-wrap">
+                        <img
+                          src={
+                            postSellerId === sellerId
+                              ? postSellerImg
+                              : profileImg || '/img/duck.jpg'
+                          }
+                          className="user-img"
+                        />
+                        <h3 className="nickname">
+                          {postSellerId === sellerId
+                            ? postSellerName
+                            : nickname}
+                        </h3>
+                      </div>
+                      <div className="textarea-box">
+                        <textarea
+                          className="comment-text"
+                          placeholder={
+                            isSecret
+                              ? '비밀댓글 입니다'
+                              : '댓글을 입력해주세요.'
+                          }
+                          value={replyText}
+                          onChange={handleReplyChange}
+                        />
+                        <span className="char-count">{reCharCount} / 100</span>
+                      </div>
+                      <div className="comment-btn-wrap">
+                        <label
+                          className={`lock-comment ${isSecret ? 'active' : ''}`}
+                          htmlFor="secret"
+                        >
+                          <FontAwesomeIcon
+                            icon={faLock}
+                            className="lock-icon"
+                          />
+                          <input
+                            type="checkbox"
+                            id="secret"
+                            checked={isSecret}
+                            onChange={toggleSecret}
+                          />
+                          비밀 댓글
+                        </label>
+                        <button
+                          className="comment-btn"
+                          onClick={() => {
+                            handleReplySubmit(comment.comId);
+                          }}
+                        >
+                          등록
+                        </button>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              )}
             </li>
           ))}
         </ul>
