@@ -6,9 +6,11 @@ export default function AdminBlacklistPage() {
   useEffect(() => {
     fetchBlacklist();
   }, []);
+
   const fetchBlacklist = async () => {
     try {
       const res = await getBlacklist();
+      console.log(res);
       if (res.status === 200) {
         setBlacklist(res.data);
       }
@@ -29,7 +31,7 @@ export default function AdminBlacklistPage() {
         </thead>
         <tbody>
           {blacklist ? (
-            blacklist.length > 0 ? (
+            blacklist.length > 0 && blacklist[0].userId ? (
               blacklist.map((list, idx) => (
                 <tr key={idx}>
                   <td>{list.loginId}</td>

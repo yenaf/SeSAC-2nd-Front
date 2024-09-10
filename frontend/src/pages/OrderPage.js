@@ -5,8 +5,9 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import priceToString from '../utils/priceMethods';
 import SellerByOrder from '../components/SellerByOrder';
 import '../styles/pages/OrderPage.scss';
-import DeliverySelect from '../components/DeliverySelect';
-import { loadOrder, sellerByOrder } from '../store/cartSliceTemp';
+import AddressSelect from '../components/AddressSelect';
+import { sellerByOrder } from '../store/cartSliceTemp';
+import { fetchAddList } from '../store/addressSlice';
 import { postOrderData } from '../api/cart';
 import { getAddressList } from '../api/address';
 
@@ -18,6 +19,7 @@ export default function OrderPage() {
     orderTotalDeliveryFee,
     orderTotalPayment,
   } = useSelector((state) => state.cart);
+
   const navigate = useNavigate();
   const location = useLocation();
   const orderData = location.state;
@@ -25,8 +27,8 @@ export default function OrderPage() {
   const { userInfo, addressInfo, postInfo } = orderData;
   const [orderCheck, setOrderCheck] = useState('');
   const [balanceComment, setBalanceComment] = useState('');
-  const [address, setAddress] = useState([]);
   const balanceInputRef = useRef();
+  const addressModelRef = useRef();
 
   const dispatch = useDispatch();
 
@@ -137,14 +139,16 @@ export default function OrderPage() {
     }
   };
 
-  // 배송지 변경
+  // 배송지 변경 버튼 클릭
   const changeAdress = async (e) => {
-    const deliveryContainer = document.querySelector('.delivery-container');
-    deliveryContainer.style.display = 'block';
+    const addressContainer = addressModelRef.current;
+    addressContainer.style.display = 'block';
     try {
       const res = await getAddressList();
-      console.log(res.data);
-      setAddress([...res.data]);
+      if (res.status === 200) {
+        dispatch(fetchAddList([...res.data]));
+        console.log(res.data);
+      }
     } catch (err) {
       console.error(err);
     }
@@ -264,7 +268,9 @@ export default function OrderPage() {
         </article>
       </div>
       {/* 배송지 변경 컴포넌트 */}
-      <DeliverySelect address={address} />
+      <div className="order-addressSelect" ref={addressModelRef}>
+        <AddressSelect />
+      </div>
     </div>
   );
 }

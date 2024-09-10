@@ -63,6 +63,8 @@ export default function Header() {
       // 회원가입 페이지 이동
       navigate('/user/register');
     } else if (path.includes('logout')) {
+      if (!confirm('로그아웃 하시겠습니까?')) return;
+
       // 로그아웃
       const res = await userLogout();
       if (res.status === 200) {

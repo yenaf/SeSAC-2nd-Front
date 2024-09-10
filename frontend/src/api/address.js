@@ -10,4 +10,22 @@ const getAddressList = () =>
 const insertAddress = (data) =>
   axios.post(`${url}`, data, { withCredentials: true });
 
-export { getAddressList };
+// 배송지 조회
+const getAddress = (addId) =>
+  axios.get(`${url}/${addId}`, { withCredentials: true });
+
+// 배송지 수정
+const updateAddress = (addId, data) =>
+  axios.patch(`${url}/${addId}`, data, { withCredentials: true });
+
+// 배송지 삭제
+const deleteAddress = (addId) =>
+  axios.delete(`${url}/${addId}`, { withCredentials: true });
+
+export {
+  getAddressList,
+  insertAddress,
+  getAddress,
+  updateAddress,
+  deleteAddress,
+};
