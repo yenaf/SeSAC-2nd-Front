@@ -4,14 +4,18 @@ const addressSlice = createSlice({
   name: 'address',
   initialState: {
     addressList: [],
+    addrValue: {},
   },
   reducers: {
     fetchAddList: (state, action) => {
       state.addressList = action.payload;
     },
+    readAddr: (state, action) => {
+      state.addrValue = action.payload;
+    },
   },
 });
 
-export const { fetchAddList } = addressSlice.actions;
+export const { fetchAddList, readAddr } = addressSlice.actions;
 
 export default addressSlice.reducer;

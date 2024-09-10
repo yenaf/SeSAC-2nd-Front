@@ -1,11 +1,25 @@
 import React from 'react';
 import { AddressInput } from './Register';
 import { useForm } from 'react-hook-form';
-import { insertAddress, getAddressList } from '../api/address';
-import { useDispatch } from 'react-redux';
+import { insertAddress, getAddressList, updateAddress } from '../api/address';
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchAddList } from '../store/addressSlice';
 
-export default function AddressInfo({ add }) {
+export default function AddressInfo({ addDone, status }) {
+  const { addrValue } = useSelector((state) => state.address);
+  console.log(addrValue);
+
+  const {
+    addName,
+    zipCode,
+    address,
+    detailedAddress,
+    isDefault,
+    phoneNum,
+    receiver,
+    addId,
+  } = addrValue;
+
   const {
     register,
     handleSubmit,
@@ -15,13 +29,13 @@ export default function AddressInfo({ add }) {
     setError,
   } = useForm({
     defaultValues: {
-      addName: '',
-      receiver: '',
-      phoneNum: '',
-      zipCode: '',
-      address: '',
-      detailedAddress: '',
-      isDefault: false,
+      addName: addName || '',
+      receiver: receiver || '',
+      phoneNum: phoneNum || '',
+      zipCode: zipCode || '',
+      address: address || '',
+      detailedAddress: detailedAddress || '',
+      isDefault: isDefault || false,
     },
   });
 
@@ -29,14 +43,24 @@ export default function AddressInfo({ add }) {
 
   const registerAddress = async (data) => {
     try {
-      const res = await insertAddress(data);
-      console.log(res.data);
-      if (res.status === 200) {
-        alert('배송지가 저장되었습니다.');
-        const addRes = await getAddressList();
-        dispatch(fetchAddList([...addRes.data]));
-        add();
+      if (status === 'add') {
+        const res = await insertAddress(data);
+        console.log(res.data);
+        if (res.status === 200) {
+          alert('배송지가 저장되었습니다.');
+          const addRes = await getAddressList();
+          dispatch(fetchAddList([...addRes.data]));
+        }
+      } else if (status === 'edit') {
+        const res = await updateAddress(addId, data);
+        console.log(res);
+        if (res.data.result) {
+          alert('배송지가 수정되었습니다.');
+          const addRes = await getAddressList();
+          dispatch(fetchAddList([...addRes.data]));
+        }
       }
+      addDone();
     } catch (err) {
       console.error(err);
     }
@@ -105,7 +129,9 @@ export default function AddressInfo({ add }) {
             name="isDefault"
             {...register('isDefault')}
           />
-          <label htmlFor="isDefault">기본 배송지로 저장</label>
+          <label htmlFor="isDefault" value={isDefault}>
+            기본 배송지로 저장
+          </label>
         </div>
         <button className="address-save">배송지 저장</button>
       </form>

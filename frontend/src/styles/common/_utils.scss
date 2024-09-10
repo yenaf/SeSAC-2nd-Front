@@ -39,6 +39,15 @@ main {
   }
 }
 
+@media screen and (max-width: $md) {
+  // 모바일뷰에서 스크롤바 숨기기
+  body {
+    -ms-overflow-style: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
 @media screen and (max-width: $sm) {
   main {
     padding-top: 5rem;

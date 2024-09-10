@@ -1,9 +1,9 @@
 import React from 'react';
-import { deleteAddress, getAddressList } from '../api/address';
+import { deleteAddress, getAddress, getAddressList } from '../api/address';
 import { useDispatch } from 'react-redux';
-import { fetchAddList } from '../store/addressSlice';
+import { fetchAddList, readAddr } from '../store/addressSlice';
 
-export default function AddressInfo({ infos, add }) {
+export default function AddressInfo({ infos, edit }) {
   const {
     addName,
     zipCode,
@@ -16,13 +16,23 @@ export default function AddressInfo({ infos, add }) {
   const dispatch = useDispatch();
 
   // 배송지 정보 수정
-  const modifyAddress = () => {};
+  const modifyAddress = async () => {
+    try {
+      const res = await getAddress(addId);
+      if (res.status === 200) {
+        dispatch(readAddr({ ...res.data, addId }));
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    edit();
+  };
   // 배송지 삭제
   const delAddress = async (e) => {
     if (confirm('주소지를 삭제하시겠습니까?')) {
       try {
         const res = await deleteAddress(addId);
-        if (res.data.true) {
+        if (res.data) {
           const addRes = await getAddressList();
           dispatch(fetchAddList([...addRes.data]));
         }
