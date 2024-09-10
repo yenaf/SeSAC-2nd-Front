@@ -6,9 +6,11 @@ export default function AdminBlacklistPage() {
   useEffect(() => {
     fetchBlacklist();
   }, []);
+
   const fetchBlacklist = async () => {
     try {
       const res = await getBlacklist();
+      console.log(res);
       if (res.status === 200) {
         setBlacklist(res.data);
       }

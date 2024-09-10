@@ -10,6 +10,9 @@
   width: 100%;
   padding: 5rem 0 6rem;
   position: relative;
+  button {
+    cursor: pointer;
+  }
   .admin-display {
     display: none;
   }
@@ -88,11 +91,33 @@
           }
         }
       }
+      // 전체 회원 관리
       .admin-allUserCount {
         font-size: 1.6rem;
         margin-bottom: 2rem;
         span {
           color: $main-color;
+        }
+      }
+      .admin-userSearch {
+        margin-bottom: 2rem;
+        #user-search,
+        select {
+          border: none;
+          padding: 0.5rem 1rem;
+          border: 1px solid $border-color2;
+          border-radius: 0.5rem;
+        }
+        #user-search {
+          margin-left: 0.5rem;
+        }
+        button {
+          background-color: $btn-color;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          margin-left: 0.5rem;
+          color: #fff;
+          font-weight: bold;
         }
       }
       .admin-allUserTable {
@@ -109,6 +134,7 @@
           }
         }
       }
+      // 판매자 관리
       .admin-sellersTable {
         @include adminTable;
         tbody {
@@ -122,6 +148,7 @@
           }
         }
       }
+      // 블랙리스트 추가
       .admin-addBlackList {
         button {
           background-color: $btn-color;
@@ -132,6 +159,7 @@
           cursor: pointer;
         }
       }
+      // 신고된 유저
       .admin-complaintUser {
         font-size: 1.6rem;
         margin-bottom: 2rem;
@@ -141,6 +169,7 @@
           color: $main-color;
         }
       }
+      // 신고 내역
       .admin-complaintTable {
         @include adminTable;
         margin-top: 2rem;
@@ -166,12 +195,22 @@
           }
         }
       }
+      // 블랙리스트 관리
       .admin-blacklistTable {
         @include adminTable;
+        tbody {
+          tr {
+            td {
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
       }
+      // 전체 거래 내역 조회
       .admin-orderlogTable {
         @include adminTable;
-        // table-layout: fixed;
         overflow: hidden;
         tbody {
           tr {

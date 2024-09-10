@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getSellers, getComplaint, updateBlacklist } from '../../api/admin';
 
 export default function AdminSellerPage() {
   const [sellerList, setSellerList] = useState(null);
   const [selectUser, setSelectUser] = useState(0);
+  const [sellerCount, setSellerCount] = useState(0);
+  const [select, setSelect] = useState('loginId');
   const navigate = useNavigate();
+
+  const searchRef = useRef();
+
   useEffect(() => {
     fetchSellers();
   }, []);
@@ -13,8 +18,10 @@ export default function AdminSellerPage() {
   const fetchSellers = async () => {
     try {
       const res = await getSellers();
+      console.log(res.data);
       if (res.status === 200) {
         setSellerList(res.data);
+        setSellerCount(res.data.length);
       }
     } catch (err) {
       console.error(err);
@@ -36,10 +43,38 @@ export default function AdminSellerPage() {
     }
   };
 
+  // 판매자 검색
+  const searchSeller = () => {
+    const keyword = searchRef.current.value.trim();
+    if (keyword === '') return alert('검색어를 입력해주세요');
+    const result = sellerList.filter((seller) =>
+      seller[select].includes(keyword),
+    );
+    setSellerList(result);
+    setSellerCount(result.length);
+  };
+
+  const searchEnter = (e) => {
+    if (e.key === 'Enter' && e.nativeEvent.isComposing == false) {
+      searchSeller();
+    }
+  };
+
+  // 검색결과 초기화 및 전체 유저 조회
+  const resetSearch = () => {
+    fetchSellers();
+  };
+
   // 블랙리스트 추가
   const addBlackList = async () => {
     try {
       const res = await updateBlacklist({ userId: selectUser });
+      if (res.data.results) {
+        const noBlacklist = sellerList.filter(
+          (seller) => seller.userId !== selectUser,
+        );
+        setSellerList(noBlacklist);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -52,6 +87,30 @@ export default function AdminSellerPage() {
   return (
     <div className="admin-content">
       <h2 className="admin-title">판매자 관리</h2>
+      <h3 className="admin-allUserCount">
+        총 <span>{sellerCount}</span> 명
+      </h3>
+      <div className="admin-userSearch">
+        <select
+          onChange={(e) => {
+            setSelect(e.target.value);
+            fetchSellers();
+          }}
+        >
+          <option value="loginId">아이디</option>
+          <option value="sellerName">판매자명</option>
+        </select>
+        <input
+          type="text"
+          id="user-search"
+          name="user-search"
+          ref={searchRef}
+          onKeyDown={searchEnter}
+          onChange={fetchSellers}
+        />
+        <button onClick={searchSeller}>판매자 조회</button>
+        <button onClick={resetSearch}>전체 판매자 조회</button>
+      </div>
       <table className="admin-sellersTable">
         <thead>
           <tr>

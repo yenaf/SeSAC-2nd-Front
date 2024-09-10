@@ -64,7 +64,9 @@ export default function AdminOrderLogsPage() {
                   </td>
                   <td style={{ color: 'blue' }}>
                     {log.withdraw
-                      ? '- ' + priceToString(log.withdraw) + '원'
+                      ? log.logStatus === '환불'
+                        ? '- ' + priceToString(log.withdraw) + '원(환불)'
+                        : '- ' + priceToString(log.withdraw) + '원'
                       : '-'}
                   </td>
                   <td>{stringDay(log.createdAt)}</td>

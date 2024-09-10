@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { getUsers } from '../../api/admin';
 
 export default function AdminAlluserPage() {
   const [userList, setUserList] = useState(null);
   const [userCount, setUserCount] = useState(0);
+  const [select, setSelect] = useState('loginId');
+
+  const searchRef = useRef();
 
   useEffect(() => {
     fetchAllUsers();
@@ -13,19 +16,61 @@ export default function AdminAlluserPage() {
     try {
       const res = await getUsers();
       if (res.status === 200) {
-        setUserCount(res.data.userCount);
         setUserList(res.data.allUser);
+        setUserCount(res.data.allUser.length);
       }
     } catch (err) {
       console.error(err);
     }
   };
+
+  // 유저 검색
+  const searchUser = () => {
+    const keyword = searchRef.current.value.trim();
+    if (keyword === '') return alert('검색어를 입력해주세요');
+    const result = userList.filter((user) => user[select].includes(keyword));
+    setUserList(result);
+    setUserCount(result.length);
+  };
+
+  const searchEnter = (e) => {
+    if (e.key === 'Enter' && e.nativeEvent.isComposing == false) {
+      searchUser();
+    }
+  };
+
+  // 검색결과 초기화 및 전체 유저 조회
+  const resetSearch = () => {
+    fetchAllUsers();
+  };
+
   return (
     <div className="admin-content">
       <h2 className="admin-title">전체 회원 관리</h2>
       <h3 className="admin-allUserCount">
         총 <span>{userCount}</span> 명
       </h3>
+      <div className="admin-userSearch">
+        <select
+          onChange={(e) => {
+            setSelect(e.target.value);
+            fetchAllUsers();
+          }}
+        >
+          <option value="loginId">아이디</option>
+          <option value="nickname">닉네임</option>
+        </select>
+        <input
+          type="text"
+          id="user-search"
+          name="user-search"
+          ref={searchRef}
+          onKeyDown={searchEnter}
+          onChange={fetchAllUsers}
+        />
+        <button onClick={searchUser}>회원 조회</button>
+        <button onClick={resetSearch}>전체 회원 조회</button>
+      </div>
       <table className="admin-allUserTable">
         <thead>
           <tr>
@@ -50,12 +95,12 @@ export default function AdminAlluserPage() {
               ))
             ) : (
               <tr>
-                <td colSpan="3">회원 정보가 없습니다.</td>
+                <td colSpan="5">회원 정보가 없습니다.</td>
               </tr>
             )
           ) : (
             <tr>
-              <td colSpan="3">회원 정보가 없습니다.</td>
+              <td colSpan="5">회원 정보가 없습니다.</td>
             </tr>
           )}
         </tbody>
