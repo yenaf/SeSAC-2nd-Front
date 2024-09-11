@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import AddressInfo from './AddressInfo';
@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { readAddr } from '../store/addressSlice';
 import { goScroll } from '../utils/scroll';
 
+// 전체 배송지 선택 컴포넌트
 export default function AddressSelect() {
   const { addressList } = useSelector((state) => state.address);
 
@@ -48,8 +49,6 @@ export default function AddressSelect() {
     setEdit(true);
     setAdd(true);
   };
-
-  console.log('수정 되쌈?', edit);
 
   return (
     <div className="address-container">

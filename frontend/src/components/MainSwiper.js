@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 // Import Swiper styles
@@ -9,6 +9,7 @@ import 'swiper/css/navigation';
 // import required modules
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 
+// 메인페이지 스와이퍼 컴포넌트
 export default function MainSwiper() {
   const progressCircle = useRef(null);
   const progressContent = useRef(null);

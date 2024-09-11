@@ -8,9 +8,18 @@ import {
   faCheck,
   faFaceSmile,
 } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { useSelector } from 'react-redux';
 import formatDate from '../components/common/formatDate';
+import {
+  deleteComment,
+  getComment,
+  submitComment,
+  updateComment,
+  replyCommentSubmit,
+  replyCommentDelete,
+} from '../api/comment';
 
+// 댓글 컴포넌트
 export default function Comment({
   postId,
   postSellerId,
@@ -28,21 +37,16 @@ export default function Comment({
   const [isEditing, setIsEditing] = useState(null);
   const [editingCommentText, setEditingCommentText] = useState('');
   const [replyVisible, setReplyVisible] = useState({}); // 각 댓글에 대한 대댓글 입력창 표시 여부
+  const { isLogin, isAdmin, isBlacklist } = useSelector((state) => state.login);
 
   // 댓글 목록 조회
   async function getCommentList() {
     try {
-      const res = await axios.get(
-        `http://localhost:8080/comments/list/${postId}`,
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await getComment(postId);
       const { commentList } = res.data;
       const { session } = res.data;
       setComments(commentList);
       setSession(session);
-      console.log('댓글목록조회:comments', res.data);
     } catch (error) {
       console.error('댓글 목록을 가져오는 데 실패했습니다:', error);
     }
@@ -77,16 +81,7 @@ export default function Comment({
       return;
     }
     try {
-      const res = await axios.post(
-        `http://localhost:8080/comments/${postId}`,
-        {
-          comContent: commentText,
-          isSecret: isSecret,
-        },
-        {
-          withCredentials: true,
-        },
-      );
+      const res = await submitComment(postId, commentText, isSecret);
       getCommentList();
       setCommentText('');
       setIsSecret(false);
@@ -101,11 +96,7 @@ export default function Comment({
       return;
     }
     try {
-      const res = await axios.patch(
-        `http://localhost:8080/comments/delete/${comId}`,
-      );
-      console.log(res.data); //{deleteComm: 1, deleteReply: 1}
-
+      const res = await deleteComment(comId);
       getCommentList();
     } catch (error) {
       console.error('댓글 삭제 실패:', error);
@@ -125,14 +116,7 @@ export default function Comment({
       return;
     }
     try {
-      const res = await axios.patch(
-        `http://localhost:8080/comments/update/${comId}`,
-        { comContent: editingCommentText, isSecret: isSecret },
-        {
-          withCredentials: true,
-        },
-      );
-      console.log(res.data);
+      const res = await updateComment(comId, editingCommentText, isSecret);
       getCommentList();
       setIsEditing(null);
       setEditingCommentText('');
@@ -160,6 +144,10 @@ export default function Comment({
 
   // userId가 있을때만 댓글에 접근가능
   const userCheck = () => {
+    if (isAdmin) {
+      alert('관리자 계정은 댓글 기능을 이용할 수 없습니다.');
+      return;
+    }
     if (!userId) {
       alert('로그인 후 이용 가능합니다.');
       return;
@@ -181,14 +169,12 @@ export default function Comment({
       return;
     }
     try {
-      const res = await axios.post(
-        `http://localhost:8080/comments/reply/${comId}`,
-        { postId: postId, comContent: replyText, isSecret: isReSecret },
-        {
-          withCredentials: true,
-        },
+      const res = await replyCommentSubmit(
+        comId,
+        postId,
+        replyText,
+        isReSecret,
       );
-      console.log('대댓글>>', res.data);
       getCommentList();
       setReplyText('');
       setIsEditing(null);
@@ -205,10 +191,7 @@ export default function Comment({
       return;
     }
     try {
-      const res = await axios.patch(
-        `http://localhost:8080/comments/reply/delete/${comId}`,
-      );
-
+      const res = await replyCommentDelete(comId);
       getCommentList();
     } catch (error) {
       console.error('대댓글 삭제 실패:', error);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
+// 업로드 버튼 컴포넌트
 export default function UploadButton({
   register = () => {},
   defaultValue = {},
@@ -33,7 +34,6 @@ export default function UploadButton({
         newPreviewImages.push(e.target.result);
         if (newPreviewImages.length === files.length) {
           setPreviewImages(newPreviewImages);
-          console.log([previewImages]);
         }
       };
       reader.readAsDataURL(file);
@@ -44,7 +44,6 @@ export default function UploadButton({
     files.forEach((file) => {
       formData.append('imgName', file);
     });
-    console.log('form Data >>>>', formData);
   };
 
   return (

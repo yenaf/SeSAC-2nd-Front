@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import priceToString from '../utils/priceMethods';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
@@ -10,6 +10,7 @@ import {
 } from '../store/cartSliceTemp';
 import { deleteCartData } from '../api/cart';
 
+// 장바구니 - 판매자별로 묶어주는 컴포넌트
 export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   const { items } = cart;
   const dispatch = useDispatch();

@@ -1,16 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-// FormInput 컴포넌트
-// export function FormInput({ label, id, type, register, validation, errors }) {
-//   return (
-//     <div className="register-input">
-//       <label htmlFor={id}>{label} </label>
-//       <input type={type} id={id} {...register(id, validation)} />
-//       <span className="error-msg">{errors[id]?.message}</span>
-//     </div>
-//   );
-// }
-
 // AddressInput 컴포넌트
 export function AddressInput({ register, setValue, errors, defaultVal }) {
   const [zipCode, setZipCode] = useState('');

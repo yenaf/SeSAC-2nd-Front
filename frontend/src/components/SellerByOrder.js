@@ -1,6 +1,7 @@
 import React from 'react';
 import priceToString from '../utils/priceMethods';
 
+// 결제페이지 - 판매자별로 묶어주는 컴포넌트
 export default function SellerByOrder({ order }) {
   const { items } = order;
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';

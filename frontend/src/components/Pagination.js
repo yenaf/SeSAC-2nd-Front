@@ -26,14 +26,6 @@ export default function Pagination({ pageLocation }) {
     if (currentPage < start) setStart((prev) => prev - totalPages);
   }, [currentPage, totalPages, start]);
 
-  const keepColor = () => {
-    const category = document.querySelectorAll('.category-container a');
-    console.log(category);
-    const categoryNum = Number(pageLocation.slice(1, 2));
-    if (isNaN(categoryNum)) return;
-    category[categoryNum + 1].classList.add('active');
-  };
-
   return (
     <div className="page-wrapper">
       <ul>

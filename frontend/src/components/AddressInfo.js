@@ -3,6 +3,7 @@ import { deleteAddress, getAddress, getAddressList } from '../api/address';
 import { useDispatch } from 'react-redux';
 import { fetchAddList, readAddr } from '../store/addressSlice';
 
+// 배송지 정보 출력 컴포넌트
 export default function AddressInfo({ infos, edit }) {
   const {
     addName,

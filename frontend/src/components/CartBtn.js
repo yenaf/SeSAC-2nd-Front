@@ -1,9 +1,10 @@
 import React, { useContext, useRef } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { insertCart } from '../api/cart';
 import { UserContext } from '../hooks/useAuth';
 
+// 상세페이지 장바구니 버튼 컴포넌트
 export default function CartBtn({ post, sellStatus, sellerId }) {
   const { isLogin, isAdmin, isSeller } = useSelector((state) => state.login);
   const navigate = useNavigate();
@@ -30,7 +31,6 @@ export default function CartBtn({ post, sellStatus, sellerId }) {
         if (res.status === 200) {
           cartModel.style.display = 'block';
         }
-        console.log(res);
       } catch (err) {
         console.error(err);
         if (err.status === 409) {
