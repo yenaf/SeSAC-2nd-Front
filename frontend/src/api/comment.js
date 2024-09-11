@@ -1,6 +1,9 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8080/comments';
+// const api_url = process.env.REACT_APP_API_URL;
+// // const url = `${url}/comments`;
+// const url = 'http://localhost:8080/comments';
+const url = `${process.env.REACT_APP_API_URL}/api/comments`;
 
 // 댓글 조회
 const getComment = (postId) =>

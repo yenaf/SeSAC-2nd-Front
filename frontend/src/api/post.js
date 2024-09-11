@@ -1,8 +1,10 @@
 import axios from 'axios';
 
 // const url = `http://localhost:8080`;
+// // const url = process.env.REACT_APP_API_URL;
+// const postRouter = `${url}/posts`;
 const url = process.env.REACT_APP_API_URL;
-const postRouter = `${url}/posts`;
+const postRouter = `${url}/api/posts`;
 
 const writePost = () =>
   axios.get(`${postRouter}/create`, {
@@ -21,7 +23,7 @@ const getPost = async (postId) =>
   await axios.get(`${postRouter}/page/${postId}`, { withCredentials: true });
 
 const insertComplaint = async (data) =>
-  await axios.post(`http://localhost:8080/complaints`, data);
+  await axios.post(`${url}/api/complaints`, data);
 
 const getPostforEdit = async (postId) =>
   await axios.get(`${postRouter}/${postId}`, { withCredentials: true });
