@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const url = 'http://localhost:8080/admin';
+// const url = 'http://localhost:8080/admin';
+const api_url = process.env.REACT_APP_API_URL;
+const url = `${api_url}/admin`;
 
 // 회원 조회
 const getUsers = () => axios.get(`${url}/allUser`, { withCredentials: true });
