@@ -4,6 +4,10 @@
 @import './Address.scss';
 
 .mypage-container-address {
+  .mypage-info-container button {
+    background-color: transparent;
+    margin: 0;
+  }
   .mypage-content-container {
     width: 100%;
     display: block;
@@ -52,10 +56,5 @@
         }
       }
     }
-  }
-
-  .mypage-container .mypage-info-container button {
-    background-color: transparent;
-    margin: 0;
   }
 }
