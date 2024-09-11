@@ -33,6 +33,15 @@
   font-style: normal;
 }
 
+//피플퍼스트또박체
+@font-face {
+  font-family: 'PeoplefirstNeatLoudTTF';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2406-2@1.0/PeoplefirstNeatLoudTTF.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 // 색상 정보
 $main-color: #7469b6;
 $btn-color: #7469b6;
