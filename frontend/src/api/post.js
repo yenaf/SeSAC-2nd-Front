@@ -3,6 +3,11 @@ import axios from 'axios';
 const url = `http://localhost:8080`;
 const postRouter = `${url}/posts`;
 
+const writePost = () =>
+  axios.get(`${postRouter}/create`, {
+    withCredentials: true,
+  });
+
 const insertPost = async (data) =>
   await axios.post(`${postRouter}/create`, data, {
     withCredentials: true,
@@ -37,4 +42,5 @@ export {
   getPostforEdit,
   patchPost,
   deletePost,
+  writePost,
 };
