@@ -3,6 +3,10 @@ import MyPageMenu from '../components/MyPageMenu'; // 컴포넌트
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import {
+  getOrderHistoryPageData,
+  patchOrderHistoryConfirmData,
+} from '../api/mypage';
 
 export default function OrderHistoryPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
@@ -16,10 +20,7 @@ export default function OrderHistoryPage() {
   // 구매내역 조회 API
   const getOrderHistoryApi = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/mypage/orderhistory', {
-        withCredentials: true, // 세션 쿠키를 포함하기 위해 사용
-      });
-
+      const res = await getOrderHistoryPageData();
       if (res.status === 200) {
         const { orderHistory, orderHistoryMessage } = res.data;
 
@@ -42,18 +43,7 @@ export default function OrderHistoryPage() {
   // 구매확정 API
   const orderBtn = async (orderId, postId) => {
     try {
-      const res = await axios.patch(
-        'http://localhost:8080/mypage/confirm',
-        {
-          orderId,
-          postId,
-        },
-        {
-          withCredentials: true, // 세션 쿠키를 포함하기 위해 사용
-        },
-      );
-
-      console.log('구매 확정 API 응답 : ', res.data);
+      const res = await patchOrderHistoryConfirmData();
 
       if (res.status === 200) {
         // 서버 업데이트 성공 시, 로컬 상태도 업데이트

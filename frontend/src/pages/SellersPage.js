@@ -60,15 +60,14 @@ export default function SellersPage() {
     formData.append('deliveryId', data.deliveryId);
 
     // FormData 내용 로깅
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
+    // for (let [key, value] of formData.entries()) {
+    //   console.log(key, value);
+    // }
 
     try {
       const res = await postSellerData(formData);
 
       if (res.status === 200) {
-        console.log(res.data);
         alert('판매자 정보 등록이 완료되었습니다!');
         sellerRegister(res.data.seller);
       } else {
