@@ -55,7 +55,6 @@ export default function PostCreatePage() {
     try {
       if (sellerId) {
         const res = await insertPost(postData);
-        console.log(res.data.newPost);
         const { postId } = res.data.newPost;
         navigate(`/posts/page/${postId}`, { state: { formData: res.data } });
       }

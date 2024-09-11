@@ -41,10 +41,10 @@ export default function AdminPage() {
     const today = timeSetting(new Date());
 
     if (loading) {
-      // 오늘 날짜 입금 내역
+      // 오늘 날짜 총 입금
       const todayDeposit = sumDeposit(orderlogs, today);
       setTotalDeposit(todayDeposit);
-      // 오늘 날짜 출금 내역
+      // 오늘 날짜 총 출금
       const todayWithdraw = sumWithdraw(orderlogs, today);
       setTotalWithDraw(todayWithdraw);
 
@@ -54,6 +54,7 @@ export default function AdminPage() {
           const selectDate = ele.getAttribute('data-date');
           const selectedDate = new Date(selectDate);
           setPickday(showDay(selectedDate));
+          // 선택한 날짜의 총 입/출금 금액 보여주기
           const selectedDateDeposit = sumDeposit(orderlogs, selectDate);
           const selectedDateWithdraw = sumWithdraw(orderlogs, selectDate);
           setTotalDeposit(selectedDateDeposit);
@@ -125,6 +126,7 @@ export default function AdminPage() {
     return withdraw;
   };
 
+  // 달력 만드는 함수
   const generateCalendarDates = () => {
     const thisDate = new Date(year, month - 1);
     const today = new Date();
@@ -178,6 +180,7 @@ export default function AdminPage() {
     return dateElements;
   };
 
+  // 이전달 달력으로 이동
   const handlePrevMonth = () => {
     const dates = datesRef.current;
     setMonth((prev) => {
@@ -195,6 +198,7 @@ export default function AdminPage() {
     });
   };
 
+  // 다음달 달력으로 이동
   const handleNextMonth = () => {
     const dates = datesRef.current;
     setMonth((prev) => {

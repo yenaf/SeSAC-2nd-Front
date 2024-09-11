@@ -12,7 +12,6 @@ export default function MyPage() {
     const getMypageInit = async () => {
       try {
         const res = await getMypageData();
-        console.log(res.data);
         setInitData(res.data);
       } catch (error) {
         console.error('마이페이지 데이터 가져오기 실패:', error);
@@ -34,7 +33,7 @@ export default function MyPage() {
           <h2>내 정보</h2>
           <div className="mypage-info mypage-main">
             <div className="user-info main">
-              <p>유저 정보</p>
+              <p>회원 정보</p>
               <div className="info-content">
                 <div className="info-content main">
                   <figure className="mypage-img">
@@ -57,9 +56,9 @@ export default function MyPage() {
                         </span>{' '}
                         원
                       </div>
-                      <button type="button" className="money-btn">
+                      {/* <button type="button" className="money-btn">
                         충전
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>

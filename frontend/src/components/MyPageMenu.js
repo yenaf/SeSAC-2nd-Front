@@ -13,9 +13,6 @@ export default function MyPageMenu() {
     }
   }, [sellerId]);
 
-  // if (!sellerId) {
-  //   return <div>로딩 중...</div>;
-  // }
   return (
     <nav className="mypage-list-container display-big">
       <ul>
@@ -36,15 +33,11 @@ export default function MyPageMenu() {
         <li>
           <Link to="/mypage/wishlist">찜목록</Link>
         </li>
-        <li>리블링머니</li>
         <li>
           회원정보
           <ul className="mypage-edit">
             <li>
               <Link to="/mypage/editUser">- 개인정보수정</Link>
-            </li>
-            <li>
-              <Link to="/mypage/address">- 배송지관리</Link>
             </li>
             {sellerId ? (
               ''
@@ -60,7 +53,9 @@ export default function MyPageMenu() {
                 <Link to="/sellers/editSeller">- 판매자정보수정</Link>
               </li>
             )}
-            <li>- 회원탈퇴</li>
+            <li>
+              <Link to="/mypage/address">- 배송지관리</Link>
+            </li>
           </ul>
         </li>
       </ul>

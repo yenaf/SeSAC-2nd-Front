@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/pages/PostDetailPage.scss';
 import SwiperMagnify from '../components/SwiperMagnify';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,13 +10,13 @@ import {
 import priceToString from '../utils/priceMethods';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Comment from '../components/Comment';
-import { getPost } from '../api/post';
+import { deletePost, getPost } from '../api/post';
 import { useSelector } from 'react-redux';
 import CartBtn from '../components/CartBtn';
 import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
-import axios from 'axios';
-import { UserContext } from '../hooks/useAuth';
+import { deleteWish, insertWish } from '../api/wishlist';
+import NotFound from './NotFountdPage';
 
 export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
@@ -40,13 +40,15 @@ export default function PostDetailPage() {
         const res = await getPost(id);
         setPostData(res.data);
         setIsDibbed(res.data.isInWishlist);
-        console.log('상세페이지api', res.data);
       } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
+        if (error.status === 404) {
+          return <NotFound />;
+        }
       }
     };
     fetchPostData();
-  }, [id]);
+  }, [id, wishlistId]);
 
   // 뒤로가기
   const handleBackPage = () => {
@@ -74,16 +76,12 @@ export default function PostDetailPage() {
     const wishData = { userId: userId, postId: id };
     if (isDibbed === null) {
       // 찜등록
-      const res = await axios.post('http://localhost:8080/wishlist', wishData);
+      const res = await insertWish(wishData);
       const newWishlistId = res.data.wishlistId;
       setWishlistId(newWishlistId);
-      console.log('wishlist add>>', res);
     } else {
-      // 찜삭제
-      const res = await axios.delete(
-        `http://localhost:8080/wishlist/${isInWishlist.wishlistId}`,
-      );
-      console.log('wishlist delete>>', res);
+      // 찜 삭제
+      const res = await deleteWish(isInWishlist.wishlistId);
     }
     setIsDibbed(!isDibbed); // 찜 상태 토글
   };
@@ -116,12 +114,11 @@ export default function PostDetailPage() {
       );
       if (confirmDelete) {
         try {
-          const res = await axios
-            .patch(`http://localhost:8080/posts/delete/${id}`)
-            .then((res) => {
-              alert('게시물이 삭제되었습니다.');
-              navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
-            });
+          const res = await deletePost(id);
+          if (res.data.result) {
+            alert('게시물이 삭제되었습니다.');
+            navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
+          }
         } catch (error) {
           console.error('게시물 삭제 중 오류 발생:', error);
           alert('게시물 삭제에 실패했습니다.');
@@ -131,7 +128,7 @@ export default function PostDetailPage() {
   };
 
   if (!postData) {
-    return <div>로딩 중...</div>;
+    return <NotFound />;
   }
 
   const {

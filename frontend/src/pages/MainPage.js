@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import '../styles/pages/MainPage.scss';
 import MainSwiper from '../components/MainSwiper';
 import ItemList from '../components/ItemList';
-import { getPostLists } from '../api/list';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {

@@ -47,7 +47,7 @@ export default function SearchPage() {
           }),
         );
       } catch (err) {
-        console.error();
+        console.error(err);
       }
     },
     [pageNum, keyword],

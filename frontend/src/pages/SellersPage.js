@@ -8,10 +8,12 @@ import { postSellerData } from '../api/seller';
 
 export default function SellersPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
+  const [initialData, setInitialData] = useState(null); // 초기 데이터 저장
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
@@ -21,11 +23,9 @@ export default function SellersPage() {
 
   // 파일 체크 함수
   const fileExtCheck = (obj) => {
-    // console.log(obj);
     const pathPoint = obj.lastIndexOf('.');
     const filePoint = obj.substring(pathPoint + 1, obj.length);
     const fileType = filePoint.toLowerCase();
-    // console.log('fileType', fileType);
     if (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png')
       return true;
     else return false;
@@ -35,7 +35,6 @@ export default function SellersPage() {
   const fileCheck = (e) => {
     let file = e.target.files[0];
     let fileName = file.name;
-    console.log('file >>', file);
 
     if (fileExtCheck(fileName)) {
       // 프사 설정한 대로 바꾸게 하기
@@ -45,7 +44,6 @@ export default function SellersPage() {
           setPreviewImg(reader.result);
         };
         reader.readAsDataURL(file);
-        console.log('filename >>', file.name);
       }
     } else {
       alert('이미지 파일만 올려주세요!');
@@ -82,11 +80,10 @@ export default function SellersPage() {
     }
   };
 
-  // 임시 판매자 등록
-  const onSubmit = (data) => {
-    console.log('form data >> ', data);
-
-    alert('판매자 등록이 완료되었습니다!');
+  // 취소 버튼 클릭 시 폼 초기화
+  const handleReset = () => {
+    reset();
+    setPreviewImg('/img/duck.jpg'); // 기본 이미지로 다시 설정
   };
 
   return (
@@ -186,7 +183,13 @@ export default function SellersPage() {
 
                 <div className="seller-btn">
                   <button type="submit">등록</button>
-                  <button type="button">취소</button>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="reset-btn"
+                  >
+                    취소
+                  </button>
                 </div>
               </div>
             </form>
