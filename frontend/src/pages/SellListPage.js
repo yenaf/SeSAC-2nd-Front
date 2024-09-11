@@ -8,7 +8,7 @@ export default function SellListPage() {
 
   const [sellData, setSellData] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
-  const [invoiceNumber, setInvoiceNumber] = useState('');
+  const [inputValues, setInputValues] = useState({});
 
   // 주문번호별로 데이터 묶어주는 함수
   const groupByOrder = (data) => {
@@ -40,6 +40,13 @@ export default function SellListPage() {
         // sellerOrders 배열로 있는지 확인
         if (Array.isArray(sellerOrders) && sellerOrders.length > 0) {
           setSellData(groupByOrder(sellerOrders));
+
+          // 각 주문에 대해 송장번호 상태 초기화
+          const initialInputValues = sellerOrders.reduce((acc, item) => {
+            acc[item.allOrderId] = '';
+            return acc;
+          }, {});
+          setInputValues(initialInputValues);
         } else {
           setErrorMessage(sellerOrderMessage || '판매 내역이 없습니다.');
         }
@@ -60,10 +67,12 @@ export default function SellListPage() {
   }, []);
 
   // 송장번호 등록 API
-  const submitInvoiceNumber = async (e) => {
+  const submitInvoiceNumber = async (e, orderId) => {
     e.preventDefault();
     const errMsg = e.target.parentNode.nextSibling;
     const numberPattern = /^[0-9]{12}$/;
+
+    const invoiceNumber = inputValues[orderId]; // 각 주문에 대한 송장번호
 
     // 송장 번호 입력 확인
     if (invoiceNumber === '') {
@@ -99,7 +108,7 @@ export default function SellListPage() {
       );
       if (res.status === 200) {
         alert('송장번호 등록이 완료되었습니다!');
-        setInvoiceNumber(''); // 송장번호 입력 필드 초기화
+        setInputValues((prev) => ({ ...prev, [orderId]: '' })); // 송장번호 입력 필드 초기화
         getSellListApi(); // 송장번호 등록 후 새 데이터 가져오기
       } else {
         alert('송장번호 등록에 실패했습니다. 다시 시도해주세요.');
@@ -114,6 +123,14 @@ export default function SellListPage() {
     }
   };
 
+  // input 필드의 값이 변경될 때 해당 주문의 송장번호 상태 업데이트
+  const handleInputChange = (e, orderId) => {
+    setInputValues({
+      ...inputValues,
+      [orderId]: e.target.value,
+    });
+  };
+
   return (
     <div className="mypage-container">
       <MyPageMenu />
@@ -126,98 +143,93 @@ export default function SellListPage() {
             <p className="err-msg">{errorMessage}</p>
           ) : (
             <>
-              {sellData.map((val, idx) => {
-                // console.log('deliveryStatus:', val.items[0]?.deliveryStatus); // '배송 전' 확인
-                // console.log('sellStatus:', val.items[0]?.Post?.sellStatus); // '판매 예약' 확인
-                // console.log(
-                //   'img:',
-                //   val.items[0].Post?.Product_Images[0].imgName,
-                // );
-
-                return (
-                  <div key={idx} className="sell-list-container">
-                    <div id="sell-list">
-                      <div className="sell-list-content">
-                        <div className="sell-list-content-title">
-                          <h2>
-                            <span className="txt-black">주문번호 :</span>{' '}
-                            {val.allOrderId}
-                          </h2>
-                        </div>
-                        {val.items.map((item, idx) => (
-                          <div key={idx} className="sell-list-content-box">
-                            <div className="sell-list-img">
-                              <img
-                                src={`${imgUrl}${item.Post?.Product_Images[0].imgName || '/img/duck.jpg'}`}
-                                alt="상품 이미지"
-                              />
-                            </div>
-                            <div className="sell-list-text">
-                              <h2>
-                                <span className="txt-black">상품명 :</span>{' '}
-                                {item.Post?.postTitle || '상품명 없음'}
-                              </h2>
-                              <h2>
-                                <span className="txt-black">가격 :</span>{' '}
-                                {item.Post?.productPrice.toLocaleString() ||
-                                  '가격 없음'}{' '}
-                                원
-                              </h2>
-                              <input
-                                type="hidden"
-                                value={item.orderId}
-                                className="sell-list-orderId"
-                              />
-                            </div>
-                          </div>
-                        ))}
-                        {val.items[0]?.deliveryStatus === '배송 중' ||
-                        val.items[0]?.Post?.sellStatus === '판매 완료' ? (
-                          // 송장번호 read-only (배송 중 또는 판매 완료일 때)
-                          <form id="invoice-number-container" noValidate>
-                            <h2 className="sell-status">
-                              판매 상태 :
-                              <span> {val.items[0]?.Post?.sellStatus}</span>
-                            </h2>
-                            <h2>송장번호</h2>
-                            <div className="invoice-content">
-                              <input
-                                className="readonly-invoice"
-                                type="text"
-                                readOnly
-                                value={val.items[0]?.invoiceNumber}
-                              />
-                            </div>
-                          </form>
-                        ) : (
-                          // 송장번호 입력 가능 (배송 전 && 판매 예약일 때)
-                          <form id="invoice-number-container" noValidate>
-                            <h2 className="sell-status">
-                              판매 상태 :
-                              <span>{val.items[0]?.Post?.sellStatus}</span>
-                            </h2>
-                            <h2>송장번호 입력</h2>
-                            <div className="invoice-content">
-                              <input
-                                type="text"
-                                id="invoiceNumber"
-                                value={invoiceNumber}
-                                onChange={(e) =>
-                                  setInvoiceNumber(e.target.value)
-                                }
-                              />
-                              <button onClick={submitInvoiceNumber}>
-                                저장
-                              </button>
-                            </div>
-                            <span className="error-msg"></span>
-                          </form>
-                        )}
+              {sellData.map((val, idx) => (
+                <div key={idx} className="sell-list-container">
+                  <div id="sell-list">
+                    <div className="sell-list-content">
+                      <div className="sell-list-content-title">
+                        <h2>
+                          <span className="txt-black">주문번호 :</span>{' '}
+                          {val.allOrderId}
+                        </h2>
                       </div>
+                      {val.items.map((item, idx) => (
+                        <div key={idx} className="sell-list-content-box">
+                          <div className="sell-list-img">
+                            <img
+                              src={`${imgUrl}${item.Post?.Product_Images[0].imgName || '/img/duck.jpg'}`}
+                              alt="상품 이미지"
+                            />
+                          </div>
+                          <div className="sell-list-text">
+                            <h2>
+                              <span className="txt-black">상품명 :</span>{' '}
+                              {item.Post?.postTitle || '상품명 없음'}
+                            </h2>
+                            <h2>
+                              <span className="txt-black">가격 :</span>{' '}
+                              {item.Post?.productPrice.toLocaleString() ||
+                                '가격 없음'}{' '}
+                              원
+                            </h2>
+                            <input
+                              type="hidden"
+                              value={item.orderId}
+                              className="sell-list-orderId"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                      {val.items[0]?.deliveryStatus === '배송 중' ||
+                      val.items[0]?.Post?.sellStatus === '판매 완료' ? (
+                        // 송장번호 read-only (배송 중 또는 판매 완료일 때)
+                        <form id="invoice-number-container" noValidate>
+                          <h2 className="sell-status">
+                            판매 상태 :
+                            <span> {val.items[0]?.Post?.sellStatus}</span>
+                          </h2>
+                          <h2>송장번호</h2>
+                          <div className="invoice-content">
+                            <input
+                              className="readonly-invoice"
+                              type="text"
+                              readOnly
+                              value={val.items[0]?.invoiceNumber}
+                            />
+                          </div>
+                        </form>
+                      ) : (
+                        // 송장번호 입력 가능 (배송 전 && 판매 예약일 때)
+                        <form id="invoice-number-container" noValidate>
+                          <h2 className="sell-status">
+                            판매 상태 :
+                            <span>{val.items[0]?.Post?.sellStatus}</span>
+                          </h2>
+                          <h2>송장번호 입력</h2>
+                          <div className="invoice-content">
+                            <input
+                              type="text"
+                              id="invoiceNumber"
+                              value={inputValues[val.allOrderId] || ''}
+                              onChange={(e) =>
+                                handleInputChange(e, val.allOrderId)
+                              }
+                            />
+                            <button
+                              onClick={(e) =>
+                                submitInvoiceNumber(e, val.allOrderId)
+                              }
+                            >
+                              저장
+                            </button>
+                          </div>
+                          <span className="error-msg"></span>
+                        </form>
+                      )}
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </>
           )}
         </div>
