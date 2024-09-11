@@ -118,9 +118,17 @@
           &.buy {
             background: $btn-color;
             color: #fff;
+            &.unable {
+              background-color: #ccc;
+              border-color: #ccc;
+            }
           }
           &.shopping {
             color: $main-color;
+            &.unable {
+              color: #ccc;
+              border-color: #ccc;
+            }
           }
         }
         // 장바구니 모달

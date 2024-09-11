@@ -56,10 +56,16 @@ export default function CartBtn({ post, sellStatus, sellerId }) {
   return (
     <div>
       <span className="link-container">
-        <button className="btn shopping" onClick={addCart}>
+        <button
+          className={`btn shopping ${sellStatus !== '판매 중' ? 'unable' : ''}`}
+          onClick={addCart}
+        >
           장바구니
         </button>
-        <button className="btn buy" onClick={addCart}>
+        <button
+          className={`btn buy ${sellStatus !== '판매 중' ? 'unable' : ''}`}
+          onClick={addCart}
+        >
           구매하기
         </button>
       </span>

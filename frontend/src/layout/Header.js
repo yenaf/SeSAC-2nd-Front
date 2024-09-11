@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import '../styles/layout/Header.scss';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
