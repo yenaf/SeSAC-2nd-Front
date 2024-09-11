@@ -10,7 +10,7 @@ import Search from '../components/Search';
 import Login from '../components/Login';
 import { UserContext } from '../hooks/useAuth';
 import { userLogout } from '../api/user';
-import axios from 'axios';
+import { writePost } from '../api/post';
 
 // header 컴포넌트
 export default function Header() {
@@ -94,11 +94,8 @@ export default function Header() {
 
   const createPost = async (e) => {
     try {
-      const res = await axios.get('http://localhost:8080/posts/create', {
-        withCredentials: true,
-      });
+      const res = await writePost();
 
-      // console.log(res.data);
       // 판매자 정보 없으면
       if (res.data.isSeller === false && res.data.isBlacklist === false) {
         const confirmSellerRegi = window.confirm(res.data.message);
