@@ -7,6 +7,11 @@
   .order-addressSelect {
     display: none;
     @include modalSetting;
+    .address-container {
+      position: absolute;
+      @include center;
+      width: 400px;
+    }
   }
   .order-title {
     font-size: min(5vw, 3rem);
