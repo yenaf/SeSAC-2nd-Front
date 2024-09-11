@@ -66,23 +66,29 @@ export default function MyPage() {
               </div>
             </div>
             <div className="seller-info main">
-              <p>판매자 정보</p>
-              <div className="info-content main">
-                <figure className="mypage-img">
-                  <img
-                    src={initData.seller?.sellerImg || '/img/cat.png'}
-                    alt="판매자 프로필"
-                  />
-                </figure>
-                <div className="mypage-profile">
-                  <div className="mypage-name">
-                    <span className="info-txt-main">
-                      {initData.seller?.sellerName}
-                    </span>{' '}
-                    님
+              {initData.seller?.sellerId ? (
+                <div>
+                  <p>판매자 정보</p>
+                  <div className="info-content main">
+                    <figure className="mypage-img">
+                      <img
+                        src={initData.seller?.sellerImg || '/img/cat.png'}
+                        alt="판매자 프로필"
+                      />
+                    </figure>
+                    <div className="mypage-profile">
+                      <div className="mypage-name">
+                        <span className="info-txt-main">
+                          {initData.seller?.sellerName}
+                        </span>{' '}
+                        님
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ) : (
+                ''
+              )}
             </div>
           </div>
         </div>

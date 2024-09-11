@@ -25,7 +25,7 @@ export default function ItemList({ item }) {
         <h5 className="item-category">{item.Category?.categoryName || ''}</h5>
         <h4 className="item-title">{item.postTitle}</h4>
         <p className="item-price">{priceToString(item.productPrice)}원</p>
-        <div className="item-time">{elapsedTime(item.createdAt)}</div>
+        {/* <div className="item-time">{elapsedTime(item.createdAt)}</div> */}
       </Link>
     </li>
   );

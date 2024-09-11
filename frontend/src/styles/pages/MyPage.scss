@@ -204,7 +204,7 @@
           }
         }
       }
-      .seller-list {
+      .mypage-buy-list {
         margin-bottom: 3rem;
         ol {
           width: 100%;
@@ -454,6 +454,12 @@
 
 ////////////////////////////////////////////////////////
 // SellListPage
+.mypage-content-container {
+  &.sell-list {
+    display: flex;
+    justify-content: center;
+  }
+}
 .sell-list-title {
   color: black;
   margin-bottom: 30px;
@@ -684,24 +690,26 @@
     }
   }
   .post-list-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 5px 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: min(3vw, 3rem);
+    grid-row-gap: min(5.5vh, 4.6rem);
   }
   .post-list-content {
     margin: 5px 10px;
     .post-img {
-      width: 150px;
+      width: 100%;
       aspect-ratio: 1 / 1;
       overflow: hidden;
+      position: relative;
       img {
         width: 100%;
         object-fit: cover;
       }
+      @include unablePurcheaseItem;
     }
     .post-list-text {
-      width: 150px;
+      width: 100%;
       margin-top: 10px;
       h2 {
         font-size: 15px;
@@ -737,24 +745,26 @@
     }
   }
   .wish-list-container {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 5px 10px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-column-gap: min(3vw, 3rem);
+    grid-row-gap: min(5.5vh, 4.6rem);
   }
   .wish-list-content {
     margin: 5px 10px;
     .wish-img {
-      width: 150px;
+      width: 100%;
       aspect-ratio: 1 / 1;
       overflow: hidden;
+      position: relative;
       img {
         width: 100%;
         object-fit: cover;
       }
+      @include unablePurcheaseItem;
     }
     .wish-list-text {
-      width: 150px;
+      width: 100%;
       margin-top: 10px;
       h2 {
         font-size: 15px;

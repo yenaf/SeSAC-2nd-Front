@@ -52,6 +52,11 @@ export default function SellPostListPage() {
                         src={`${imgUrl}${post.Product_Images[0].imgName}`}
                         alt={post.postTitle}
                       />
+                      {post.sellStatus === '판매 중' ? null : (
+                        <div className="img-filter">
+                          <div className="img-label">{post.sellStatus}</div>
+                        </div>
+                      )}
                     </div>
                     <div className="post-list-text">
                       <h2>{post.Category.categoryName}</h2>
