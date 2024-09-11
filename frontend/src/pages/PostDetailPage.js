@@ -15,8 +15,8 @@ import { useSelector } from 'react-redux';
 import CartBtn from '../components/CartBtn';
 import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
-import axios from 'axios';
 import { deleteWish, insertWish } from '../api/wishlist';
+import NotFound from './NotFountdPage';
 
 export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
@@ -42,6 +42,9 @@ export default function PostDetailPage() {
         setIsDibbed(res.data.isInWishlist);
       } catch (error) {
         console.error('API 호출 중 오류 발생:', error);
+        if (error.status === 404) {
+          return <NotFound />;
+        }
       }
     };
     fetchPostData();
@@ -125,7 +128,7 @@ export default function PostDetailPage() {
   };
 
   if (!postData) {
-    return <div>로딩 중...</div>;
+    return <NotFound />;
   }
 
   const {

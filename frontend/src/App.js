@@ -35,6 +35,7 @@ import SellPostListPage from './pages/SellPostListPage';
 import AddressPage from './pages/AddressPage';
 import WishListPage from './pages/WishListPage';
 import EditSellerPage from './pages/EditSellerPage';
+import NotFound from './pages/NotFountdPage';
 
 function App() {
   return (
@@ -171,6 +172,7 @@ function App() {
                   />
                 </Route>
               </Route>
+              <Route path="/*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>
         </UserProvider>
