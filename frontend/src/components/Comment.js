@@ -10,7 +10,6 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import formatDate from '../components/common/formatDate';
-import debounce from '../utils/debounce';
 
 export default function Comment({
   postId,
@@ -184,7 +183,7 @@ export default function Comment({
     try {
       const res = await axios.post(
         `http://localhost:8080/comments/reply/${comId}`,
-        { postId: postId, comContent: replyText, isSecret: isSecret },
+        { postId: postId, comContent: replyText, isSecret: isReSecret },
         {
           withCredentials: true,
         },
@@ -287,10 +286,7 @@ export default function Comment({
                         ? '비밀 댓글입니다.' // 비밀 댓글일 경우
                         : comment.comContent
                   }
-                  onChange={debounce(
-                    (e) => setEditingCommentText(e.target.value),
-                    300,
-                  )} // 수정 중인 댓글의 내용 변경
+                  onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
                   readOnly={isEditing !== comment.comId} // 수정 중인 댓글만 수정 가능하게
                   onKeyDown={(e) => handleKeyDown(e, comment.comId)}
                 />
@@ -368,8 +364,8 @@ export default function Comment({
                               ? '비밀댓글 입니다'
                               : '댓글을 입력해주세요.'
                           }
-                          defaultValue={replyText}
-                          onChange={debounce(handleReplyChange, 500)}
+                          value={replyText}
+                          onChange={handleReplyChange}
                         />
                         <span className="char-count">{reCharCount} / 100</span>
                       </div>
@@ -431,7 +427,7 @@ export default function Comment({
                     <div className="text-box">
                       <textarea
                         className="comment-text"
-                        defaultValue={
+                        value={
                           isEditing === reply.comId
                             ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
                             : reply.isSecret &&
@@ -440,10 +436,7 @@ export default function Comment({
                               ? '비밀 댓글입니다.' // 비밀 댓글일 경우
                               : reply.comContent
                         }
-                        onChange={debounce(
-                          (e) => setEditingCommentText(e.target.value),
-                          300,
-                        )} // 수정 중인 댓글의 내용 변경
+                        onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
                         readOnly={isEditing !== reply.comId} // 수정 중인 댓글만 수정 가능하게
                         onKeyDown={(e) => handleKeyDown(e, comment.comId)}
                       />
