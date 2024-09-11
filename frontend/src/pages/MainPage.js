@@ -9,7 +9,7 @@ import {
   faHeart,
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import { getMainList } from '../api/list';
 
 // 메인 페이지
 export default function MainPage() {
@@ -22,7 +22,7 @@ export default function MainPage() {
 
   const fetchRecentPosts = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080`);
+      const res = await getMainList();
       const { newPostList, lowPriceList } = res.data;
 
       const randomItems = getRandomItems(lowPriceList, 8);
