@@ -13,6 +13,14 @@
     .about-left {
       width: 50%;
       position: relative;
+      .heart-img {
+        width: 5rem;
+        border-radius: 50%;
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
       .computer-img {
         display: block;
         width: 100%;
@@ -21,7 +29,7 @@
       .left-title {
         font-size: 2rem;
         position: absolute;
-        top: 20%;
+        top: 25%;
         left: 50%;
         transform: translateX(-50%);
         strong {
@@ -57,6 +65,7 @@
         margin-top: 2rem;
       }
       .txt1 {
+        position: relative;
         h3 {
           font-size: 2rem;
           span {
