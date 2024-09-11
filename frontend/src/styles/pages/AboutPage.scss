@@ -1,0 +1,210 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+#about {
+  width: 100%;
+  margin: auto;
+  font-size: 1.8rem;
+  padding-top: 2rem;
+  .about-wrap {
+    display: flex;
+    gap: 2rem;
+    .about-left {
+      width: 50%;
+      position: relative;
+      .heart-img {
+        width: 5rem;
+        border-radius: 50%;
+        position: absolute;
+        top: 15%;
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      .computer-img {
+        display: block;
+        width: 100%;
+        border-radius: 2rem;
+      }
+      .left-title {
+        font-size: 2rem;
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+        strong {
+          font-size: 2rem;
+          font-family: 'PyeongChangPeace-Bold';
+          background: linear-gradient(
+            to bottom,
+            $main-color 0%,
+            $sub-color 100%
+          );
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-fill-color: transparent;
+        }
+      }
+    }
+    .about-right {
+      font-family: 'PeoplefirstNeatLoudTTF';
+      width: 50%;
+      border-radius: 2rem;
+      display: flex;
+      justify-content: center;
+      margin-top: 5rem;
+      span {
+        line-height: 2.2;
+      }
+      p {
+        line-height: 2.2;
+      }
+      .txt-right {
+        text-align: right;
+        margin-top: 2rem;
+      }
+      .txt1 {
+        position: relative;
+        h3 {
+          font-size: 2rem;
+          span {
+            display: block;
+          }
+          strong {
+            font-size: 2.5rem;
+            font-family: 'PyeongChangPeace-Bold';
+            background: linear-gradient(
+              to bottom,
+              $main-color 0%,
+              $sub-color 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+          }
+        }
+      }
+    }
+  }
+  .milky {
+    margin: 2rem 0;
+    font-family: 'GmarketSansMedium';
+    width: 100%;
+    text-transform: uppercase;
+    display: block;
+    font-size: 2.2rem;
+    color: #f1ebe5;
+    text-shadow:
+      0 8px 9px #ae85d2,
+      0px -2px 1px #fff;
+    font-weight: bold;
+    text-align: center;
+    background: linear-gradient(to bottom, #ece4d9 0%, #d3aae8 100%);
+    border-radius: 20px;
+    padding: 2rem 1rem;
+  }
+  .about-bottom {
+    text-align: center;
+    margin-top: 2rem;
+    p {
+      color: #694f8e;
+    }
+    .link-wrap {
+      margin-top: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-direction: row;
+      justify-content: center;
+
+      .btn {
+        position: relative;
+        box-sizing: border-box;
+        background: $sub-color;
+        border: 1px solid $sub-color;
+        padding: 1rem 2rem;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        border-radius: 1rem;
+        box-shadow: 0px 4px 0px #ad83a8;
+        margin-right: 0.5rem;
+        margin-bottom: 1rem;
+        &:active {
+          top: 4px;
+          box-shadow: 0 0 $main-color;
+          background-color: $border-color;
+          border: 1px solid $sub-color;
+        }
+      }
+      .checked {
+        background: #ba357e;
+        border: 1px solid #ba357e;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $xl) {
+  #about {
+    .about-wrap {
+      .about-right {
+        margin-top: 2rem;
+        span {
+          line-height: 1.8;
+        }
+        p {
+          line-height: 1.8;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $lg) {
+  #about {
+    font-size: 1.5rem;
+    .about-wrap {
+      .about-right {
+        margin-top: 2rem;
+        span {
+          line-height: 1.5;
+        }
+        p {
+          line-height: 1.5;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $md) {
+  #about {
+    .milky {
+      width: auto;
+    }
+    .about-wrap {
+      flex-direction: column;
+      align-items: center;
+      .about-left {
+        width: 100%;
+        .computer-img {
+          width: 100%;
+        }
+      }
+      .about-right {
+        width: 100%;
+      }
+    }
+    .about-bottom {
+      .link-wrap {
+        .btn {
+          padding: 0.8rem 1.5rem;
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
+}

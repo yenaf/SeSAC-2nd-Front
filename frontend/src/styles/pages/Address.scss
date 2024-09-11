@@ -1,0 +1,141 @@
+.address-container {
+  background-color: #fff;
+  border-radius: 1rem;
+  padding: 2rem 3rem;
+  box-sizing: border-box;
+  .address-bx {
+    .address-title {
+      text-align: center;
+      position: relative;
+      color: $main-color;
+      h2 {
+        font-size: min(4vw, 2rem);
+        padding-bottom: 2rem;
+      }
+      button {
+        position: absolute;
+        top: 0;
+        font-size: min(4vw, 2rem);
+        &.add-cancel {
+          left: 0;
+        }
+        &.close-modal {
+          right: 0;
+        }
+      }
+    }
+    .address-list {
+      overflow-y: scroll;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 3rem 0;
+      .address-info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem 0;
+        font-size: min(1.2rem, 3vw);
+        &:last-child {
+          margin-bottom: 2rem;
+        }
+        .address-name {
+          font-size: min(1.4rem, 3.2vw);
+          .address-default {
+            display: inline-block;
+            margin-left: 1rem;
+            color: $main-color;
+          }
+        }
+        .address-receiver {
+          display: flex;
+          gap: 0 0.6rem;
+        }
+        .address-btns {
+          display: flex;
+          gap: 0 0.6rem;
+          button {
+            font-size: min(1.2rem, 3vw);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            &:nth-child(odd) {
+              background-color: $btn-color;
+              color: #fff;
+            }
+            &:nth-child(even) {
+              border: 1px solid $btn-color;
+              color: $main-color;
+            }
+          }
+        }
+      }
+    }
+    .address-add {
+      button {
+        width: 100%;
+        background-color: $btn-color;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 0.5rem;
+        padding: 1rem 0;
+        font-size: min(1.4rem, 3vw);
+      }
+    }
+  }
+  .address-insert {
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem 0;
+      label {
+        display: block;
+        font-size: min(1.4rem, 3vw);
+      }
+      input {
+        border: none;
+        border: 1px solid $border-color2;
+        padding: 0.5rem 1rem;
+        box-sizing: border-box;
+        border-radius: 0.5rem;
+        width: 90%;
+      }
+      button {
+        background-color: $btn-color;
+        color: #fff;
+        font-weight: bold;
+        border-radius: 0.5rem;
+        &.address-save {
+          width: 80%;
+          position: absolute;
+          bottom: 10px;
+          left: 50%;
+          transform: translateX(-50%);
+          padding: 1rem 0;
+          font-size: min(1.4rem, 3vw);
+        }
+      }
+      .address-input-container {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 1rem 0;
+        .input-address {
+          display: flex;
+          gap: 0 0.5rem;
+          margin-bottom: 1rem;
+          #zipCode {
+            width: 50%;
+          }
+          button {
+            padding: 0.5rem 1rem;
+          }
+        }
+      }
+      .address-isDefault {
+        display: flex;
+        input {
+          width: 10px;
+        }
+      }
+    }
+  }
+}

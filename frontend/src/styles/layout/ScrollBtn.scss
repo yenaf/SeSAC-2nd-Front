@@ -1,0 +1,12 @@
+@import '../common/variables';
+
+.scroll-btn {
+  position: fixed;
+  z-index: 1000;
+  bottom: 5rem;
+  right: 0;
+  .scroll-icon {
+    font-size: 5rem;
+    color: $border-color;
+  }
+}

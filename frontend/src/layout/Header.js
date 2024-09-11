@@ -1,24 +1,28 @@
-import React, { useRef, useState } from 'react';
+import React, { useContext, useRef } from 'react';
 import '../styles/layout/Header.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 import HeaderSideMenu from '../components/HeaderSideMenu';
-import { loginMenu } from '../data/loginData';
 import Category from '../components/Category';
 import Search from '../components/Search';
 import Login from '../components/Login';
+import { UserContext } from '../hooks/useAuth';
+import { userLogout } from '../api/user';
+import { writePost } from '../api/post';
 
 // header 컴포넌트
 export default function Header() {
-  // 임시 로그인 상태값 저장
-  const [isLogin, setIsLogin] = useState(true);
-  // 임시 판매자 상태값 저장
-  const [isSeller, setIsSeller] = useState(true);
-  // 임시 관리자 상태값 저장
-  const [isAdmin, setIsAdmin] = useState(false);
-  // 임시 블랙리스트 상태값 저장
-  const [isBlacklist, setIsBlacklist] = useState(false);
+  // 로그인 상태 리덕스
+  const { isLogin, isAdmin, isSeller, isBlackList, headerMenu } = useSelector(
+    (state) => state.login,
+  );
+
+  const navigate = useNavigate();
+
+  // 로그아웃 불러오기
+  const { logout } = useContext(UserContext);
 
   // 모바일 요소 useRef
   const headerRef = useRef([]);
@@ -46,6 +50,78 @@ export default function Header() {
     }, 300);
   };
 
+  const headerBtnFn = async (e) => {
+    e.preventDefault();
+    const path = e.currentTarget.getAttribute('href');
+    const loginContainer = document.querySelector('.login-container');
+    if (path.includes('login')) {
+      // 로그인
+      if (loginContainer) {
+        loginContainer.style.display = 'block';
+      }
+    } else if (path.includes('register')) {
+      // 회원가입 페이지 이동
+      navigate('/user/register');
+    } else if (path.includes('logout')) {
+      if (!confirm('로그아웃 하시겠습니까?')) return;
+
+      // 로그아웃
+      const res = await userLogout();
+      if (res.status === 200) {
+        // 세션에 저장되어 있는 정보 지우기
+        logout();
+        // 메인페이지로 이동
+        navigate('/');
+      }
+    } else if (path.includes('cart')) {
+      // 장바구니
+      if (!isLogin) {
+        alert('로그인 후에 이용 가능합니다.');
+        return (loginContainer.style.display = 'block');
+      } else if (isAdmin) {
+        alert('관리자 계정은 장바구니를 이용할 수 없습니다.');
+        return;
+      }
+      navigate('/cart');
+    } else if (path.includes('mypage')) {
+      // 마이페이지 이동
+      navigate('/mypage');
+    } else if (path.includes('admin')) {
+      // 관리자페이지 이동
+      navigate('/admin');
+    }
+  };
+
+  const createPost = async (e) => {
+    try {
+      const res = await writePost();
+
+      // 판매자 정보 없으면
+      if (res.data.isSeller === false && res.data.isBlacklist === false) {
+        const confirmSellerRegi = window.confirm(res.data.message);
+        if (confirmSellerRegi) {
+          navigate('/sellers');
+        } else {
+          return;
+        }
+      }
+      // 블랙리스트 여부 확인
+      if (
+        (res.data.isSeller === false && res.data.isBlacklist === true) ||
+        (res.data.isSeller === true && res.data.isBlacklist === true)
+      ) {
+        alert(res.data.message);
+      }
+
+      if (res.data.isSeller === true && res.data.isBlacklist === false) {
+        navigate('/posts/create');
+      }
+    } catch (error) {
+      console.error('오류 발생:', error);
+      alert('문제가 발생했습니다. 다시 시도해 주세요.');
+    }
+  };
+
   return (
     <header>
       <div className="inner">
@@ -66,8 +142,8 @@ export default function Header() {
             <div className="sales-btn">
               {/* 판매자일때만 판매하기 버튼 출력 */}
               {/* 블랙리스트일때는 판매하기 버튼 눌러도 판매하기로 이동 X */}
-              {isLogin && isSeller && !isAdmin && (
-                <Link to="/posts/create">판매하기</Link>
+              {isLogin && !isAdmin && (
+                <Link onClick={createPost}>판매하기</Link>
               )}
             </div>
             {/* 회원정보 버튼들 */}
@@ -75,12 +151,24 @@ export default function Header() {
               {/* 로그인 : 장바구니/마이페이지/로그아웃, 로그아웃 : 장바구니(로그인으로이동)/회원가입/로그인, 관리자 : 장바구니/관리자페이지/로그아웃 */}
               {isLogin ? (
                 isAdmin ? (
-                  <HeaderSideMenu logstate={loginMenu[2]} />
+                  // 관리자
+                  <HeaderSideMenu
+                    logstate={headerMenu}
+                    headerBtnFn={headerBtnFn}
+                  />
                 ) : (
-                  <HeaderSideMenu logstate={loginMenu[0]} />
+                  // 로그인
+                  <HeaderSideMenu
+                    logstate={headerMenu}
+                    headerBtnFn={headerBtnFn}
+                  />
                 )
               ) : (
-                <HeaderSideMenu logstate={loginMenu[1]} />
+                // 로그아웃
+                <HeaderSideMenu
+                  logstate={headerMenu}
+                  headerBtnFn={headerBtnFn}
+                />
               )}
             </aside>
           </div>
@@ -99,7 +187,8 @@ export default function Header() {
           </button>
         </div>
       </div>
-      {/* <Login /> */}
+      {/* 로그인 창 띄우기 */}
+      {isLogin ? null : <Login />}
     </header>
   );
 }

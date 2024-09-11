@@ -1,0 +1,377 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+
+// 관리자 페이지는 미디어쿼리 없이 웹 화면에서만 볼 수 있게 설정하기
+.admin-wrapper {
+  display: flex;
+  border-radius: 1rem;
+  margin: 5rem auto;
+  width: 100%;
+  padding: 5rem 0 6rem;
+  position: relative;
+  button {
+    cursor: pointer;
+  }
+  .admin-display {
+    display: none;
+  }
+  .admin-navigation {
+    position: relative;
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    > ul {
+      position: sticky;
+      top: 11rem;
+      .admin-naviMenu {
+        text-align: center;
+        width: 100%;
+        padding: 1.3rem;
+        box-sizing: border-box;
+        border: 2px solid $border-color2;
+        border-radius: 0.5rem;
+        color: $main-color;
+        font-size: 1.3rem;
+        a {
+          &:hover {
+            color: $main-color;
+          }
+        }
+      }
+    }
+  }
+  .admin-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    min-height: 800px;
+    .admin-content {
+      margin-left: 7.5rem;
+      border: 2px solid $border-color2;
+      border-radius: 1rem;
+      box-sizing: border-box;
+      padding: 3rem;
+      .admin-title {
+        font-size: min(3.6vw, 3rem);
+        margin-bottom: 2rem;
+        color: $main-color;
+        font-weight: bold;
+      }
+      .admin-menuBtns {
+        box-sizing: border-box;
+        padding: 2rem 0 5rem;
+        ul {
+          display: flex;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          gap: 2rem;
+          li {
+            border-radius: 1rem;
+            width: 45%;
+            box-sizing: border-box;
+            padding: 2rem;
+            background: linear-gradient(
+              to bottom,
+              $main-color 0%,
+              $sub-color 100%
+            );
+            // box-shadow: 2px 2px 1px 1px $bg-color2;
+            a {
+              width: 100%;
+              figure {
+                text-align: right;
+                figcaption {
+                  font-size: 2rem;
+                  color: #fff;
+                  font-weight: bold;
+                }
+              }
+            }
+          }
+        }
+      }
+      // 전체 회원 관리
+      .admin-allUserCount {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+        span {
+          color: $main-color;
+        }
+      }
+      .admin-userSearch {
+        margin-bottom: 2rem;
+        #user-search,
+        select {
+          border: none;
+          padding: 0.5rem 1rem;
+          border: 1px solid $border-color2;
+          border-radius: 0.5rem;
+        }
+        #user-search {
+          margin-left: 0.5rem;
+        }
+        button {
+          background-color: $btn-color;
+          padding: 0.5rem 1rem;
+          border-radius: 0.5rem;
+          margin-left: 0.5rem;
+          color: #fff;
+          font-weight: bold;
+        }
+      }
+      .admin-allUserTable {
+        @include adminTable;
+        tbody {
+          tr {
+            td {
+              &:last-child,
+              &:nth-child(4),
+              &:nth-child(3) {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+      // 판매자 관리
+      .admin-sellersTable {
+        @include adminTable;
+        tbody {
+          tr {
+            td {
+              &:first-child,
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+      // 블랙리스트 추가
+      .admin-addBlackList {
+        button {
+          background-color: $btn-color;
+          padding: 1rem 2rem;
+          border-radius: 0.5rem;
+          color: #fff;
+          font-weight: bold;
+          cursor: pointer;
+        }
+      }
+      // 신고된 유저
+      .admin-complaintUser {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        span {
+          color: $main-color;
+        }
+      }
+      // 신고 내역
+      .admin-complaintTable {
+        @include adminTable;
+        margin-top: 2rem;
+        table-layout: fixed;
+        overflow: hidden;
+        tbody {
+          tr {
+            td {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              word-break: break-all;
+              &:first-child {
+                width: 20%;
+              }
+              &:nth-child(2) {
+                width: 50%;
+              }
+              &:last-child {
+                width: 30%;
+              }
+            }
+          }
+        }
+      }
+      // 블랙리스트 관리
+      .admin-blacklistTable {
+        @include adminTable;
+        tbody {
+          tr {
+            td {
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+      // 전체 거래 내역 조회
+      .admin-orderlogTable {
+        @include adminTable;
+        overflow: hidden;
+        tbody {
+          tr {
+            td {
+              max-width: 100px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              word-break: break-all;
+              &:first-child,
+              &:nth-child(2),
+              &:last-child {
+                text-align: center;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// 달력 스타일링
+
+.month-btn {
+  border: none;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  font-size: 20px;
+  width: 320px;
+  border-bottom: 1px solid #ddd;
+}
+
+.calendar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.month-title {
+  font-size: 40px;
+  text-shadow:
+    -1px 0px #777,
+    0px 1px #777,
+    1px 0px #777,
+    0px -1px #777;
+}
+
+.cal-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.week,
+.dates {
+  display: flex;
+  flex-wrap: wrap;
+  width: 320px;
+}
+
+.day,
+.date {
+  position: relative;
+  text-align: center;
+  width: calc(100% / 7);
+  height: 30px;
+  padding: 5px 0 5px 0;
+  box-sizing: border-box;
+}
+
+.date:nth-child(7n),
+.day:nth-child(7n) {
+  color: blue;
+}
+
+.date:nth-child(7n + 1),
+.day:nth-child(7n + 1) {
+  color: red;
+}
+
+.today {
+  position: absolute;
+  display: block;
+  width: 60%;
+  height: 80%;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: $bg-color2;
+  z-index: -1;
+}
+
+.month {
+  text-align: center;
+  font-size: 40px;
+}
+
+.date {
+  cursor: pointer;
+}
+
+.admin-salesRecords {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  .admin-sales {
+    width: 400px;
+    .admin-pickDay {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $main-color;
+      margin-bottom: 2rem;
+    }
+    .admin-totalTrade {
+      h4 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      &:nth-child(2) {
+        span {
+          color: red;
+        }
+      }
+      &:last-child {
+        span {
+          color: blue;
+        }
+      }
+    }
+  }
+}
+
+// 관리자 페이지는 1024px 이하 접근 ㄴㄴ
+// 768px 이하 미디어쿼리
+@media screen and (max-width: $lg) {
+  .admin-wrapper {
+    .admin-navigation {
+      display: none;
+    }
+    .admin-container {
+      display: none;
+    }
+    .admin-display {
+      display: block;
+      margin: 0 auto;
+      font-size: 3rem;
+      text-align: center;
+    }
+  }
+}

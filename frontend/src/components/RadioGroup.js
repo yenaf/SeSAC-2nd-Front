@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+// 라디오버튼 그룹 컴포넌트
 export default function RadioGroup({
   name,
   options,
   required,
+  defaultValue = null,
   register = () => {},
 }) {
-  const [selectedValue, setSelectedValue] = useState(null);
+  const [selectedValue, setSelectedValue] = useState('');
 
   const handleRadioChange = (value) => {
     setSelectedValue(value);
   };
+
+  useEffect(() => {
+    if (defaultValue !== null) {
+      setSelectedValue(defaultValue);
+    }
+  }, [defaultValue]);
 
   return (
     <div className="radio-group">

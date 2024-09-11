@@ -1,0 +1,60 @@
+@import '../common/reset';
+@import '../common/variables';
+@import '../common/utils';
+@import './Address.scss';
+
+.mypage-container-address {
+  .mypage-info-container button {
+    background-color: transparent;
+    margin: 0;
+  }
+  .mypage-content-container {
+    width: 100%;
+    display: block;
+    .address-container {
+      position: relative;
+      top: 0;
+      left: 0;
+      transform: translate(0, 0);
+      width: 100%;
+      .address-bx {
+        .address-title {
+          color: #000;
+          button {
+            &.add-cancel {
+              color: #000;
+            }
+            &.close-modal {
+              display: none;
+            }
+          }
+        }
+        .address-list {
+          overflow: auto;
+          height: auto;
+          color: #000;
+          .address-info {
+            .address-btns {
+              button {
+                &:last-child {
+                  display: none;
+                }
+              }
+            }
+          }
+        }
+      }
+      .address-insert {
+        form {
+          button {
+            &.address-save {
+              width: 100%;
+              margin-top: 2rem;
+              position: relative;
+            }
+          }
+        }
+      }
+    }
+  }
+}

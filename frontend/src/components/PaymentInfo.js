@@ -1,6 +1,7 @@
 import React from 'react';
 import priceToString from '../utils/priceMethods';
 
+// 결제 금액 정보 출력 컴포넌트
 export default function PaymentInfo({ pageInfo, price }) {
   const { totalAmount, totalDeliveryFee, totalPayment } = price;
   return (

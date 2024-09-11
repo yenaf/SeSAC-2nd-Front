@@ -1,13 +1,20 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import priceToString from '../utils/priceMethods';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { deleteEachPrice, addEachPrice, deleteItem } from '../store/cartSlice';
+import {
+  deleteEachPrice,
+  addEachPrice,
+  deleteItem,
+} from '../store/cartSliceTemp';
+import { deleteCartData } from '../api/cart';
 
+// 장바구니 - 판매자별로 묶어주는 컴포넌트
 export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   const { items } = cart;
   const dispatch = useDispatch();
+  const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
 
   if (!items || items.length === 0) {
     // items가 없거나 비어있을 때 아무 것도 렌더링하지 않음
@@ -41,8 +48,15 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   };
 
   // 장바구니 아이템 삭제
-  const deleteCartItem = (e, targetId) => {
-    dispatch(deleteItem(targetId));
+  const deleteCartItem = async (e, targetId) => {
+    try {
+      const res = await deleteCartData(targetId);
+      if (res) {
+        dispatch(deleteItem(targetId));
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -57,19 +71,39 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
           {/* 아이템 리스트 */}
           <ol>
             {items.map((val, idx) => (
-              <li key={idx} className="cartItem">
+              <li key={val.postId} className="cartItem">
                 <div className="cartItem-check">
-                  <input
-                    type="checkbox"
-                    defaultChecked
-                    ref={(el) => (forwardRef.current[idx] = el)}
-                    onChange={(e) => checkItem(e, idx)}
-                    data-cart={`${val.cartId}`}
-                  />
+                  {val.Post.sellStatus === '판매 중' ? (
+                    <input
+                      type="checkbox"
+                      defaultChecked
+                      ref={(el) => (forwardRef.current[idx] = el)}
+                      onChange={(e) => checkItem(e, idx)}
+                      data-cart={`${val.cartId}`}
+                    />
+                  ) : (
+                    <input
+                      type="checkbox"
+                      ref={(el) => (forwardRef.current[idx] = el)}
+                      data-cart={`${val.cartId}`}
+                      disabled
+                    />
+                  )}
                 </div>
-                <figure className="cartItem-img">
+                <figure
+                  className={
+                    val.Post.sellStatus === '판매 중'
+                      ? `cartItem-img`
+                      : `cartItem-img sellDone`
+                  }
+                >
+                  {val.Post.sellStatus === '판매 중' ? null : (
+                    <div className="img-filter">
+                      <div className="img-label">{val.Post.sellStatus}</div>
+                    </div>
+                  )}
                   <img
-                    src={val.Post.Product_Image[0].imgName}
+                    src={`${imgUrl}${val.Post.Product_Images[0].imgName}`}
                     alt={val.Post.postTitle}
                   />
                 </figure>
@@ -90,6 +124,11 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
                   <div className="cartItem-price">
                     가격 : {priceToString(val.Post.productPrice)}원
                   </div>
+                  {val.Post.sellStatus === '판매 중' ? null : (
+                    <div className="cartItem-sellStatus">
+                      구매할 수 없는 상품입니다.
+                    </div>
+                  )}
                 </div>
                 <div className="cartItem-deleteBtn">
                   <button onClick={(e) => deleteCartItem(e, val.cartId)}>

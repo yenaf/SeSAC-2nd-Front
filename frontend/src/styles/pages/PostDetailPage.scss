@@ -1,4 +1,6 @@
+@import '../common/reset';
 @import '../common/variables';
+@import '../common/utils';
 
 // 상세페이지
 .post-desc {
@@ -25,6 +27,12 @@
       overflow: hidden;
       -webkit-line-clamp: 2;
       line-clamp: 2;
+      time {
+        position: absolute;
+        top: 0;
+        right: 5%;
+        color: #c9c9c9;
+      }
       strong {
         display: block;
         font-size: 1.3rem;
@@ -80,20 +88,18 @@
           }
         }
       }
+      // 찜+장바구니+구매하기
       .btn-group {
         text-align: center;
         width: 100%;
         position: relative;
-        .dibs-container {
+        .dibs {
           position: absolute;
           top: 50%;
           left: 1rem;
           transform: translateY(-50%);
-          .dibs {
-            font-size: 2.5rem;
-            color: rgb(153, 68, 218);
-            cursor: pointer;
-          }
+          font-size: 2.3rem;
+          cursor: pointer;
         }
         .link-container {
           display: flex;
@@ -102,17 +108,62 @@
           padding: 2rem 0;
         }
         .btn {
-          width: 43%;
+          width: 37%;
           padding: 1rem 2rem;
           border-radius: 0.8rem;
           font-weight: 600;
           font-size: 1.4rem;
           cursor: pointer;
           border: 1px solid $btn-color;
-          color: $main-color;
           &.buy {
-            color: #fff;
             background: $btn-color;
+            color: #fff;
+            &.unable {
+              background-color: #ccc;
+              border-color: #ccc;
+            }
+          }
+          &.shopping {
+            color: $main-color;
+            &.unable {
+              color: #ccc;
+              border-color: #ccc;
+            }
+          }
+        }
+        // 장바구니 모달
+        .cart-modal {
+          @include modalSetting;
+          display: none;
+          .cart-modalContainer {
+            position: absolute;
+            background-color: #fff;
+            box-sizing: border-box;
+            padding: 3rem 5rem;
+            border-radius: 2rem;
+            @include center;
+            .cart-modalComment {
+              margin-bottom: 2rem;
+            }
+            .cart-modalBtns {
+              display: flex;
+              gap: 0 2rem;
+              justify-content: center;
+              cursor: pointer;
+              button {
+                background-color: $btn-color;
+                border-radius: 0.5rem;
+                box-sizing: border-box;
+                color: #fff;
+                padding: 1rem 2rem;
+                font-weight: bold;
+                &.cart-modalClose {
+                  background-color: #fff;
+                  color: $main-color;
+                  border: 1px solid $main-color;
+                }
+              }
+            }
           }
         }
       }
@@ -120,7 +171,7 @@
   }
 }
 
-// 하단 판매자+상품설명
+// 하단 (판매자+상품설명)
 .post-botton {
   position: relative;
   width: 90%;
@@ -128,8 +179,18 @@
   display: flex;
   gap: 3rem;
   border-top: 1px solid $bg-color;
-  padding: 3rem 2rem 0 2rem;
+  padding: 4rem 2rem 0 2rem;
   box-sizing: border-box;
+
+  .report-icon {
+    position: absolute;
+    top: 1rem;
+    right: 3rem;
+    cursor: pointer;
+    font-size: 2rem;
+    color: rgb(218, 49, 49);
+    z-index: 5;
+  }
   .seller-info {
     width: auto;
     h3 {
@@ -154,7 +215,7 @@
     position: relative;
     p {
       width: 100%;
-      height: 300px;
+      min-height: 300px;
       border: 1px solid $border-color;
       padding: 3rem;
       box-sizing: border-box;
@@ -176,7 +237,7 @@
   }
 }
 
-// 하단 버튼
+// 하단 버튼 (돌아가기, 목록, 수정, 삭제)
 .btn-bottom-group {
   width: 90%;
   margin: auto;
@@ -191,6 +252,7 @@
     border: 1px solid $btn-color;
     color: $main-color;
     margin-right: 1rem;
+    display: inline-block;
     &.delete {
       margin-right: 2rem;
     }
@@ -200,13 +262,22 @@
         margin-right: 1rem;
       }
     }
+    .list-link {
+      color: $main-color;
+    }
   }
 }
 
 // 스와이퍼 디자인
 .product-img {
+  @include unablePurcheaseItem;
   .mySwiper2 {
-    border-radius: 2rem;
+    border-radius: 1rem;
+    .img-label {
+      top: 5px;
+      left: 5px;
+      border-radius: 0.5rem;
+    }
   }
   .swiper {
     --swiper-navigation-color: #ffffff00;
@@ -223,21 +294,19 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      background-size: cover;
-      background-position: center;
       img {
         display: block;
         width: 100%;
-        height: 100%;
+        height: 40rem;
         object-fit: cover;
       }
     }
   }
   .mySwiper .swiper-slide {
     width: 25%;
-    height: 100%;
     opacity: 0.4;
     img {
+      max-height: 8rem;
       border-radius: 1rem;
       margin-top: 1rem;
     }
@@ -247,6 +316,85 @@
   }
 }
 
+// 신고하기 모달
+.report-modal-overlay {
+  @include modalSetting;
+  .report-modal-content {
+    position: absolute;
+    right: 30%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: auto;
+    padding: 4rem 5rem;
+    background: #fff;
+    box-sizing: border-box;
+    border-radius: 1rem;
+
+    h2 {
+      font-size: 1.8rem;
+      color: red;
+      .report-icon {
+        margin-right: 1rem;
+      }
+    }
+    p {
+      font-size: 1.6rem;
+      padding: 1.5rem 0;
+    }
+    .report-label {
+      display: flex;
+      color: #333;
+      gap: 1rem;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      align-items: center;
+
+      input[type='radio'] {
+        margin-right: 1rem;
+        appearance: none;
+        width: 1.6rem;
+        height: 1.6rem;
+        line-height: 18px;
+        border: 1px solid #999;
+        vertical-align: middle;
+        cursor: pointer;
+
+        &:checked {
+          background-color: $sub-color;
+          border-color: violet;
+        }
+
+        &:focus {
+          outline: none;
+          box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+        }
+      }
+    }
+    .reports-btn {
+      text-align: center;
+      button {
+        padding: 1rem 2.5rem;
+        margin: 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+
+        &:first-of-type {
+          background-color: $sub-color;
+          color: #fff;
+        }
+
+        &:last-of-type {
+          background-color: #ccc;
+          color: #333;
+        }
+      }
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////////
+
 /* 1024px 이하 미디어쿼리 */
 @media screen and (max-width: $lg) {
   .post-desc {
@@ -254,7 +402,6 @@
     .post-top {
       .product-info {
         padding: 1rem;
-        gap: 0.5rem;
         h2 {
           height: auto;
           font-size: 2rem;
@@ -267,10 +414,11 @@
           padding: 1rem;
           font-size: 1.2rem;
         }
-      }
-      .btn-group {
-        .btn {
-          width: 40%;
+        .btn-group {
+          .link-container {
+            width: 90%;
+            float: right;
+          }
         }
       }
     }
@@ -290,12 +438,15 @@
       .product-info {
         padding: 2.5rem 0;
         gap: 0.5rem;
+        time {
+          right: 0;
+        }
         strong {
           font-size: 1.2rem;
         }
         .btn-group {
           width: 90%;
-          padding-right: 10%;
+          padding-right: 15%;
           position: fixed;
           z-index: 100;
           bottom: 0;
@@ -305,6 +456,9 @@
           .link-container {
             padding: 1.5rem 0;
           }
+          .dibs {
+            left: 0.5rem;
+          }
         }
       }
     }
@@ -313,6 +467,15 @@
     width: 100%;
     margin: 0 auto;
     padding: 2rem 0 1rem 0;
+    .report-icon {
+      position: absolute;
+      top: 2.5rem;
+      right: 1rem;
+      cursor: pointer;
+      font-size: 2rem;
+      color: rgb(163, 0, 0);
+      z-index: 5;
+    }
     .seller-info {
       .seller-img {
         width: 80px;
@@ -332,6 +495,186 @@
         .back-icon {
           margin-right: 0;
         }
+      }
+    }
+  }
+}
+/////////////////////////////
+// Comment.js 댓글 디자인
+
+// 하단 댓글 section
+.comment-container {
+  width: 90%;
+  margin: 5rem auto;
+  padding: 3rem 0;
+  border-top: 1px solid #eae1f0;
+  h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// 댓글쓰기
+.comment-wrap {
+  position: relative;
+  border: 1px solid $bg-color2;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  @include userView;
+  .comment-text {
+    display: block;
+    width: 100%;
+    height: 5rem;
+    box-sizing: border-box;
+    resize: none;
+    border: none;
+    padding: 0 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+  .comment-btn-wrap {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+    border-top: 1px solid $bg-color3;
+    .lock-comment {
+      position: relative;
+      color: #c9c9c9;
+      font-size: 1.2rem;
+      #secret {
+        position: absolute;
+        z-index: -10;
+        opacity: 0;
+      }
+      #reSecret {
+        position: absolute;
+        z-index: -10;
+        opacity: 0;
+      }
+      &.active {
+        color: #272727;
+      }
+      .lock-icon {
+        margin-right: 0.8rem;
+        font-size: 1.5rem;
+      }
+    }
+    .comment-btn {
+      background: $btn-color;
+      margin: 1rem 1rem;
+      padding: 0.5rem 1.5rem;
+      color: #fff;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+  }
+  .textarea-box {
+    position: relative;
+    .char-count {
+      position: absolute;
+      right: 1rem;
+      bottom: 0;
+    }
+  }
+}
+
+//댓글 완료
+.comment-item {
+  position: relative;
+  border: 1px solid $bg-color2;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 2rem;
+  @include userView;
+  .lock-icon {
+    margin-left: 1rem;
+  }
+  .text-box {
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
+    .comment-text {
+      width: 100%;
+      text-wrap: wrap;
+      min-height: 3rem;
+      font-size: 1.3rem;
+      word-wrap: break-word; /* 단어가 길 경우 줄바꿈 */
+      overflow-wrap: break-word; /* 같은 효과, 브라우저 호환성 위해 사용 */
+      white-space: normal;
+      resize: none;
+      border: none;
+      &:focus {
+        outline: transparent;
+      }
+    }
+    time {
+      display: block;
+      margin-top: 0.5rem;
+      color: #949494;
+    }
+  }
+  .comment-edit-wrap {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 1rem;
+    .comment-edit-icon {
+      color: $main-color;
+      cursor: pointer;
+      font-size: 1.8rem;
+    }
+  }
+  .comment-complete-btn {
+    .reply-btn {
+      background: $btn-color;
+      margin: 1rem 1rem;
+      padding: 0.5rem 1rem;
+      color: #fff;
+      box-sizing: border-box;
+      cursor: pointer;
+      .reply-icon {
+        transform: rotate(90deg);
+        margin-right: 0.5rem;
+      }
+    }
+  }
+}
+.reply-input-wrap {
+  width: 90%;
+  margin-left: 10%;
+}
+.replies-wrap {
+  width: 90%;
+  margin-left: 10%;
+  .reply-item {
+    position: relative;
+    background-color: #fff7f7;
+    .comment-text {
+      background-color: #fff7f7;
+    }
+    .re-reply-icon {
+      transform: rotate(90deg);
+      position: absolute;
+      top: 20%;
+      left: -8%;
+      font-size: 3rem;
+      color: $border-color;
+    }
+  }
+}
+
+@media screen and (max-width: $lg) {
+  .reply-input-wrap {
+    .reply-item {
+      .re-reply-icon {
+        left: -8%;
+        font-size: 2rem;
+        color: $border-color;
       }
     }
   }

@@ -1,9 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 
-export default function UploadButton({ register = () => {} }) {
+// 업로드 버튼 컴포넌트
+export default function UploadButton({
+  register = () => {},
+  defaultValue = {},
+}) {
   const [previewImages, setPreviewImages] = useState([]);
+  useEffect(() => {
+    if (defaultValue.length > 0) {
+      const defaultImageUrls = defaultValue.map(
+        (item) =>
+          'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/' +
+          item.imgName,
+      );
+      setPreviewImages(defaultImageUrls);
+    }
+  }, [defaultValue]);
 
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);

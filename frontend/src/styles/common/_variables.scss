@@ -33,6 +33,15 @@
   font-style: normal;
 }
 
+//피플퍼스트또박체
+@font-face {
+  font-family: 'PeoplefirstNeatLoudTTF';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2406-2@1.0/PeoplefirstNeatLoudTTF.woff2')
+    format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 // 색상 정보
 $main-color: #7469b6;
 $btn-color: #7469b6;
@@ -42,6 +51,7 @@ $border-color2: #d6c1e4;
 $bg-color: #eae1f0;
 $bg-color2: #ceb8da;
 $bg-color3: #e4d8eb;
+$modal-bgColor: rgba(0, 0, 0, 0.2);
 
 // 중단점 정보
 $ssm: 375px;

@@ -1,31 +1,42 @@
 import React, { useState, useEffect } from 'react';
 
-// FormInput 컴포넌트
-// export function FormInput({ label, id, type, register, validation, errors }) {
-//   return (
-//     <div className="register-input">
-//       <label htmlFor={id}>{label} </label>
-//       <input type={type} id={id} {...register(id, validation)} />
-//       <span className="error-msg">{errors[id]?.message}</span>
-//     </div>
-//   );
-// }
-
 // AddressInput 컴포넌트
-export function AddressInput({ register, setValue, errors }) {
-  const [postcode, setPostcode] = useState('');
+export function AddressInput({ register, setValue, errors, defaultVal }) {
+  const [zipCode, setZipCode] = useState('');
   const [address, setAddress] = useState('');
+  const [detailedAddress, setDetailedAddress] = useState('');
+  const [zipcodeBox, setZipcodeBox] = useState({
+    zipcode: '',
+    address: '',
+    detailedAddress: '',
+  });
 
   const handleAddressSearch = () => {
     new window.daum.Postcode({
       oncomplete: function (data) {
-        setPostcode(data.zonecode);
+        setZipCode(data.zonecode);
         setAddress(data.address);
-        setValue('postcode', data.zonecode, { shouldValidate: true });
+        setValue('zipCode', data.zonecode, { shouldValidate: true });
         setValue('address', data.address, { shouldValidate: true });
       },
     }).open();
   };
+
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때만 defaultVal로 초기화
+    if (defaultVal && !zipCode && !address && !detailedAddress) {
+      setZipCode(defaultVal.zipCode || '');
+      setAddress(defaultVal.address || '');
+      setDetailedAddress(defaultVal.detailedAddress || '');
+
+      // form 값도 초기화
+      setValue('zipCode', defaultVal.zipCode || '', { shouldValidate: true });
+      setValue('address', defaultVal.address || '', { shouldValidate: true });
+      setValue('detailedAddress', defaultVal.detailedAddress || '', {
+        shouldValidate: true,
+      });
+    }
+  }, [defaultVal, zipCode, address, detailedAddress, setValue]);
 
   return (
     <div className="register-input">
@@ -34,10 +45,10 @@ export function AddressInput({ register, setValue, errors }) {
         <div className="input-address">
           <input
             type="text"
-            id="postcode"
-            value={postcode || ''}
+            id="zipCode"
+            value={zipCode || ''} // 빈 문자열로 초기화
             readOnly
-            {...register('postcode', {
+            {...register('zipCode', {
               required: '우편 번호를 입력해주세요!',
             })}
           />
@@ -50,17 +61,18 @@ export function AddressInput({ register, setValue, errors }) {
       <input
         type="text"
         id="address"
-        value={address || ''}
+        value={address || ''} // 빈 문자열로 초기화
         readOnly
         {...register('address', { required: '주소를 입력해주세요!' })}
       />
       <br />
+      <br />
       <input
         type="text"
         id="detailedAddress"
-        {...register('detailedAddress', {
-          // required: '상세 주소를 입력해주세요!',
-        })}
+        {...register('detailedAddress')}
+        value={detailedAddress || ''}
+        onChange={(e) => setDetailedAddress(e.target.value)}
       />
       <span className="error-msg">{errors.detailedAddress?.message}</span>
     </div>
@@ -69,11 +81,12 @@ export function AddressInput({ register, setValue, errors }) {
 
 // AgreementCheckbox 컴포넌트
 export function AgreementCheckbox({ register, watch, setValue, errors }) {
-  const chkAll = watch('chk-all');
-  const isRequiredAgreed = watch('isRequiredAgreed');
-  const isOptionalAgreed = watch('isOptionalAgreed');
+  const chkAll = watch('chk-all') || false; // undefined 방지
+  const isRequiredAgreed = watch('isRequiredAgreed') || false; // undefined 방지
+  const isOptionalAgreed = watch('isOptionalAgreed') || false; // undefined 방지
 
   useEffect(() => {
+    // 필수 및 선택 동의가 모두 선택된 경우 'chk-all'을 true로 설정
     if (isRequiredAgreed && isOptionalAgreed) {
       setValue('chk-all', true, { shouldValidate: false });
     } else {
@@ -83,6 +96,7 @@ export function AgreementCheckbox({ register, watch, setValue, errors }) {
 
   const handleChkAll = (e) => {
     const checked = e.target.checked;
+    // 모든 동의란을 일괄 체크/해제
     setValue('isRequiredAgreed', checked, { shouldValidate: true });
     setValue('isOptionalAgreed', checked, { shouldValidate: false });
   };
@@ -112,6 +126,8 @@ export function AgreementCheckbox({ register, watch, setValue, errors }) {
             {...register('isRequiredAgreed', {
               required: '필수 동의를 체크해주세요.',
             })}
+            checked={isRequiredAgreed}
+            onChange={(e) => setValue('isRequiredAgreed', e.target.checked)}
           />
           <label htmlFor="isRequiredAgreed">리블링스 이용약관 동의(필수)</label>
         </span>
@@ -177,6 +193,8 @@ export function AgreementCheckbox({ register, watch, setValue, errors }) {
             type="checkbox"
             id="isOptionalAgreed"
             {...register('isOptionalAgreed')}
+            checked={isOptionalAgreed}
+            onChange={(e) => setValue('isOptionalAgreed', e.target.checked)}
           />
           <label htmlFor="isOptionalAgreed">리블링스 이용약관 동의(선택)</label>
         </span>

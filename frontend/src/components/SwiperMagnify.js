@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 
@@ -12,17 +12,22 @@ import 'swiper/css/thumbs';
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
 // 판매자가 등록한 이미지
-const imageUrls = [
-  'https://swiperjs.com/demos/images/nature-1.jpg',
-  'https://swiperjs.com/demos/images/nature-2.jpg',
-  'https://swiperjs.com/demos/images/nature-3.jpg',
-  'https://swiperjs.com/demos/images/nature-4.jpg',
-  'https://swiperjs.com/demos/images/nature-5.jpg',
-];
+const imageUrls = [];
 
-export default function SwiperMagnify() {
+export default function SwiperMagnify({ productImg, sellStatus }) {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]);
 
+  useEffect(() => {
+    if (productImg && productImg.length > 0) {
+      const urls = productImg.map(
+        (img) =>
+          'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/' +
+          img.imgName,
+      );
+      setImageUrls(urls);
+    }
+  }, [productImg]);
   return (
     <>
       <Swiper
@@ -34,7 +39,16 @@ export default function SwiperMagnify() {
       >
         {imageUrls.map((url, index) => (
           <SwiperSlide key={index}>
-            <img src={url} alt={`nature-${index + 1}`} />
+            <img
+              src={url}
+              alt={`nature-${index + 1}`}
+              className="swiper-img item-img"
+            />
+            {sellStatus === '판매 중' ? null : (
+              <div className="img-filter">
+                <div className="img-label">{sellStatus}</div>
+              </div>
+            )}
           </SwiperSlide>
         ))}
       </Swiper>
