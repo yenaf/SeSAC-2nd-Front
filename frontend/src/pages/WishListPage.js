@@ -18,7 +18,7 @@ export default function WishListPage() {
       const res = await axios.get('http://localhost:8080/mypage/wishlist', {
         withCredentials: true,
       });
-      console.log('찜 목록 조회 응답 : ', res.data);
+      // console.log('찜 목록 조회 응답 : ', res.data);
 
       // res로 받아온 데이터 상태에 저장하기
       setWishListData(res.data.wishlist || []);

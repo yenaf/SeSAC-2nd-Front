@@ -173,6 +173,7 @@
 
       h2 {
         font-size: 2rem;
+        margin-bottom: 10px;
       }
 
       .more {
@@ -318,31 +319,6 @@
   }
 }
 
-/* 768px 이하 미디어쿼리 */
-@media screen and (max-width: $md) {
-  .mypage-container {
-    flex-direction: column;
-
-    .mypage-list-container {
-      width: 100%;
-      ul {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 30px;
-      }
-    }
-
-    .mypage-info-container {
-      width: 100%;
-      .mypage-info-content,
-      .mypage-buy-content,
-      .mypage-seller-content {
-        margin-left: 0;
-      }
-    }
-  }
-}
-
 ////////////////////////////////////////////////////////
 // 마이페이지 컨텐트 구조
 .mypage-content-container {
@@ -361,6 +337,7 @@
 // SellerPage
 .err-msg {
   color: red;
+  font-size: 15px;
 }
 
 .mypage-content-container {
@@ -439,16 +416,14 @@
         button {
           width: 100px;
           margin: 0 10px;
+          &.reset-btn {
+            background-color: #fff;
+            color: $main-color;
+            border: 1px solid $main-color;
+          }
         }
       }
     }
-  }
-}
-
-/* 768px 이하 미디어쿼리 */
-@media screen and (max-width: $md) {
-  .mypage-content-container {
-    margin: 0;
   }
 }
 
@@ -458,11 +433,14 @@
   &.sell-list {
     display: flex;
     justify-content: center;
+    align-items: center;
   }
 }
 .sell-list-title {
   color: black;
   margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
 }
 .sell-list-container {
   width: 500px;
@@ -470,6 +448,8 @@
   #sell-list {
     display: flex;
     flex-direction: column;
+    // width: 500px;
+    // width: auto;
 
     .sell-list-content {
       border-bottom: 1px solid $border-color2;
@@ -497,6 +477,7 @@
       margin-bottom: 20px;
       h2 {
         font-size: 15px;
+        word-wrap: break-word;
       }
       .txt-black {
         color: black;
@@ -573,8 +554,6 @@
   }
 
   .order-list-container {
-    // width: 500px;
-    // margin-left: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -646,6 +625,7 @@
         h2 {
           font-size: 15px;
           margin-bottom: 10px;
+          word-wrap: break-word;
           .txt-black {
             color: black;
           }
@@ -779,6 +759,78 @@
       :nth-child(3) {
         color: black;
       }
+    }
+  }
+}
+
+/*  1024 */
+@media screen and (max-width: $lg) {
+  .mypage-info {
+    &.mypage-main {
+      flex-direction: column;
+      .user-info {
+        &.main {
+          margin-bottom: 10px;
+        }
+      }
+    }
+  }
+}
+
+/* 768px 이하 미디어쿼리 */
+@media screen and (max-width: $md) {
+  .mypage-container {
+    flex-direction: column;
+
+    .mypage-info {
+      &.mypage-main {
+        flex-direction: column;
+        .user-info {
+          &.main {
+            margin-bottom: 10px;
+          }
+        }
+      }
+    }
+
+    .mypage-content-container {
+      margin: 0;
+    }
+
+    .mypage-list-container {
+      width: 100%;
+      ul {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 30px;
+      }
+    }
+
+    .mypage-info-container {
+      width: 100%;
+      .mypage-info-content,
+      .mypage-buy-content,
+      .mypage-seller-content {
+        margin-left: 0;
+      }
+    }
+
+    .sell-list-container {
+      width: 300px;
+    }
+
+    .post-list-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: min(3vw, 3rem);
+      grid-row-gap: min(5.5vh, 4.6rem);
+    }
+
+    .wish-list-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-column-gap: min(3vw, 3rem);
+      grid-row-gap: min(5.5vh, 4.6rem);
     }
   }
 }

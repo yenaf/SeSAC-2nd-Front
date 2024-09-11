@@ -8,11 +8,13 @@ import { getSellerData, patchSellerData } from '../api/seller';
 
 export default function EditSellerPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
+  const [initialData, setInitialData] = useState(null); // 초기 데이터 저장
   const [deliveryId, setDeliveryId] = useState(0);
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors },
   } = useForm({
     mode: 'onBlur',
@@ -30,25 +32,24 @@ export default function EditSellerPage() {
         console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
       }
       await getSellerData(sellerId).then((res) => {
-        console.log(res.data);
-        setValue('sellerName', res.data.seller.sellerName);
-        setPreviewImg(res.data.seller.sellerImg);
-        setValue('sellerExplain', res.data.seller.sellerExplain);
-        setValue('deliveryId', res.data.seller.deliveryId.toString());
-        setDeliveryId(res.data.seller.deliveryId.toString());
+        const sellerData = res.data.seller;
+        setInitialData(sellerData); // 초기 데이터 저장
+        setValue('sellerName', sellerData.sellerName);
+        setPreviewImg(sellerData.sellerImg);
+        setValue('sellerExplain', sellerData.sellerExplain);
+        setValue('deliveryId', sellerData.deliveryId.toString());
+        setDeliveryId(sellerData.deliveryId.toString());
       });
     };
     fetchInitData();
-  }, []);
+  }, [setValue]);
 
   // 파일 체크 함수
   const fileExtCheck = (obj) => {
-    // console.log(obj);
     const pathPoint = obj.lastIndexOf('.');
     const filePoint = obj.substring(pathPoint + 1, obj.length);
     const fileType = filePoint.toLowerCase();
-    // console.log('fileType', fileType);
-    if (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png')
+    if (fileType === 'jpg' || fileType === 'jpeg' || fileType === 'png')
       return true;
     else return false;
   };
@@ -57,17 +58,14 @@ export default function EditSellerPage() {
   const fileCheck = (e) => {
     let file = e.target.files[0];
     let fileName = file.name;
-    console.log('file >>', file);
 
     if (fileExtCheck(fileName)) {
-      // 프사 설정한 대로 바꾸게 하기
       if (file) {
         let reader = new FileReader();
         reader.onload = () => {
           setPreviewImg(reader.result);
         };
         reader.readAsDataURL(file);
-        console.log('filename >>', file.name);
       }
     } else {
       alert('이미지 파일만 올려주세요!');
@@ -82,12 +80,6 @@ export default function EditSellerPage() {
     formData.append('sellerName', data.sellerName);
     formData.append('sellerExplain', data.sellerExplain);
     formData.append('deliveryId', data.deliveryId);
-    console.log(formData);
-
-    // // FormData 내용 로깅
-    // for (let [key, value] of formData.entries()) {
-    //   console.log(key, value);
-    // }
 
     try {
       let sellerId;
@@ -110,6 +102,18 @@ export default function EditSellerPage() {
     } catch (error) {
       console.error('판매자 수정 오류:', error);
       alert('서버 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
+  // 취소 버튼 클릭 시 초기 데이터로 폼 값 초기화
+  const handleReset = () => {
+    if (initialData) {
+      reset({
+        sellerName: initialData.sellerName,
+        sellerExplain: initialData.sellerExplain,
+        deliveryId: initialData.deliveryId.toString(),
+      });
+      setPreviewImg(initialData.sellerImg); // 이미지도 초기값으로
     }
   };
 
@@ -214,7 +218,13 @@ export default function EditSellerPage() {
 
                 <div className="seller-btn">
                   <button type="submit">수정</button>
-                  <button type="button">취소</button>
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    className="reset-btn"
+                  >
+                    취소
+                  </button>
                 </div>
               </div>
             </form>

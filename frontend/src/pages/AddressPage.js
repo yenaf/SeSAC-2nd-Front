@@ -24,7 +24,7 @@ export default function AddressPage() {
   };
 
   return (
-    <div className="mypage-container">
+    <div className="mypage-container mypage-container-address">
       <MyPageMenu />
       <div className="mypage-info-container">
         <div className="mypage-content-container">

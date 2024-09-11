@@ -20,8 +20,6 @@ export default function OrderHistoryPage() {
         withCredentials: true, // 세션 쿠키를 포함하기 위해 사용
       });
 
-      console.log('res.data >> ', res.data);
-
       if (res.status === 200) {
         const { orderHistory, orderHistoryMessage } = res.data;
 
@@ -184,6 +182,3 @@ export default function OrderHistoryPage() {
     </div>
   );
 }
-
-// 상품이 환불 처리되었습니다. (신고 누적된 판매자)
-// userId 2번으로 로그인 햇을 때 orderId 9번이 환불이 떠야함.
