@@ -3,6 +3,7 @@ import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+// import MypageItems from '../components/MypageItems';
 
 export default function SellPostListPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';

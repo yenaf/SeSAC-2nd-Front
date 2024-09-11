@@ -33,6 +33,8 @@ import EditUserPage from './pages/EditUserPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import SellPostListPage from './pages/SellPostListPage';
 import AddressPage from './pages/AddressPage';
+import WishListPage from './pages/WishListPage';
+import EditSellerPage from './pages/EditSellerPage';
 
 function App() {
   return (
@@ -109,6 +111,11 @@ function App() {
                   path="/sellers"
                   element={<ProtectedRoute element={SellersPage} />}
                 />
+                {/* 판매자정보 수정 페이지 */}
+                <Route
+                  path="/sellers/editSeller"
+                  element={<ProtectedRoute element={EditSellerPage} />}
+                />
                 {/* 판매내역 리스트 페이지 */}
                 <Route
                   path="/mypage/salehistory"
@@ -120,6 +127,11 @@ function App() {
                   path="/mypage/postlist"
                   element={<ProtectedRoute element={SellPostListPage} />}
                   // requiredRole="seller"
+                />
+                {/* 찜 목록 */}
+                <Route
+                  path="/mypage/wishlist"
+                  element={<ProtectedRoute element={WishListPage} />}
                 />
                 {/* 구매내역 리스트 페이지 */}
                 <Route

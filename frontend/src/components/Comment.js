@@ -6,6 +6,7 @@ import {
   faPenToSquare,
   faX,
   faCheck,
+  faFaceSmile,
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import formatDate from '../components/common/formatDate';
@@ -41,7 +42,7 @@ export default function Comment({
       const { session } = res.data;
       setComments(commentList);
       setSession(session);
-      console.log('댓글목록조회', res.data);
+      console.log('댓글목록조회:comments', res.data);
     } catch (error) {
       console.error('댓글 목록을 가져오는 데 실패했습니다:', error);
     }
@@ -88,6 +89,7 @@ export default function Comment({
       );
       getCommentList();
       setCommentText('');
+      setIsSecret(false);
     } catch (error) {
       console.error('댓글 등록에 실패했습니다:', error);
     }
@@ -151,7 +153,7 @@ export default function Comment({
   const toggleSecret = () => {
     setIsSecret(!isSecret);
   };
-
+  // 비밀 댓글 토글
   const toggleReSecret = () => {
     setIsReSecret(!isReSecret);
   };
@@ -174,10 +176,14 @@ export default function Comment({
 
   // 대댓글 등록
   async function handleReplySubmit(comId) {
+    if (!replyText) {
+      alert('1자 이상 입력해주세요');
+      return;
+    }
     try {
       const res = await axios.post(
         `http://localhost:8080/comments/reply/${comId}`,
-        { postId: postId, comContent: replyText, isSecret: isSecret },
+        { postId: postId, comContent: replyText, isSecret: isReSecret },
         {
           withCredentials: true,
         },
@@ -187,8 +193,25 @@ export default function Comment({
       setReplyText('');
       setIsEditing(null);
       setReplyVisible('');
+      setIsSecret(false);
     } catch (error) {
       console.error('대댓글 등록 실패:', error);
+    }
+  }
+
+  // 대댓글 삭제
+  async function handleReplyDelete(comId) {
+    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      return;
+    }
+    try {
+      const res = await axios.patch(
+        `http://localhost:8080/comments/reply/delete/${comId}`,
+      );
+
+      getCommentList();
+    } catch (error) {
+      console.error('대댓글 삭제 실패:', error);
     }
   }
 
@@ -202,17 +225,8 @@ export default function Comment({
       {/* 댓글등록 */}
       <div className="comment-wrap" onMouseDown={userCheck}>
         <div className="user-wrap">
-          <img
-            src={
-              postSellerId === sellerId
-                ? postSellerImg
-                : profileImg || '/img/duck.jpg'
-            }
-            className="user-img"
-          />
-          <h3 className="nickname">
-            {postSellerId === sellerId ? postSellerName : nickname}
-          </h3>
+          <img src={profileImg || '/img/user.jpg'} className="user-img" />
+          <h3 className="nickname">{nickname}</h3>
         </div>
         <div className="textarea-box">
           <textarea
@@ -243,117 +257,110 @@ export default function Comment({
         </div>
       </div>
       {/* 댓글 등록 완료 */}
-      <div onMouseDown={userCheck}>
-        <ul>
-          {comments.map((comment, index) => (
-            <li key={index}>
-              <div className="comment-item">
-                <div className="user-wrap">
-                  <img
-                    src={comment.User.profileImg || '/img/duck.jpg'}
-                    className="user-img"
-                  />
-                  <h3 className="nickname">
-                    {comment.User.nickname}
-                    {comment.isSecret && (
-                      <FontAwesomeIcon icon={faLock} className="lock-icon" />
-                    )}
-                  </h3>
-                </div>
-                <div className="text-box">
-                  <textarea
-                    className="comment-text"
-                    value={
-                      isEditing === comment.comId
-                        ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
-                        : comment.isSecret &&
-                            userId !== comment.User.userId &&
-                            postSellerId !== sellerId
-                          ? '비밀 댓글입니다.' // 비밀 댓글일 경우
-                          : comment.comContent
-                    }
-                    onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
-                    readOnly={isEditing !== comment.comId} // 수정 중인 댓글만 수정 가능하게
-                    onKeyDown={(e) => handleKeyDown(e, comment.comId)}
-                  />
-                  <time>{formatDate(comment.createdAt)}</time>
-                </div>
-                <div className="comment-complete-btn">
-                  <button
-                    className="reply-btn"
-                    onClick={() => handleReplyToggle(comment.comId)}
-                  >
-                    <FontAwesomeIcon
-                      icon={faArrowTurnUp}
-                      className="reply-icon"
-                    />
-                    답글
-                  </button>
-                </div>
-                {userId === comment.User.userId && (
-                  <div className="comment-edit-wrap">
-                    {isEditing === comment.comId ? (
-                      <button
-                        title="저장"
-                        className="comment-edit-icon"
-                        onClick={() => handleUpdateComment(comment.comId)}
-                      >
-                        <FontAwesomeIcon icon={faCheck} />
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          title="수정"
-                          onClick={() =>
-                            handleEditComment(comment.comId, comment.comContent)
-                          }
-                        >
-                          <FontAwesomeIcon
-                            icon={faPenToSquare}
-                            className="comment-edit-icon"
-                          />
-                        </button>
-                        <button
-                          title="삭제"
-                          onClick={() => {
-                            handleDeleteComment(comment.comId);
-                          }}
-                        >
-                          <FontAwesomeIcon
-                            icon={faX}
-                            className="comment-edit-icon"
-                          />
-                        </button>
-                      </>
-                    )}
-                  </div>
-                )}
+      <ul onMouseDown={userCheck}>
+        {comments.map((comment, index) => (
+          <li key={index}>
+            <div className="comment-item">
+              <div className="user-wrap">
+                <img
+                  src={comment.User.profileImg || '/img/user.jpg'}
+                  className="user-img"
+                />
+                <h3 className="nickname">
+                  {/* 만약 postSellerId와 sellerId 가 같으면 comment.User.neckname 대신 comment에서 sellerName을 보내줘야함 마찬가지로 seller의 프로필이미지도 보내줘야함*/}
+                  {comment.User.nickname}
+                  {comment.isSecret && (
+                    <FontAwesomeIcon icon={faLock} className="lock-icon" />
+                  )}
+                </h3>
               </div>
-              {/* 대댓글 입력창 */}
-              {replyVisible[comment.comId] && (
+              <div className="text-box">
+                <textarea
+                  className="comment-text"
+                  defaultValue={
+                    isEditing === comment.comId
+                      ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
+                      : comment.isSecret &&
+                          userId !== comment.User.userId &&
+                          postSellerId !== sellerId
+                        ? '비밀 댓글입니다.' // 비밀 댓글일 경우
+                        : comment.comContent
+                  }
+                  onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
+                  readOnly={isEditing !== comment.comId} // 수정 중인 댓글만 수정 가능하게
+                  onKeyDown={(e) => handleKeyDown(e, comment.comId)}
+                />
+                <time>{formatDate(comment.createdAt)}</time>
+              </div>
+              <div className="comment-complete-btn">
+                <button
+                  className="reply-btn"
+                  onClick={() => handleReplyToggle(comment.comId)}
+                >
+                  <FontAwesomeIcon
+                    icon={faArrowTurnUp}
+                    className="reply-icon"
+                  />
+                  답글
+                </button>
+              </div>
+              {userId === comment.User.userId && (
+                <div className="comment-edit-wrap">
+                  {isEditing === comment.comId ? (
+                    <button
+                      title="저장"
+                      className="comment-edit-icon"
+                      onClick={() => handleUpdateComment(comment.comId)}
+                    >
+                      <FontAwesomeIcon icon={faCheck} />
+                    </button>
+                  ) : (
+                    <>
+                      <button
+                        title="수정"
+                        onClick={() =>
+                          handleEditComment(comment.comId, comment.comContent)
+                        }
+                      >
+                        <FontAwesomeIcon
+                          icon={faPenToSquare}
+                          className="comment-edit-icon"
+                        />
+                      </button>
+                      <button
+                        title="삭제"
+                        onClick={() => {
+                          handleDeleteComment(comment.comId);
+                        }}
+                      >
+                        <FontAwesomeIcon
+                          icon={faX}
+                          className="comment-edit-icon"
+                        />
+                      </button>
+                    </>
+                  )}
+                </div>
+              )}
+            </div>
+            {/* 대댓글 입력창 */}
+            {replyVisible[comment.comId] && (
+              <div>
                 <ul className="replt-list">
                   <li className="reply-input-wrap">
                     <div className="comment-wrap" onMouseDown={userCheck}>
                       <div className="user-wrap">
                         <img
-                          src={
-                            postSellerId === sellerId
-                              ? postSellerImg
-                              : profileImg || '/img/duck.jpg'
-                          }
+                          src={profileImg || '/img/duck.jpg'}
                           className="user-img"
                         />
-                        <h3 className="nickname">
-                          {postSellerId === sellerId
-                            ? postSellerName
-                            : nickname}
-                        </h3>
+                        <h3 className="nickname">{nickname}</h3>
                       </div>
                       <div className="textarea-box">
                         <textarea
                           className="comment-text"
                           placeholder={
-                            isSecret
+                            isReSecret
                               ? '비밀댓글 입니다'
                               : '댓글을 입력해주세요.'
                           }
@@ -364,8 +371,8 @@ export default function Comment({
                       </div>
                       <div className="comment-btn-wrap">
                         <label
-                          className={`lock-comment ${isSecret ? 'active' : ''}`}
-                          htmlFor="secret"
+                          className={`lock-comment ${isReSecret ? 'active' : ''}`}
+                          htmlFor="reSecret"
                         >
                           <FontAwesomeIcon
                             icon={faLock}
@@ -373,9 +380,9 @@ export default function Comment({
                           />
                           <input
                             type="checkbox"
-                            id="secret"
-                            checked={isSecret}
-                            onChange={toggleSecret}
+                            id="reSecret"
+                            checked={isReSecret}
+                            onChange={toggleReSecret}
                           />
                           비밀 댓글
                         </label>
@@ -391,11 +398,100 @@ export default function Comment({
                     </div>
                   </li>
                 </ul>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
+              </div>
+            )}
+            {/* 대댓글 등록 완료 */}
+            <ul className="replies-wrap">
+              {comment.replies.map((reply, replyIndex) => (
+                <li key={replyIndex} className="reply-item">
+                  <FontAwesomeIcon
+                    icon={faArrowTurnUp}
+                    className="re-reply-icon"
+                  />
+                  <div className="comment-item">
+                    <div className="user-wrap">
+                      <img
+                        src={reply.User.profileImg || '/img/user.jpg'}
+                        className="user-img"
+                      />
+                      <h3 className="nickname">
+                        {reply.User.nickname}{' '}
+                        {reply.isSecret && (
+                          <FontAwesomeIcon
+                            icon={faLock}
+                            className="lock-icon"
+                          />
+                        )}
+                      </h3>
+                    </div>
+                    <div className="text-box">
+                      <textarea
+                        className="comment-text"
+                        value={
+                          isEditing === reply.comId
+                            ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
+                            : reply.isSecret &&
+                                userId !== reply.User.userId &&
+                                postSellerId !== sellerId
+                              ? '비밀 댓글입니다.' // 비밀 댓글일 경우
+                              : reply.comContent
+                        }
+                        onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
+                        readOnly={isEditing !== reply.comId} // 수정 중인 댓글만 수정 가능하게
+                        onKeyDown={(e) => handleKeyDown(e, comment.comId)}
+                      />
+                      <time>{formatDate(reply.createdAt)}</time>
+                    </div>
+                    <div className="comment-complete-btn">
+                      {userId === reply.User.userId && (
+                        <div className="comment-edit-wrap">
+                          {isEditing === reply.comId ? (
+                            <button
+                              title="저장"
+                              className="comment-edit-icon"
+                              onClick={() => handleUpdateComment(reply.comId)}
+                            >
+                              <FontAwesomeIcon icon={faCheck} />
+                            </button>
+                          ) : (
+                            <>
+                              <button
+                                title="수정"
+                                onClick={() =>
+                                  handleEditComment(
+                                    reply.comId,
+                                    reply.comContent,
+                                  )
+                                }
+                              >
+                                <FontAwesomeIcon
+                                  icon={faPenToSquare}
+                                  className="comment-edit-icon"
+                                />
+                              </button>
+                              <button
+                                title="삭제"
+                                onClick={() => {
+                                  handleReplyDelete(reply.comId);
+                                }}
+                              >
+                                <FontAwesomeIcon
+                                  icon={faX}
+                                  className="comment-edit-icon"
+                                />
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }

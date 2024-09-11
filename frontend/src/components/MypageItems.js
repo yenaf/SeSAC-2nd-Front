@@ -16,7 +16,7 @@ export default function ItemList({ item }) {
             }
             alt={item.postTitle}
           />
-          {item.sellStatus === '판매중' ? null : (
+          {item.sellStatus === '판매 중' ? null : (
             <div className="img-filter">
               <div className="img-label">{item.sellStatus}</div>
             </div>

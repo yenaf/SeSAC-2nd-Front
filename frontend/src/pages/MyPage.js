@@ -32,32 +32,42 @@ export default function MyPage() {
       <div className="mypage-info-container">
         <div className="mypage-info-content">
           <h2>내 정보</h2>
-          <div className="mypage-info">
-            <div className="user-info">
+          <div className="mypage-info mypage-main">
+            <div className="user-info main">
               <p>유저 정보</p>
               <div className="info-content">
-                <figure className="mypage-img">
-                  <img
-                    src={initData.user?.profileImg || '/img/cat.png'}
-                    alt="사용자 프로필"
-                  />
-                </figure>
-                <div className="mypage-profile">
-                  <div className="mypage-name">{initData.user.nickname} 님</div>
-                  <div className="mypage-money">
-                    <div className="money-balance">
-                      {initData.user.balance} 원
+                <div className="info-content main">
+                  <figure className="mypage-img">
+                    <img
+                      src={initData.user?.profileImg || '/img/cat.png'}
+                      alt="사용자 프로필"
+                    />
+                  </figure>
+                  <div className="mypage-profile main">
+                    <div className="mypage-name main">
+                      <span className="info-txt-main">
+                        {initData.user.nickname}
+                      </span>{' '}
+                      님
                     </div>
-                    <button type="button" className="money-btn">
-                      충전
-                    </button>
+                    <div className="mypage-money">
+                      <div className="money-balance">
+                        <span className="info-txt-main">
+                          {initData.user.balance.toLocaleString()}
+                        </span>{' '}
+                        원
+                      </div>
+                      <button type="button" className="money-btn">
+                        충전
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="seller-info">
+            <div className="seller-info main">
               <p>판매자 정보</p>
-              <div className="info-content">
+              <div className="info-content main">
                 <figure className="mypage-img">
                   <img
                     src={initData.seller?.sellerImg || '/img/cat.png'}
@@ -66,7 +76,10 @@ export default function MyPage() {
                 </figure>
                 <div className="mypage-profile">
                   <div className="mypage-name">
-                    {initData.seller?.sellerName} 님
+                    <span className="info-txt-main">
+                      {initData.seller?.sellerName}
+                    </span>{' '}
+                    님
                   </div>
                 </div>
               </div>
