@@ -43,7 +43,7 @@ export default function OrderHistoryPage() {
   // 구매확정 API
   const orderBtn = async (orderId, postId) => {
     try {
-      const res = await patchOrderHistoryConfirmData();
+      const res = await patchOrderHistoryConfirmData(orderId, postId);
 
       if (res.status === 200) {
         // 서버 업데이트 성공 시, 로컬 상태도 업데이트
@@ -132,34 +132,33 @@ export default function OrderHistoryPage() {
                               상품이 환불 처리되었습니다. (신고 누적된 판매자)
                             </p>
                           )}
-
-                          {/* 배송 상태가 "배송 완료"일 때만 버튼 또는 메시지 표시 */}
-                          {order.deliveryStatus === '배송 완료' && (
-                            <>
-                              {/* 구매 확정되지 않은 경우 버튼 표시 */}
-                              {!order.isConfirmed ? (
-                                <div className="order-btn">
-                                  <button
-                                    onClick={() =>
-                                      orderBtn(order.orderId, order.Post.postId)
-                                    } // orderId와 postId 전달
-                                    id="order-btn"
-                                  >
-                                    구매확정하기
-                                  </button>
-                                </div>
-                              ) : (
-                                <div className="order-btn">
-                                  <p className="order-msg">
-                                    이미 구매 확정되었습니다.
-                                  </p>
-                                </div>
-                              )}
-                            </>
-                          )}
                         </div>
                       </div>
                     </Link>
+                    {/* 배송 상태가 "배송 완료"일 때만 버튼 또는 메시지 표시 */}
+                    {order.deliveryStatus === '배송 완료' && (
+                      <>
+                        {/* 구매 확정되지 않은 경우 버튼 표시 */}
+                        {!order.isConfirmed ? (
+                          <div className="order-btn">
+                            <button
+                              onClick={() =>
+                                orderBtn(order.orderId, order.Post.postId)
+                              } // orderId와 postId 전달
+                              id="order-btn"
+                            >
+                              구매확정하기
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="order-btn">
+                            <p className="order-msg">
+                              이미 구매 확정되었습니다.
+                            </p>
+                          </div>
+                        )}
+                      </>
+                    )}
                   </div>
                 ))}
               </div>

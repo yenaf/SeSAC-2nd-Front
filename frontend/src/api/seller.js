@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // const url = `http://localhost:8080`;
 const url = process.env.REACT_APP_API_URL;
-const sellerRouter = `${url}/sellers`;
+const sellerRouter = `${url}/api/sellers`;
 
 const postSellerData = async (formData) =>
   await axios.post(`${sellerRouter}/`, formData, {
