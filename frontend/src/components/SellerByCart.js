@@ -1,6 +1,6 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import priceToString from '../utils/priceMethods';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {

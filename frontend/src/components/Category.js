@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, useLocation, useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { categoryData } from '../data/categoryData';
 import handleScrollToTop from '../utils/handleScrollToTop';
 
