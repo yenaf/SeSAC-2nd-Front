@@ -29,7 +29,7 @@ export default function EditSellerPage() {
       } else {
         console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
       }
-      getSellerData(sellerId).then((res) => {
+      await getSellerData(sellerId).then((res) => {
         console.log(res.data);
         setValue('sellerName', res.data.seller.sellerName);
         setPreviewImg(res.data.seller.sellerImg);

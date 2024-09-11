@@ -46,7 +46,6 @@ export default function MyPageMenu() {
             <li>
               <Link to="/mypage/address">- 배송지관리</Link>
             </li>
-            <li>- 배송지관리</li>
             {sellerId ? (
               ''
             ) : (
@@ -54,10 +53,13 @@ export default function MyPageMenu() {
                 <Link to="/sellers">- 판매자정보등록</Link>
               </li>
             )}
-
-            <li>
-              <Link to="/sellers/editSeller">- 판매자정보수정</Link>
-            </li>
+            {!sellerId ? (
+              ''
+            ) : (
+              <li>
+                <Link to="/sellers/editSeller">- 판매자정보수정</Link>
+              </li>
+            )}
             <li>- 회원탈퇴</li>
           </ul>
         </li>

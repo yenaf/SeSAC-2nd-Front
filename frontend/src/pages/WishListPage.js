@@ -50,6 +50,13 @@ export default function WishListPage() {
                         src={`${imgUrl}${wish.Post.Product_Images[0].imgName}`}
                         alt=""
                       />
+                      {wish.Post.sellStatus === '판매 중' ? null : (
+                        <div className="img-filter">
+                          <div className="img-label">
+                            {wish.Post.sellStatus}
+                          </div>
+                        </div>
+                      )}
                     </div>
                     <div className="wish-list-text">
                       <h2>{wish.Post.Category.categoryName}</h2>
