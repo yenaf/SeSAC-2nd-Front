@@ -43,6 +43,9 @@ export default function MyPageMenu() {
             <li>
               <Link to="/mypage/editUser">- 개인정보수정</Link>
             </li>
+            <li>
+              <Link to="/mypage/address">- 배송지관리</Link>
+            </li>
             <li>- 배송지관리</li>
             {sellerId ? (
               ''

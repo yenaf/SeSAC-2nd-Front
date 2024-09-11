@@ -32,6 +32,7 @@ import SellerRoute from './layout/routes/SellerRoute';
 import EditUserPage from './pages/EditUserPage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import SellPostListPage from './pages/SellPostListPage';
+import AddressPage from './pages/AddressPage';
 import WishListPage from './pages/WishListPage';
 import EditSellerPage from './pages/EditSellerPage';
 
@@ -99,6 +100,11 @@ function App() {
                 <Route
                   path="/mypage/editUser"
                   element={<ProtectedRoute element={EditUserPage} />}
+                />
+                {/* 배송지 관리 페이지 */}
+                <Route
+                  path="/mypage/address"
+                  element={<ProtectedRoute element={AddressPage} />}
                 />
                 {/* 판매자 등록 페이지 */}
                 <Route

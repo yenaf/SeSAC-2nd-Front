@@ -10,6 +10,7 @@ import { sellerByOrder } from '../store/cartSliceTemp';
 import { fetchAddList } from '../store/addressSlice';
 import { postOrderData } from '../api/cart';
 import { getAddressList } from '../api/address';
+import { stopScroll } from '../utils/scroll';
 
 // 결제 페이지
 export default function OrderPage() {
@@ -143,11 +144,11 @@ export default function OrderPage() {
   const changeAdress = async (e) => {
     const addressContainer = addressModelRef.current;
     addressContainer.style.display = 'block';
+    stopScroll();
     try {
       const res = await getAddressList();
       if (res.status === 200) {
         dispatch(fetchAddList([...res.data]));
-        console.log(res.data);
       }
     } catch (err) {
       console.error(err);

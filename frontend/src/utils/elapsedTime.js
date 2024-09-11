@@ -23,11 +23,11 @@ const elapsedTime = (date) => {
 
   const year = start.getFullYear();
   const month = start.getMonth() + 1;
-  const day = start.getDay();
+  const day = start.getDate();
 
   const addZero = (num) => (num < 10 ? '0' + num : num);
   // 7일이 지나면 날짜로 표시
-  `${year}-${addZero(month)}-${addZero(day)}`;
+  return `${year}-${addZero(month)}-${addZero(day)}`;
 };
 
 export default elapsedTime;

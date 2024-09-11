@@ -63,7 +63,7 @@
         padding: 2rem 0 5rem;
         ul {
           display: flex;
-          justify-content: center;
+          justify-content: space-between;
           flex-wrap: wrap;
           gap: 2rem;
           li {
@@ -227,6 +227,130 @@
               }
             }
           }
+        }
+      }
+    }
+  }
+}
+
+// 달력 스타일링
+
+.month-btn {
+  border: none;
+  background-color: transparent;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  text-align: center;
+  font-size: 20px;
+  width: 320px;
+  border-bottom: 1px solid #ddd;
+}
+
+.calendar-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.month-title {
+  font-size: 40px;
+  text-shadow:
+    -1px 0px #777,
+    0px 1px #777,
+    1px 0px #777,
+    0px -1px #777;
+}
+
+.cal-wrap {
+  display: flex;
+  flex-direction: column;
+}
+
+.week,
+.dates {
+  display: flex;
+  flex-wrap: wrap;
+  width: 320px;
+}
+
+.day,
+.date {
+  position: relative;
+  text-align: center;
+  width: calc(100% / 7);
+  height: 30px;
+  padding: 5px 0 5px 0;
+  box-sizing: border-box;
+}
+
+.date:nth-child(7n),
+.day:nth-child(7n) {
+  color: blue;
+}
+
+.date:nth-child(7n + 1),
+.day:nth-child(7n + 1) {
+  color: red;
+}
+
+.today {
+  position: absolute;
+  display: block;
+  width: 60%;
+  height: 80%;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: $bg-color2;
+  z-index: -1;
+}
+
+.month {
+  text-align: center;
+  font-size: 40px;
+}
+
+.date {
+  cursor: pointer;
+}
+
+.admin-salesRecords {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  .admin-sales {
+    width: 400px;
+    .admin-pickDay {
+      font-size: 2rem;
+      font-weight: bold;
+      color: $main-color;
+      margin-bottom: 2rem;
+    }
+    .admin-totalTrade {
+      h4 {
+        font-size: 1.8rem;
+        margin-bottom: 1.5rem;
+      }
+      &:nth-child(2) {
+        span {
+          color: red;
+        }
+      }
+      &:last-child {
+        span {
+          color: blue;
         }
       }
     }

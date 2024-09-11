@@ -89,7 +89,7 @@
         .order-itemList {
           margin-bottom: 2.5rem;
           .order-seller {
-            font-size: min(2.8vw, 1.6rem);
+            font-size: min(3.2vw, 1.6rem);
             margin-bottom: 1em;
           }
           .orderItem {
@@ -112,20 +112,20 @@
               width: 70%;
               padding-left: 2rem;
               .orderItem-category {
-                font-size: min(2.6vw, 1.3rem);
+                font-size: min(3vw, 1.3rem);
                 color: $main-color;
               }
               .orderItem-title {
-                font-size: min(2.8vw, 1.5rem);
+                font-size: min(3.2vw, 1.5rem);
                 margin-bottom: 0.5rem;
               }
               .orderItem-state {
-                font-size: min(2.6vw, 1.3rem);
+                font-size: min(3vw, 1.3rem);
                 margin-bottom: 1rem;
                 color: #333;
               }
               .orderItem-price {
-                font-size: min(2.8vw, 1.5rem);
+                font-size: min(3.2vw, 1.5rem);
                 font-weight: bold;
               }
               .orderItem-sellStatus {
@@ -145,7 +145,7 @@
         gap: 2rem 0;
         > div {
           display: flex;
-          font-size: min(2.6vw, 1.4rem);
+          font-size: min(3vw, 1.4rem);
           > div:first-child {
             width: 20%;
             margin: 0 2rem;
@@ -171,7 +171,7 @@
         gap: 2rem 0;
         > div {
           display: flex;
-          font-size: min(2.6vw, 1.4rem);
+          font-size: min(3vw, 1.4rem);
           > div:first-child {
             width: 20%;
             margin: 0 2rem;

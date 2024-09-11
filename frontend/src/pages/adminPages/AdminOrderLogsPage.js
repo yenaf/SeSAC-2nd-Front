@@ -12,7 +12,6 @@ export default function AdminOrderLogsPage() {
   const fetchOrderlogs = async () => {
     try {
       const res = await getOrderLogs();
-      console.log(res.data);
       if (res.status === 200) {
         setOrderlogs(res.data);
       }
