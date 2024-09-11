@@ -94,7 +94,6 @@ export default function RegisterPage() {
 
   // 회원가입
   const onValidApi = async (data) => {
-    console.log('data >> ', data);
     try {
       // 아이디 중복 검사
       const isLoginIdValid = await checkLoginId(data.loginId);

@@ -34,8 +34,6 @@ export default function SellListPage() {
         withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
       });
 
-      console.log('res.data >>', res.data); // 백엔드 응답 확인
-
       if (res.status === 200) {
         const { sellerOrders, sellerOrderMessage } = res.data;
 
@@ -116,9 +114,6 @@ export default function SellListPage() {
     }
   };
 
-  // API 응답 오니....?
-  console.log(sellData);
-
   return (
     <div className="mypage-container">
       <MyPageMenu />
@@ -132,12 +127,12 @@ export default function SellListPage() {
           ) : (
             <>
               {sellData.map((val, idx) => {
-                console.log('deliveryStatus:', val.items[0]?.deliveryStatus); // '배송 전' 확인
-                console.log('sellStatus:', val.items[0]?.Post?.sellStatus); // '판매 예약' 확인
-                console.log(
-                  'img:',
-                  val.items[0].Post?.Product_Images[0].imgName,
-                );
+                // console.log('deliveryStatus:', val.items[0]?.deliveryStatus); // '배송 전' 확인
+                // console.log('sellStatus:', val.items[0]?.Post?.sellStatus); // '판매 예약' 확인
+                // console.log(
+                //   'img:',
+                //   val.items[0].Post?.Product_Images[0].imgName,
+                // );
 
                 return (
                   <div key={idx} className="sell-list-container">

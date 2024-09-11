@@ -20,7 +20,6 @@ export default function SellPostListPage() {
       const res = await axios.get('http://localhost:8080/mypage/postlist', {
         withCredentials: true,
       });
-      console.log('판매글 목록 조회 응답 : ', res.data);
 
       // 조회된 데이터 상태에 저장
       setPostListData(res.data.sellerPosts || []);

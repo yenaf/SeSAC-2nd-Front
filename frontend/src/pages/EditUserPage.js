@@ -38,7 +38,7 @@ export default function EditUserPage() {
   useEffect(() => {
     const fetchInitData = async () => {
       getEditUserInfoPageDate().then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setValue('loginId', res.data.user.loginId);
         // setValue('userPw', res.data.user.postTitle);
         // setValue('passwordCheck', res.data.user.postTitle);
@@ -81,11 +81,9 @@ export default function EditUserPage() {
   };
   // 파일 체크 함수
   const fileExtCheck = (obj) => {
-    // console.log(obj);
     const pathPoint = obj.lastIndexOf('.');
     const filePoint = obj.substring(pathPoint + 1, obj.length);
     const fileType = filePoint.toLowerCase();
-    // console.log('fileType', fileType);
     if (fileType == 'jpg' || fileType == 'jpeg' || fileType == 'png')
       return true;
     else return false;
@@ -95,7 +93,6 @@ export default function EditUserPage() {
   const fileCheck = (e) => {
     let file = e.target.files[0];
     let fileName = file.name;
-    console.log('file >>', file);
 
     if (fileExtCheck(fileName)) {
       // 프사 설정한 대로 바꾸게 하기
@@ -105,7 +102,6 @@ export default function EditUserPage() {
           setPreviewImg(reader.result);
         };
         reader.readAsDataURL(file);
-        console.log('filename >>', file.name);
       }
     } else {
       alert('이미지 파일만 올려주세요!');
@@ -209,7 +205,7 @@ export default function EditUserPage() {
         <div className="mypage-content-container">
           <div className="edit-container">
             <div>
-              <h2 className="register-title">회원 정보 수정</h2>
+              <h2 className="register-title">개인 정보 수정</h2>
               <section className="register-container">
                 <form
                   action="#"
