@@ -9,7 +9,7 @@ import {
   faFaceSmile,
 } from '@fortawesome/free-solid-svg-icons';
 import { useSelector } from 'react-redux';
-import formatDate from '../components/common/formatDate';
+import formatDate from '../utils/formatDate';
 import {
   deleteComment,
   getComment,

@@ -94,7 +94,6 @@ export default function RegisterPage() {
 
   // 회원가입
   const onValidApi = async (data) => {
-    console.log('data >> ', data);
     try {
       // 아이디 중복 검사
       const isLoginIdValid = await checkLoginId(data.loginId);
@@ -146,12 +145,6 @@ export default function RegisterPage() {
       return false;
     }
   };
-
-  // 임시 회원가입
-  // const onValid = (data) => {
-  //   console.log('onValid >> ', data);
-  //   alert('회원가입이 완료되었습니다!');
-  // };
 
   const onInValid = (err) => {
     console.log('onInValid >> ', err);

@@ -97,7 +97,6 @@ const cartSlice = createSlice({
       state.totalPayment = 0;
     },
     totalPrice: (state, action) => {
-      console.log(state);
       // 업데이트된 totalAmount와 totalDeliveryFee 계산
       const updatedAmount = sumAmount(state.cartData);
 
@@ -151,7 +150,6 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(loadCart.fulfilled, (state, action) => {
-        console.log(state.cartData.length);
         state.loading = true;
         // 요청 성공
         state.cartData = groupBySeller(action.payload);
