@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const url = `http://localhost:8080/wishlist`;
+// const url = `http://localhost:8080/wishlist`;
+const api_url = process.env.REACT_APP_API_URL;
+const url = `${url}/wishlist`;
 
 // 찜등록
 const insertWish = (wishData) => axios.post(`${url}`, wishData);

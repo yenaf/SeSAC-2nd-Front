@@ -1,7 +1,7 @@
 import axios from 'axios';
 
-//const url = process.env.REACT_APP_API_URL;
-const url = 'http://localhost:8080';
+// const url = 'http://localhost:8080';
+const url = process.env.REACT_APP_API_URL;
 
 // 장바구니 조회
 const getCartData = () => axios.get(`${url}/cart`, { withCredentials: true });
