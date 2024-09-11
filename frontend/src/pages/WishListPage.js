@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import MyPageMenu from '../components/MyPageMenu';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getWishListPageData } from '../api/mypage';
 
 export default function WishListPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
@@ -15,10 +16,7 @@ export default function WishListPage() {
   // 찜 목록 조회 API
   const getWishListApi = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/mypage/wishlist', {
-        withCredentials: true,
-      });
-      // console.log('찜 목록 조회 응답 : ', res.data);
+      const res = await getWishListPageData();
 
       // res로 받아온 데이터 상태에 저장하기
       setWishListData(res.data.wishlist || []);

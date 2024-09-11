@@ -94,7 +94,6 @@ export default function EditSellerPage() {
       const res = await patchSellerData(formData, sellerId);
 
       if (res.status === 200) {
-        console.log(res.data);
         alert('판매자 정보 수정이 완료되었습니다!');
       } else {
         alert('판매자 정보 수정에 실패했습니다. 다시 시도해주세요.');
