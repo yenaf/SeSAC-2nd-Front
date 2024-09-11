@@ -33,7 +33,6 @@ export default function PostUpdatePage() {
         setValue('postTitle', res.data.post.postTitle);
         setValue('productPrice', res.data.post.productPrice);
         setValue('postContent', res.data.post.postContent);
-        console.log(res.data);
         setCategoryId(res.data.post.categoryId);
         setProductType(res.data.post.productType);
         setProductStatus(res.data.post.productStatus);
@@ -67,7 +66,6 @@ export default function PostUpdatePage() {
     if (userString) {
       const user = JSON.parse(userString);
       sellerId = user.sellerId;
-      console.log(sellerId);
     } else {
       console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
     }

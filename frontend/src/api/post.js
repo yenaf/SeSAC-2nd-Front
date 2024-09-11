@@ -28,4 +28,13 @@ const patchPost = async (postId, data) =>
     },
   });
 
-export { insertPost, getPost, insertComplaint, getPostforEdit, patchPost };
+const deletePost = (id) => axios.patch(`${postRouter}/delete/${id}`);
+
+export {
+  insertPost,
+  getPost,
+  insertComplaint,
+  getPostforEdit,
+  patchPost,
+  deletePost,
+};

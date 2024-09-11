@@ -39,7 +39,6 @@ export default function OrderPage() {
 
   // 리블링 머니 사용
   const useBalance = (e) => {
-    console.log(e.target.value);
     if (e.target.value > userInfo.balance) {
       setBalanceComment('잔액이 부족합니다.');
       return (e.target.value = '');
@@ -70,10 +69,8 @@ export default function OrderPage() {
     const isOrderCheck = document.querySelector('#order-check');
 
     // 판매불가 상품 있는 지 확인
-    console.log(postInfo);
     postInfo.forEach((item) => {
       const { sellStatus } = item.Post;
-      // console.log(sellStatus);
       if (sellStatus !== '판매 중') {
         setOrderCheck('구매 불가 상품이 포함되어 있습니다.');
         return;
@@ -127,10 +124,7 @@ export default function OrderPage() {
     });
     try {
       const res = await postOrderData({ orderData: orderCreateData });
-      console.log('결과', res);
-
       if (res.status === 201) {
-        console.log('결과', res);
         const allOrderId = res.data.allOrderId;
         navigate(`/order/complete/${allOrderId}`);
       }

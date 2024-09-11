@@ -146,12 +146,6 @@ export default function RegisterPage() {
     }
   };
 
-  // 임시 회원가입
-  // const onValid = (data) => {
-  //   console.log('onValid >> ', data);
-  //   alert('회원가입이 완료되었습니다!');
-  // };
-
   const onInValid = (err) => {
     console.log('onInValid >> ', err);
   };

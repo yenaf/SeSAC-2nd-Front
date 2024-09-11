@@ -15,7 +15,6 @@ export default function AdminAlluserPage() {
   const fetchAllUsers = async () => {
     try {
       const res = await getUsers();
-      console.log(res);
       if (res.status === 200) {
         setUserList(res.data);
         setUserCount(res.data.length);
