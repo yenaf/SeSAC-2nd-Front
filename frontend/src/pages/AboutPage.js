@@ -13,6 +13,7 @@ export default function AboutPage() {
             <h2 className="left-title">
               <strong className="logo">리블링스</strong>에 오신 것을 환영합니다!
             </h2>
+            <img src="/img/heart.png" className="heart-img" />
           </div>
           <div className="about-right">
             <div className="txt1">
