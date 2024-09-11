@@ -25,5 +25,3 @@ export default function HeaderSideMenu({ logstate, headerBtnFn }) {
     </ul>
   );
 }
-
-// 로그인 아이콘 클릭시 로그인 띄우기

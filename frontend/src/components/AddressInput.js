@@ -5,6 +5,7 @@ import { insertAddress, getAddressList, updateAddress } from '../api/address';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchAddList } from '../store/addressSlice';
 
+// 배송지 입력 컴포넌트
 export default function AddressInfo({ addDone, status }) {
   const { addrValue } = useSelector((state) => state.address);
   console.log(addrValue);
@@ -45,7 +46,6 @@ export default function AddressInfo({ addDone, status }) {
     try {
       if (status === 'add') {
         const res = await insertAddress(data);
-        console.log(res.data);
         if (res.status === 200) {
           alert('배송지가 저장되었습니다.');
           const addRes = await getAddressList();
@@ -53,7 +53,6 @@ export default function AddressInfo({ addDone, status }) {
         }
       } else if (status === 'edit') {
         const res = await updateAddress(addId, data);
-        console.log(res);
         if (res.data.result) {
           alert('배송지가 수정되었습니다.');
           const addRes = await getAddressList();

@@ -4,6 +4,8 @@ import '../styles/layout/ScrollBtn.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleChevronUp } from '@fortawesome/free-solid-svg-icons';
 import handleScrollToTop from '../utils/handleScrollToTop';
+
+// 스크롤 탑 버튼 컴포넌트
 function ScrollBtn() {
   const [isVisible, setIsVisible] = useState(false);
 

@@ -8,9 +8,11 @@ import {
   faCheck,
   faFaceSmile,
 } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
 import axios from 'axios';
 import formatDate from '../components/common/formatDate';
 
+// 댓글 컴포넌트
 export default function Comment({
   postId,
   postSellerId,
@@ -28,6 +30,7 @@ export default function Comment({
   const [isEditing, setIsEditing] = useState(null);
   const [editingCommentText, setEditingCommentText] = useState('');
   const [replyVisible, setReplyVisible] = useState({}); // 각 댓글에 대한 대댓글 입력창 표시 여부
+  const { isLogin, isAdmin, isBlacklist } = useSelector((state) => state.login);
 
   // 댓글 목록 조회
   async function getCommentList() {
@@ -160,6 +163,10 @@ export default function Comment({
 
   // userId가 있을때만 댓글에 접근가능
   const userCheck = () => {
+    if (isAdmin) {
+      alert('관리자 계정은 댓글 기능을 이용할 수 없습니다.');
+      return;
+    }
     if (!userId) {
       alert('로그인 후 이용 가능합니다.');
       return;

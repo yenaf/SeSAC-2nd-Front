@@ -4,6 +4,7 @@ import elapsedTime from '../utils/elapsedTime';
 import handleScrollToTop from '../utils/handleScrollToTop';
 import { Link } from 'react-router-dom';
 
+// 아이템 정보 출력 컴포넌트
 export default function ItemList({ item }) {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
   return (

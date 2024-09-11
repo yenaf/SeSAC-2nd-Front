@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+// 라디오버튼 그룹 컴포넌트
 export default function RadioGroup({
   name,
   options,

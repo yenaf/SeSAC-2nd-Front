@@ -6,6 +6,7 @@ import { totalPrice, totalZero } from '../store/cartSliceTemp';
 import PaymentInfo from './PaymentInfo';
 import { getOrderData } from '../api/cart';
 
+// 장바구니 컴포넌트
 export default function Cart() {
   const { cartData, totalAmount, totalDeliveryFee, totalPayment } = useSelector(
     (state) => state.cart,
@@ -24,7 +25,6 @@ export default function Cart() {
     const checkEach = document.querySelectorAll(
       '.cartItem-check input[type=checkbox]:enabled',
     );
-    // console.log(checkEach);
     checkEach.forEach((el) => (el.checked = checkAllRef.current.checked));
     const allCheck = checkAllRef.current.checked;
     // 전체선택 시 금액 표시 변경
@@ -61,8 +61,6 @@ export default function Cart() {
     try {
       const res = await getOrderData({ cartIds });
       if (res.status === 200) {
-        console.log(res.data);
-
         navigate('/order', { state: res.data });
       }
     } catch (err) {

@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import '../styles/pages/PostDetailPage.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlag } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
 import { insertComplaint } from '../api/post';
 
+// 신고 모달 컴포넌트
 const ReportModal = ({
   isOpen,
   onClose,

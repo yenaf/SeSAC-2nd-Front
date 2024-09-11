@@ -20,6 +20,7 @@ import { UserContext } from '../hooks/useAuth';
 
 export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
+  const { isLogin, isAdmin, isBlacklist } = useSelector((state) => state.login);
   const navigate = useNavigate();
   const [isDibbed, setIsDibbed] = useState(false);
   const [wishlistId, setWishlistId] = useState(null);
@@ -61,6 +62,10 @@ export default function PostDetailPage() {
 
   // 찜 추가, 해제
   const handleChangeDibs = async () => {
+    if (isAdmin) {
+      alert('관리자 계정은 찜 기능을 이용할 수 없습니다.');
+      return;
+    }
     if (!userId) {
       alert('로그인 후 이용 가능합니다.');
       return;
@@ -85,6 +90,10 @@ export default function PostDetailPage() {
 
   // 신고
   const handleReportClick = () => {
+    if (isAdmin) {
+      alert('관리자 계정은 신고 기능을 이용할 수 없습니다.');
+      return;
+    }
     if (!userId) {
       alert('로그인 후 이용 가능합니다.');
       return;

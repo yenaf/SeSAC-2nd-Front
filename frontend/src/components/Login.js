@@ -1,13 +1,13 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import '../styles/pages/Login.scss';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import axios from 'axios';
 import { UserContext } from '../hooks/useAuth';
 import { userLogin } from '../api/user';
 
+// 로그인 모달 컴포넌트
 export default function Login() {
   const {
     register,
@@ -119,14 +119,3 @@ export default function Login() {
     </div>
   );
 }
-
-/*
-  로그인 컴포넌트에서
-  아이디, 비밀번호 비교 (디비에 있는지? 값이 맞는지)
-
-  로그인창에서 엑스버튼을 누르거나, 회원기입 하러가기를 누르면
-  display = 'none';
-
-  로그인 정보를 입력하고 로그인 버튼을 누르면
-  loginContainer.remove();
-*/

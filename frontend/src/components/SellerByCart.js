@@ -10,6 +10,7 @@ import {
 } from '../store/cartSliceTemp';
 import { deleteCartData } from '../api/cart';
 
+// 장바구니 - 판매자별로 묶어주는 컴포넌트
 export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
   const { items } = cart;
   const dispatch = useDispatch();
