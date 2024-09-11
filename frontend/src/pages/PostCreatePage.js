@@ -9,28 +9,32 @@ import { insertPost } from '../api/post';
 import { useDispatch } from 'react-redux';
 import { setPreviousUrl } from '../store/navigationSlice';
 import { UserContext } from '../hooks/useAuth';
+import debounce from '../utils/debounce';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
-  const { register, handleSubmit, watch, setValue } = useForm();
+  const { register, handleSubmit, setValue } = useForm();
   const navigate = useNavigate();
   const [charCount, setCharCount] = useState(0);
-  const textValue = watch('postContent', '');
   const dispatch = useDispatch();
   const { user } = useContext(UserContext);
-  const { userId, sellerId } = user;
+  const { sellerId } = user;
 
   useEffect(() => {
     dispatch(setPreviousUrl(window.location.pathname));
   }, [dispatch]);
 
-  useEffect(() => {
-    setCharCount(textValue.length);
-    // 글자 수가 600 이상인 경우, 입력을 막기 위해 마지막 글자를 제거
-    if (textValue.length > 600) {
-      setValue('postContent', textValue.slice(0, 600));
+  // 디바운스 적용
+  const handleTextChange = debounce((e) => {
+    const text = e.target.value;
+    setValue('postContent', text);
+    setCharCount(text.length);
+
+    // 글자 수가 600자를 초과하면 잘라내기
+    if (text.length > 600) {
+      setValue('postContent', text.slice(0, 598));
     }
-  }, [textValue, setValue]);
+  }, 200);
 
   const onSubmit = async (data) => {
     const postData = new FormData();
@@ -98,8 +102,8 @@ export default function PostCreatePage() {
               options={[
                 { value: 1, label: 'K-POP' },
                 { value: 2, label: '영화/드라마' },
-                { value: 3, label: '애니메이션' },
-                { value: 4, label: '게임' },
+                { value: 3, label: '게임' },
+                { value: 4, label: '애니메이션' },
                 { value: 5, label: '스포츠' },
                 { value: 6, label: '기타' },
               ]}
@@ -166,6 +170,7 @@ export default function PostCreatePage() {
               {...register('postContent', {
                 maxLength: { value: 600 },
               })}
+              onChange={handleTextChange}
             ></textarea>
             <span>{charCount} / 600</span>
           </div>

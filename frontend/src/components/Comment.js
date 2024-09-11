@@ -6,9 +6,11 @@ import {
   faPenToSquare,
   faX,
   faCheck,
+  faFaceSmile,
 } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import formatDate from '../components/common/formatDate';
+import debounce from '../utils/debounce';
 
 export default function Comment({
   postId,
@@ -152,6 +154,10 @@ export default function Comment({
   const toggleSecret = () => {
     setIsSecret(!isSecret);
   };
+  // 비밀 댓글 토글
+  const toggleReSecret = () => {
+    setIsReSecret(!isReSecret);
+  };
 
   // userId가 있을때만 댓글에 접근가능
   const userCheck = () => {
@@ -171,6 +177,10 @@ export default function Comment({
 
   // 대댓글 등록
   async function handleReplySubmit(comId) {
+    if (!replyText) {
+      alert('1자 이상 입력해주세요');
+      return;
+    }
     try {
       const res = await axios.post(
         `http://localhost:8080/comments/reply/${comId}`,
@@ -258,6 +268,7 @@ export default function Comment({
                   className="user-img"
                 />
                 <h3 className="nickname">
+                  {/* 만약 postSellerId와 sellerId 가 같으면 comment.User.neckname 대신 comment에서 sellerName을 보내줘야함 마찬가지로 seller의 프로필이미지도 보내줘야함*/}
                   {comment.User.nickname}
                   {comment.isSecret && (
                     <FontAwesomeIcon icon={faLock} className="lock-icon" />
@@ -267,7 +278,7 @@ export default function Comment({
               <div className="text-box">
                 <textarea
                   className="comment-text"
-                  value={
+                  defaultValue={
                     isEditing === comment.comId
                       ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
                       : comment.isSecret &&
@@ -276,7 +287,10 @@ export default function Comment({
                         ? '비밀 댓글입니다.' // 비밀 댓글일 경우
                         : comment.comContent
                   }
-                  onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
+                  onChange={debounce(
+                    (e) => setEditingCommentText(e.target.value),
+                    300,
+                  )} // 수정 중인 댓글의 내용 변경
                   readOnly={isEditing !== comment.comId} // 수정 중인 댓글만 수정 가능하게
                   onKeyDown={(e) => handleKeyDown(e, comment.comId)}
                 />
@@ -350,19 +364,19 @@ export default function Comment({
                         <textarea
                           className="comment-text"
                           placeholder={
-                            isSecret
+                            isReSecret
                               ? '비밀댓글 입니다'
                               : '댓글을 입력해주세요.'
                           }
-                          value={replyText}
-                          onChange={handleReplyChange}
+                          defaultValue={replyText}
+                          onChange={debounce(handleReplyChange, 500)}
                         />
                         <span className="char-count">{reCharCount} / 100</span>
                       </div>
                       <div className="comment-btn-wrap">
                         <label
-                          className={`lock-comment ${isSecret ? 'active' : ''}`}
-                          htmlFor="secret"
+                          className={`lock-comment ${isReSecret ? 'active' : ''}`}
+                          htmlFor="reSecret"
                         >
                           <FontAwesomeIcon
                             icon={faLock}
@@ -370,9 +384,9 @@ export default function Comment({
                           />
                           <input
                             type="checkbox"
-                            id="secret"
-                            checked={isSecret}
-                            onChange={toggleSecret}
+                            id="reSecret"
+                            checked={isReSecret}
+                            onChange={toggleReSecret}
                           />
                           비밀 댓글
                         </label>
@@ -417,7 +431,7 @@ export default function Comment({
                     <div className="text-box">
                       <textarea
                         className="comment-text"
-                        value={
+                        defaultValue={
                           isEditing === reply.comId
                             ? editingCommentText // 수정 중인 댓글의 내용은 별도 상태 사용
                             : reply.isSecret &&
@@ -426,7 +440,10 @@ export default function Comment({
                               ? '비밀 댓글입니다.' // 비밀 댓글일 경우
                               : reply.comContent
                         }
-                        onChange={(e) => setEditingCommentText(e.target.value)} // 수정 중인 댓글의 내용 변경
+                        onChange={debounce(
+                          (e) => setEditingCommentText(e.target.value),
+                          300,
+                        )} // 수정 중인 댓글의 내용 변경
                         readOnly={isEditing !== reply.comId} // 수정 중인 댓글만 수정 가능하게
                         onKeyDown={(e) => handleKeyDown(e, comment.comId)}
                       />
