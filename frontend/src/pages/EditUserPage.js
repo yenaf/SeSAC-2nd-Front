@@ -38,10 +38,7 @@ export default function EditUserPage() {
   useEffect(() => {
     const fetchInitData = async () => {
       getEditUserInfoPageDate().then((res) => {
-        // console.log(res.data);
         setValue('loginId', res.data.user.loginId);
-        // setValue('userPw', res.data.user.postTitle);
-        // setValue('passwordCheck', res.data.user.postTitle);
         setPreviewImg(res.data.user.profileImg || '/img/duck.jpg');
         setValue('userName', res.data.user.userName);
         setValue('nickname', res.data.user.nickname);

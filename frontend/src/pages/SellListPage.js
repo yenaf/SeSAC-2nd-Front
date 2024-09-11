@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
+import {
+  getSellHistoryPageData,
+  patchSellHistoryInvoiceNumberData,
+} from '../api/mypage';
 
 export default function SellListPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
@@ -30,9 +34,7 @@ export default function SellListPage() {
   // 판매 내역 조회 API
   const getSellListApi = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/mypage/saleHistory', {
-        withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
-      });
+      const res = await getSellHistoryPageData();
 
       if (res.status === 200) {
         const { sellerOrders, sellerOrderMessage } = res.data;
@@ -99,13 +101,7 @@ export default function SellListPage() {
     };
 
     try {
-      const res = await axios.patch(
-        'http://localhost:8080/mypage/invoiceNumber',
-        data,
-        {
-          withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
-        },
-      );
+      const res = await patchSellHistoryInvoiceNumberData();
       if (res.status === 200) {
         alert('송장번호 등록이 완료되었습니다!');
         setInputValues((prev) => ({ ...prev, [orderId]: '' })); // 송장번호 입력 필드 초기화

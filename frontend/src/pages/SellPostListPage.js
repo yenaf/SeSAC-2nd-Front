@@ -3,6 +3,7 @@ import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { getPostListPageData } from '../api/mypage';
 // import MypageItems from '../components/MypageItems';
 
 export default function SellPostListPage() {
@@ -17,9 +18,7 @@ export default function SellPostListPage() {
   // 판매글 목록 조회 API
   const getPostListApi = async () => {
     try {
-      const res = await axios.get('http://localhost:8080/mypage/postlist', {
-        withCredentials: true,
-      });
+      const res = await getPostListPageData();
 
       // 조회된 데이터 상태에 저장
       setPostListData(res.data.sellerPosts || []);
