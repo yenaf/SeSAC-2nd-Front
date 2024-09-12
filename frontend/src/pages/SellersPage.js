@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
-import axios from 'axios';
 import { UserContext } from '../hooks/useAuth';
 import { postSellerData } from '../api/seller';
 

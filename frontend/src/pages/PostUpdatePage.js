@@ -69,9 +69,9 @@ export default function PostUpdatePage() {
     } else {
       console.log('세션스토리지에 접근하는 중 오류가 발생했습니다.');
     }
-    updateData.append('sellerId', sellerId);
 
     const updateData = new FormData();
+    updateData.append('sellerId', sellerId);
 
     Object.keys(data).forEach((key) => {
       if (key !== 'imgName') {

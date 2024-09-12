@@ -38,7 +38,7 @@ export default function MyPage() {
                 <div className="info-content main">
                   <figure className="mypage-img">
                     <img
-                      src={initData.user?.profileImg || '/img/cat.png'}
+                      src={initData.user?.profileImg || '/img/user.jpg'}
                       alt="사용자 프로필"
                     />
                   </figure>
@@ -71,7 +71,7 @@ export default function MyPage() {
                   <div className="info-content main">
                     <figure className="mypage-img">
                       <img
-                        src={initData.seller?.sellerImg || '/img/cat.png'}
+                        src={initData.seller?.sellerImg || '/img/duck.jpg'}
                         alt="판매자 프로필"
                       />
                     </figure>

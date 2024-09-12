@@ -117,9 +117,9 @@ export function UserProvider({ children }) {
     dispatch(
       loginFn({
         isLogin: true,
-        isAdmin: userData.admin || false,
+        isAdmin: false,
         isSeller: true,
-        isBlackList: true,
+        isBlackList: false,
         headerMenu: 'user',
       }),
     );

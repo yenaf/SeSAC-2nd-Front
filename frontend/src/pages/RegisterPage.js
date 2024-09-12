@@ -8,6 +8,7 @@ import {
   AddressInput,
   AgreementCheckbox,
 } from '../components/Register';
+import { checkId, checkNickAtServer, userRegister } from '../api/user';
 
 export default function RegisterPage() {
   const {
@@ -38,9 +39,7 @@ export default function RegisterPage() {
   // 아이디 중복 체크
   const checkLoginId = async (loginId) => {
     try {
-      const res = await axios.post('http://localhost:8080/user/checkLoginid', {
-        loginId,
-      });
+      const res = await checkId(loginId);
 
       // 서버가 200 상태로 중복이 없음을 응답한 경우
       if (res.status === 200) {
@@ -69,9 +68,8 @@ export default function RegisterPage() {
   // 닉네임 중복 체크
   const checkNickname = async (nickname) => {
     try {
-      const res = await axios.post('http://localhost:8080/user/checkNickname', {
-        nickname,
-      });
+      const res = await checkNickAtServer(nickname);
+
       if (res.status === 200) {
         return true;
       }
@@ -103,7 +101,7 @@ export default function RegisterPage() {
       const isNicknameValid = await checkNickname(data.nickname);
       if (!isNicknameValid) return;
 
-      const res = await axios.post('http://localhost:8080/user/register', data);
+      const res = await userRegister(data);
 
       // 응답 확인
       if (res.status === 200) {

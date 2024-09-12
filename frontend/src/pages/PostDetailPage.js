@@ -124,7 +124,20 @@ export default function PostDetailPage() {
           alert('게시물 삭제에 실패했습니다.');
         }
       }
+    } else {
+      alert(`${sellStatus}인 게시물은 삭제할 수 없습니다`);
+      return;
     }
+  };
+
+  // 게시물 수정
+  const editPost = async (e, id) => {
+    e.preventDefault();
+    if (sellStatus !== '판매 중') {
+      alert(`${sellStatus}인 게시물은 수정할 수 없습니다.`);
+      return;
+    }
+    navigate(`/posts/edit/${id}`);
   };
 
   if (!postData) {
@@ -264,6 +277,7 @@ export default function PostDetailPage() {
                       to={`/posts/edit/${id}`}
                       className="btn correction"
                       post={id}
+                      onClick={(e) => editPost(e, id)}
                     >
                       수정
                     </Link>

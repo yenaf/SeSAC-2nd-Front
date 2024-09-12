@@ -2,6 +2,7 @@ import React from 'react';
 import { deleteAddress, getAddress, getAddressList } from '../api/address';
 import { useDispatch } from 'react-redux';
 import { fetchAddList, readAddr } from '../store/addressSlice';
+import { goScroll } from '../utils/scroll';
 
 // 배송지 정보 출력 컴포넌트
 export default function AddressInfo({ infos, edit }) {
@@ -63,6 +64,8 @@ export default function AddressInfo({ infos, edit }) {
       addrPhoneNum.innerText = `${phoneNum} `;
       addr.innerText = `(${zipCode}) ${address} ${detailedAddress}`;
       orderAddrBx.style.display = 'none';
+
+      goScroll();
     }
   };
 

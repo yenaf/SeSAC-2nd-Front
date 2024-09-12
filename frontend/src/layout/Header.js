@@ -95,7 +95,6 @@ export default function Header() {
 
   const createPost = async (e) => {
     const moveElement = headerRef.current;
-    console.log(headerRef.current);
     moveElement.forEach((ele) => ele.classList.remove('on'));
     const backbtn = backBtnRef.current;
     backbtn.style.display = 'none';
