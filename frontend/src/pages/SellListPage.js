@@ -101,7 +101,7 @@ export default function SellListPage() {
     };
 
     try {
-      const res = await patchSellHistoryInvoiceNumberData();
+      const res = await patchSellHistoryInvoiceNumberData(data);
       if (res.status === 200) {
         alert('송장번호 등록이 완료되었습니다!');
         setInputValues((prev) => ({ ...prev, [orderId]: '' })); // 송장번호 입력 필드 초기화

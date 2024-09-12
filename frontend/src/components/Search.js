@@ -20,6 +20,20 @@ export default function Search() {
 
   const searchkeyword = () => {
     const keyword = inputRef.current.value.trim();
+
+    // 모바일 메뉴 버튼
+    const backbtn = document.querySelector('.back-btn');
+    backbtn.style.display = 'none';
+    backbtn.previousElementSibling.style.display = 'inline-block';
+
+    // 모바일 메뉴 검색창
+    const headerTopBx = document.querySelector('.header-top');
+    headerTopBx.classList.remove('on');
+
+    // 모바일 카테고리 메뉴
+    const gnbMenu = document.querySelector('.gnb');
+    gnbMenu.classList.remove('on');
+
     if (keyword === '') return alert('검색어를 입력해주세요');
     navigate({
       pathname: `/posts/list/${page}`,

@@ -26,7 +26,7 @@ export default function Header() {
 
   // 모바일 요소 useRef
   const headerRef = useRef([]);
-  const headerTopRef = useRef();
+  const backBtnRef = useRef();
 
   // 햄버거 버튼 클릭(메뉴 열림)
   const openMenu = (e) => {
@@ -34,7 +34,6 @@ export default function Header() {
     hambtn.style.display = 'none';
     hambtn.nextElementSibling.style.display = 'inline-block';
     const moveElement = headerRef.current;
-    headerTopRef.current.style.height = '15rem';
     moveElement.forEach((ele) => ele.classList.add('on'));
   };
 
@@ -45,13 +44,15 @@ export default function Header() {
     backbtn.previousElementSibling.style.display = 'inline-block';
     const moveElement = headerRef.current;
     moveElement.forEach((ele) => ele.classList.remove('on'));
-    setTimeout(() => {
-      headerTopRef.current.style.height = '4rem';
-    }, 300);
   };
 
   const headerBtnFn = async (e) => {
     e.preventDefault();
+    const moveElement = headerRef.current;
+    moveElement.forEach((ele) => ele.classList.remove('on'));
+    const backbtn = backBtnRef.current;
+    backbtn.style.display = 'none';
+    backbtn.previousElementSibling.style.display = 'inline-block';
     const path = e.currentTarget.getAttribute('href');
     const loginContainer = document.querySelector('.login-container');
     if (path.includes('login')) {
@@ -93,6 +94,12 @@ export default function Header() {
   };
 
   const createPost = async (e) => {
+    const moveElement = headerRef.current;
+    console.log(headerRef.current);
+    moveElement.forEach((ele) => ele.classList.remove('on'));
+    const backbtn = backBtnRef.current;
+    backbtn.style.display = 'none';
+    backbtn.previousElementSibling.style.display = 'inline-block';
     try {
       const res = await writePost();
 
@@ -122,22 +129,36 @@ export default function Header() {
     }
   };
 
+  const closeMobileSideMenu = () => {
+    // 모바일 메뉴 버튼
+    const backbtn = document.querySelector('.back-btn');
+    backbtn.style.display = 'none';
+    backbtn.previousElementSibling.style.display = 'inline-block';
+
+    // 모바일 메뉴 검색창
+    const headerTopBx = document.querySelector('.header-top');
+    headerTopBx.classList.remove('on');
+
+    // 모바일 카테고리 메뉴
+    const gnbMenu = document.querySelector('.gnb');
+    gnbMenu.classList.remove('on');
+  };
+
   return (
     <header>
       <div className="inner">
-        <div className="header-top" ref={headerTopRef}>
-          {/* 메인로고 */}
-          <h1 className="header-logo">
-            <Link to="/">리블링스</Link>
-          </h1>
+        {/* 메인로고 */}
+        <h1 className="header-logo">
+          <Link to="/" onClick={closeMobileSideMenu}>
+            리블링스
+          </Link>
+        </h1>
+        <div className="header-top" ref={(el) => (headerRef.current[0] = el)}>
           {/* 검색창 */}
-          <div
-            className="header-search"
-            ref={(el) => (headerRef.current[0] = el)}
-          >
+          <div className="header-search">
             <Search />
           </div>
-          <div className="side-menu" ref={(el) => (headerRef.current[1] = el)}>
+          <div className="side-menu">
             {/* 판매하기 버튼 */}
             <div className="sales-btn">
               {/* 판매자일때만 판매하기 버튼 출력 */}
@@ -174,7 +195,7 @@ export default function Header() {
           </div>
         </div>
         {/* 카테고리 버튼들 */}
-        <nav className="gnb" ref={(el) => (headerRef.current[2] = el)}>
+        <nav className="gnb" ref={(el) => (headerRef.current[1] = el)}>
           <Category />
         </nav>
         {/* 햄버거 버튼 - 모바일뷰 */}
@@ -182,7 +203,7 @@ export default function Header() {
           <button className="ham-btn" onClick={openMenu}>
             <FontAwesomeIcon icon={faBars} />
           </button>
-          <button className="back-btn" onClick={closeMenu}>
+          <button className="back-btn" onClick={closeMenu} ref={backBtnRef}>
             <FontAwesomeIcon icon={faChevronLeft} />
           </button>
         </div>

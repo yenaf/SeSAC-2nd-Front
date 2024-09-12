@@ -1,9 +1,11 @@
 import axios from 'axios';
+
 // const url = process.env.REACT_APP_API_URL;
-const url = 'http://localhost:8080';
+// const url = 'http://localhost:8080';
+const url = `${process.env.REACT_APP_API_URL}/api`;
 
 const getMainList = () => {
-  return axios.get(`${url}`);
+  return axios.get(`${url}/main`);
 };
 
 // 상품 목록 페이지

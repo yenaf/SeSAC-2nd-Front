@@ -96,3 +96,10 @@
     }
   }
 }
+
+/* 640px 이하 미디어쿼리 */
+@media screen and (max-width: $sm) {
+  .login-content {
+    width: 100%;
+  }
+}
