@@ -155,7 +155,11 @@ export default function EditSellerPage() {
                 <div>
                   <label htmlFor="sellerImg">프로필 사진</label>
                   <div className="seller-img">
-                    <img src={previewImg} alt="profile-img" id="sellerImg" />
+                    <img
+                      src={previewImg === '' ? '/img/duck.jpg' : previewImg}
+                      alt="profile-img"
+                      id="sellerImg"
+                    />
                   </div>
                 </div>
                 <input
