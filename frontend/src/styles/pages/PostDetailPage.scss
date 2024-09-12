@@ -255,9 +255,11 @@
     display: inline-block;
     &.delete {
       margin-right: 2rem;
+      font-family: 'GmarketSansMedium';
     }
     &.back {
       margin-left: 15rem;
+      font-family: 'GmarketSansMedium';
       .back-icon {
         margin-right: 1rem;
       }
