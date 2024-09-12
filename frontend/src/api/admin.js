@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-// const url = 'http://localhost:8080/admin';
+// const url = 'http://localhost:8080/api/admin';
 // const api_url = process.env.REACT_APP_API_URL;
-// const url = `${api_url}/admin`;
 const api_url = process.env.REACT_APP_API_URL;
+// const url = `${api_url}/admin`;
 const url = `${api_url}/api/admin`;
 
 // 회원 조회
