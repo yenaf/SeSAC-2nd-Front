@@ -1,8 +1,6 @@
 import axios from 'axios';
 
 // const url = `http://localhost:8080`;
-// // const url = process.env.REACT_APP_API_URL;
-// const mypageRouter = `${url}/mypage`;
 const url = process.env.REACT_APP_API_URL;
 const mypageRouter = `${url}/api/mypage`;
 

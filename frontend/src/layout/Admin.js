@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import '../styles/pages/AdminPage.scss';
 
 // 관리자 페이지
@@ -12,18 +12,18 @@ export default function AdminPage() {
             회원 관리
             <ul>
               <li className="admin-subMenu">
-                <Link to="/admin/allUser">전체 회원 관리</Link>
+                <NavLink to="/admin/allUser">전체 회원 관리</NavLink>
               </li>
               <li className="admin-subMenu">
-                <Link to="/admin/seller">판매자 관리</Link>
+                <NavLink to="/admin/seller">판매자 관리</NavLink>
               </li>
             </ul>
           </li>
           <li className="admin-naviMenu">
-            <Link to="/admin/blacklist">블랙리스트 관리</Link>
+            <NavLink to="/admin/blacklist">블랙리스트 관리</NavLink>
           </li>
           <li className="admin-naviMenu">
-            <Link to="/admin/orderlogs">전체 거래 내역 조회</Link>
+            <NavLink to="/admin/orderlogs">전체 거래 내역 조회</NavLink>
           </li>
         </ul>
       </aside>

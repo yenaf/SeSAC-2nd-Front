@@ -38,9 +38,6 @@ export default function Login() {
         }
         const sessionUserdata = res.data.session;
         login(sessionUserdata);
-
-        // 메인페이지로 이동
-        navigate('/');
       } else {
         alert('로그인에 실패했습니다.');
       }
