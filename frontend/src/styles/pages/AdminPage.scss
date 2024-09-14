@@ -34,8 +34,11 @@
         color: $main-color;
         font-size: 1.3rem;
         a {
+          &.active {
+            color: $border-color;
+          }
           &:hover {
-            color: $main-color;
+            color: $border-color;
           }
         }
       }
@@ -76,7 +79,6 @@
               $main-color 0%,
               $sub-color 100%
             );
-            // box-shadow: 2px 2px 1px 1px $bg-color2;
             a {
               width: 100%;
               figure {

@@ -28,7 +28,7 @@ const loginMenu = [
     {
       title: '회원가입',
       path: '/user/register',
-      icon: 'fa-user',
+      icon: 'fa-door-open',
     },
     {
       title: '로그인',
@@ -46,7 +46,7 @@ const loginMenu = [
     {
       title: '관리자 페이지',
       path: '/admin',
-      icon: 'fa-user',
+      icon: 'fa-users-gear',
     },
     {
       title: '로그아웃',

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// const url = 'http://localhost:8080';
+// const url = 'http://localhost:8080/api';
 const url = `${process.env.REACT_APP_API_URL}/api`;
 
 // 장바구니 조회
