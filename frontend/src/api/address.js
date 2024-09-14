@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// const url = `http://localhost:8080/api/addresses`;
+// const api_url = `http://localhost:8080`;
 const api_url = process.env.REACT_APP_API_URL;
 const url = `${api_url}/api/addresses`;
 
