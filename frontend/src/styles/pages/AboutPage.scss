@@ -5,8 +5,9 @@
 #about {
   width: 100%;
   margin: auto;
-  font-size: 1.8rem;
+  font-size: 2rem;
   padding-top: 2rem;
+  letter-spacing: 0.15rem;
   .about-wrap {
     display: flex;
     gap: 2rem;
@@ -27,6 +28,7 @@
         border-radius: 2rem;
       }
       .left-title {
+        text-align: center;
         font-size: 2rem;
         position: absolute;
         top: 25%;
@@ -54,6 +56,9 @@
       display: flex;
       justify-content: center;
       margin-top: 5rem;
+      abbr {
+        font-weight: 600;
+      }
       span {
         line-height: 2.2;
       }
@@ -92,9 +97,9 @@
     margin: 2rem 0;
     font-family: 'GmarketSansMedium';
     width: 100%;
-    text-transform: uppercase;
     display: block;
     font-size: 2.2rem;
+    letter-spacing: -0.1rem;
     color: #f1ebe5;
     text-shadow:
       0 8px 9px #ae85d2,
@@ -149,6 +154,10 @@
 
 @media screen and (max-width: $xl) {
   #about {
+    .milky {
+      margin: 1.5rem 0;
+      font-size: 2rem;
+    }
     .about-wrap {
       .about-right {
         margin-top: 2rem;
@@ -165,12 +174,17 @@
 
 @media screen and (max-width: $lg) {
   #about {
-    font-size: 1.5rem;
+    .milky {
+      margin: 1.5rem 0;
+      font-size: 1.8rem;
+    }
+    font-size: 1.6rem;
     .about-wrap {
       .about-right {
         margin-top: 2rem;
         span {
           line-height: 1.5;
+          font-size: 1.6rem;
         }
         p {
           line-height: 1.5;
@@ -199,10 +213,15 @@
       }
     }
     .about-bottom {
+      p {
+        span {
+          display: block;
+        }
+      }
       .link-wrap {
         .btn {
-          padding: 0.8rem 1.5rem;
-          font-size: 1.3rem;
+          padding: 0.8rem 1.2rem;
+          font-size: 1.2rem;
         }
       }
     }
