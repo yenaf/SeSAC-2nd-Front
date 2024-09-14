@@ -4,6 +4,7 @@ import MyPageMenu from '../components/MyPageMenu';
 import '../styles/pages/MyPage.scss';
 import { UserContext } from '../hooks/useAuth';
 import { postSellerData } from '../api/seller';
+import { showAlert, simpleAlert } from '../utils/alert';
 
 export default function SellersPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
@@ -45,7 +46,7 @@ export default function SellersPage() {
         reader.readAsDataURL(file);
       }
     } else {
-      alert('이미지 파일만 올려주세요!');
+      showAlert('warning', '이미지 파일만 올려주세요!');
       e.target.value = '';
     }
   };
@@ -67,10 +68,13 @@ export default function SellersPage() {
       const res = await postSellerData(formData);
 
       if (res.status === 200) {
-        alert('판매자 정보 등록이 완료되었습니다!');
+        await simpleAlert('success', '판매자 정보 등록이 완료되었습니다!');
         sellerRegister(res.data.seller);
       } else {
-        alert('판매자 정보 등록에 실패했습니다. 다시 시도해주세요.');
+        await simpleAlert(
+          'error',
+          '판매자 정보 등록에 실패했습니다. 다시 시도해주세요.',
+        );
       }
     } catch (error) {
       console.error('판매자 등록 오류:', error);

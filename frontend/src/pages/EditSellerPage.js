@@ -5,6 +5,7 @@ import '../styles/pages/MyPage.scss';
 import axios from 'axios';
 import { UserContext } from '../hooks/useAuth';
 import { getSellerData, patchSellerData } from '../api/seller';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 export default function EditSellerPage() {
   const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
@@ -68,7 +69,7 @@ export default function EditSellerPage() {
         reader.readAsDataURL(file);
       }
     } else {
-      alert('이미지 파일만 올려주세요!');
+      showAlert('warning', '이미지 파일만 올려주세요!');
       e.target.value = '';
     }
   };
@@ -94,9 +95,12 @@ export default function EditSellerPage() {
       const res = await patchSellerData(formData, sellerId);
 
       if (res.status === 200) {
-        alert('판매자 정보 수정이 완료되었습니다!');
+        await simpleAlert('success', '판매자 정보 수정이 완료되었습니다!');
       } else {
-        alert('판매자 정보 수정에 실패했습니다. 다시 시도해주세요.');
+        await simpleAlert(
+          'error',
+          '판매자 정보 수정에 실패했습니다. 다시 시도해주세요.',
+        );
       }
     } catch (error) {
       console.error('판매자 수정 오류:', error);

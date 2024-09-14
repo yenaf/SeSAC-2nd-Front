@@ -9,6 +9,7 @@ import {
   AgreementCheckbox,
 } from '../components/Register';
 import { checkId, checkNickAtServer, userRegister } from '../api/user';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 export default function RegisterPage() {
   const {
@@ -35,6 +36,8 @@ export default function RegisterPage() {
   });
 
   const navigate = useNavigate();
+
+  const loginContainer = document.querySelector('.login-container');
 
   // 아이디 중복 체크
   const checkLoginId = async (loginId) => {
@@ -105,10 +108,14 @@ export default function RegisterPage() {
 
       // 응답 확인
       if (res.status === 200) {
-        alert('회원가입이 완료되었습니다!');
+        await simpleAlert('success', '회원가입이 완료되었습니다!');
         navigate('/');
+        loginContainer.style.display = 'block';
       } else {
-        alert('회원가입에 실패했습니다. 다시 시도해주세요.');
+        await simpleAlert(
+          'error',
+          '회원가입에 실패했습니다. 다시 시도해주세요.',
+        );
       }
     } catch (error) {
       console.error('회원가입 오류:', error);

@@ -27,6 +27,7 @@
     "react-scripts": "5.0.1",
     "redux": "^5.0.1",
     "sass": "^1.77.8",
+    "sweetalert2": "^11.14.0",
     "swiper": "^11.1.10",
     "web-vitals": "^2.1.4"
   },

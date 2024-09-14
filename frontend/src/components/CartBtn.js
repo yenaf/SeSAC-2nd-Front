@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { insertCart } from '../api/cart';
 import { UserContext } from '../hooks/useAuth';
+import { showAlert } from '../utils/alert';
 
 // 상세페이지 장바구니 버튼 컴포넌트
 export default function CartBtn({ post, sellStatus, sellerId }) {
@@ -10,20 +11,24 @@ export default function CartBtn({ post, sellStatus, sellerId }) {
   const navigate = useNavigate();
   const modalRef = useRef();
   const { user } = useContext(UserContext);
+  const loginContainer = document.querySelector('.login-container');
 
   const addCart = async () => {
     const cartModel = modalRef.current;
     if (isAdmin) {
-      alert('관리자 계정은 장바구니를 이용할 수 없습니다.');
+      await showAlert('info', '관리자 계정은 장바구니를 이용할 수 없습니다.');
       return;
     }
     if (isLogin) {
       if (sellStatus !== '판매 중') {
-        alert('이미 판매된 상품입니다.');
+        await showAlert('warning', '이미 판매된 상품입니다.');
         return;
       }
       if (user.sellerId === sellerId) {
-        alert('자기 자신의 물건은 장바구니에 담을 수 없습니다.');
+        await showAlert(
+          'warning',
+          '자기 자신의 물건은 장바구니에 담을 수 없습니다.',
+        );
         return;
       }
       try {
@@ -34,11 +39,14 @@ export default function CartBtn({ post, sellStatus, sellerId }) {
       } catch (err) {
         console.error(err);
         if (err.status === 409) {
-          alert('이미 장바구니에 담겨 있는 상품입니다.');
+          showAlert('info', '이미 장바구니에 담겨 있는 상품입니다.');
         }
       }
     } else {
-      alert('로그인이 필요합니다.');
+      const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
+      if (result) {
+        loginContainer.style.display = 'block';
+      }
     }
   };
 

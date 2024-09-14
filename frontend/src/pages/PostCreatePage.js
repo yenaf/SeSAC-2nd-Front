@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { setPreviousUrl } from '../store/navigationSlice';
 import { UserContext } from '../hooks/useAuth';
 import debounce from '../utils/debounce';
+import { confirmAlert, showAlert } from '../utils/alert';
 
 // 판매글 작성 페이지
 export default function PostCreatePage() {
@@ -48,7 +49,7 @@ export default function PostCreatePage() {
 
     // 이미지 파일이 없는 경우 경고 메시지 출력
     if (!data.imgName || data.imgName.length === 0) {
-      alert('사진을 등록해주세요.');
+      showAlert('warning', '사진을 등록해주세요.');
       return;
     }
 
@@ -69,11 +70,12 @@ export default function PostCreatePage() {
     }
   };
 
-  const onCancel = () => {
-    const confirmCancel = window.confirm(
+  const onCancel = async () => {
+    const result = await confirmAlert(
+      'warning',
       '작성한 내용이 사라집니다. 정말 나가시겠습니까?',
     );
-    if (confirmCancel) {
+    if (result) {
       navigate('/'); // 메인 페이지로 이동
     }
   };

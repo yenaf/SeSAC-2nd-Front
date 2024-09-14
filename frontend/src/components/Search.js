@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { simpleAlert } from '../utils/alert';
 
 // 검색 인풋창 컴포넌트
 export default function Search() {
@@ -34,7 +35,7 @@ export default function Search() {
     const gnbMenu = document.querySelector('.gnb');
     gnbMenu.classList.remove('on');
 
-    if (keyword === '') return alert('검색어를 입력해주세요');
+    if (keyword === '') return simpleAlert('warning', '검색어를 입력해주세요.');
     navigate({
       pathname: `/posts/list/${page}`,
       search: `?postTitle=${keyword}`,

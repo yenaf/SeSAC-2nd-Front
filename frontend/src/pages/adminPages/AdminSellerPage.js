@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getSellers, getComplaint, updateBlacklist } from '../../api/admin';
+import { showAlert, simpleAlert } from '../../utils/alert';
 
 export default function AdminSellerPage() {
   const [sellerList, setSellerList] = useState(null);
@@ -32,20 +33,20 @@ export default function AdminSellerPage() {
     try {
       const res = await getComplaint(sellerId);
       if (res.data.length < 1) {
-        alert('신고된 내역이 없습니다.');
+        await simpleAlert('info', '신고된 내역이 없습니다.');
         return;
       }
       navigate(`/admin/complaint/${sellerId}`, { state: { userId } });
     } catch (err) {
       console.error(err);
-      alert('신고된 내역이 없습니다.');
+      await simpleAlert('info', '신고된 내역이 없습니다.');
     }
   };
 
   // 판매자 검색
   const searchSeller = () => {
     const keyword = searchRef.current.value.trim();
-    if (keyword === '') return alert('검색어를 입력해주세요');
+    if (keyword === '') return showAlert('warning', '검색어를 입력해주세요');
     const result = sellerList.filter((seller) =>
       seller[select].includes(keyword),
     );

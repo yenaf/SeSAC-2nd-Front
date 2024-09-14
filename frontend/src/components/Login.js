@@ -6,6 +6,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { UserContext } from '../hooks/useAuth';
 import { userLogin } from '../api/user';
+import Swal from 'sweetalert2';
+import { showAlert, simpleAlert } from '../utils/alert';
 
 // 로그인 모달 컴포넌트
 export default function Login() {
@@ -29,7 +31,7 @@ export default function Login() {
     try {
       const res = await userLogin(data);
       if (res.status === 200) {
-        alert('로그인 성공!');
+        simpleAlert('success', '로그인 성공!');
 
         // 로그인 성공시 로그인 모달 hidden
         const loginContainer = containerRef.current;
@@ -39,7 +41,7 @@ export default function Login() {
         const sessionUserdata = res.data.session;
         login(sessionUserdata);
       } else {
-        alert('로그인에 실패했습니다.');
+        simpleAlert('error', '로그인에 실패했습니다.');
       }
     } catch (error) {
       console.error('로그인 오류:', error);
@@ -50,7 +52,7 @@ export default function Login() {
 
       if (errorMessage) {
         // 백엔드에서 보낸 error 메시지가 있으면 그대로 표시
-        alert(errorMessage);
+        showAlert('error', `${errorMessage}`, 'center');
       } else {
         // 예상치 못한 에러 처리
         if (error.response && error.response.status === 401) {

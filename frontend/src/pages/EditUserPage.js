@@ -8,6 +8,7 @@ import axios from 'axios';
 import { AddressInput } from '../components/Register';
 import { getEditUserInfoPageDate } from '../api/mypage';
 import { checkNickAtServer, updateUserInfo } from '../api/user';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 export default function EditUserPage() {
   const {
@@ -101,7 +102,7 @@ export default function EditUserPage() {
         reader.readAsDataURL(file);
       }
     } else {
-      alert('이미지 파일만 올려주세요!');
+      showAlert('warning', '이미지 파일만 올려주세요!');
       e.target.value = '';
     }
   };
@@ -141,17 +142,23 @@ export default function EditUserPage() {
 
       // 응답 확인
       if (res.status === 200) {
-        alert('회원정보 수정이 완료되었습니다!');
+        await showAlert('success', '회원정보 수정이 완료되었습니다!');
         navigate('/mypage');
       } else {
-        alert('회원정보 수정이 실패했습니다. 다시 시도해주세요.');
+        await showAlert(
+          'error',
+          '회원정보 수정이 실패했습니다. 다시 시도해주세요.',
+        );
       }
       // 응답 확인
       if (res.data.msg.length !== '') {
-        alert('회원정보 수정이 완료되었습니다!' + res.data.msg);
+        await showAlert(
+          'success',
+          `회원정보 수정이 완료되었습니다! ${res.data.msg}`,
+        );
         navigate('/mypage');
       } else {
-        alert('회원정보 수정이 실패했습니다. 다시 시도해주세요.');
+        showAlert('error', '회원정보 수정이 실패했습니다. 다시 시도해주세요.');
       }
     } catch (error) {
       console.error('회원정보 수정 오류:', error);

@@ -3,6 +3,7 @@ import { deleteAddress, getAddress, getAddressList } from '../api/address';
 import { useDispatch } from 'react-redux';
 import { fetchAddList, readAddr } from '../store/addressSlice';
 import { goScroll } from '../utils/scroll';
+import { confirmAlert } from '../utils/alert';
 
 // 배송지 정보 출력 컴포넌트
 export default function AddressInfo({ infos, edit }) {
@@ -31,7 +32,8 @@ export default function AddressInfo({ infos, edit }) {
   };
   // 배송지 삭제
   const delAddress = async (e) => {
-    if (confirm('주소지를 삭제하시겠습니까?')) {
+    const result = await confirmAlert('question', '주소지를 삭제하시겠습니까?');
+    if (result) {
       try {
         const res = await deleteAddress(addId);
         if (res.data) {

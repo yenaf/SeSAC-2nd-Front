@@ -6,6 +6,7 @@ import {
   getSellHistoryPageData,
   patchSellHistoryInvoiceNumberData,
 } from '../api/mypage';
+import { showAlert } from '../utils/alert';
 
 export default function SellListPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
@@ -103,11 +104,14 @@ export default function SellListPage() {
     try {
       const res = await patchSellHistoryInvoiceNumberData(data);
       if (res.status === 200) {
-        alert('송장번호 등록이 완료되었습니다!');
+        await showAlert('success', '송장번호 등록이 완료되었습니다!');
         setInputValues((prev) => ({ ...prev, [orderId]: '' })); // 송장번호 입력 필드 초기화
         getSellListApi(); // 송장번호 등록 후 새 데이터 가져오기
       } else {
-        alert('송장번호 등록에 실패했습니다. 다시 시도해주세요.');
+        await showAlert(
+          'error',
+          '송장번호 등록에 실패했습니다. 다시 시도해주세요.',
+        );
       }
     } catch (error) {
       console.log('error.response >> ', error.response);

@@ -18,6 +18,7 @@ import {
   replyCommentSubmit,
   replyCommentDelete,
 } from '../api/comment';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 // 댓글 컴포넌트
 export default function Comment({
@@ -38,6 +39,7 @@ export default function Comment({
   const [editingCommentText, setEditingCommentText] = useState('');
   const [replyVisible, setReplyVisible] = useState({}); // 각 댓글에 대한 대댓글 입력창 표시 여부
   const { isLogin, isAdmin, isBlacklist } = useSelector((state) => state.login);
+  const loginContainer = document.querySelector('.login-container');
 
   // 댓글 목록 조회
   async function getCommentList() {
@@ -77,7 +79,7 @@ export default function Comment({
   // 댓글 등록
   async function handleCommentSubmit() {
     if (!commentText) {
-      alert('1자 이상 입력해주세요');
+      await simpleAlert('warning', '1자 이상 입력해주세요.');
       return;
     }
     try {
@@ -92,7 +94,11 @@ export default function Comment({
 
   // 댓글 삭제
   async function handleDeleteComment(comId) {
-    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+    const result = await confirmAlert(
+      'question',
+      '정말로 이 댓글을 삭제하시겠습니까?',
+    );
+    if (!result) {
       return;
     }
     try {
@@ -112,7 +118,7 @@ export default function Comment({
   // 댓글 수정
   async function handleUpdateComment(comId) {
     if (!editingCommentText) {
-      alert('1자 이상 입력해주세요');
+      await simpleAlert('warning', '1자 이상 입력해주세요.');
       return;
     }
     try {
@@ -143,13 +149,16 @@ export default function Comment({
   };
 
   // userId가 있을때만 댓글에 접근가능
-  const userCheck = () => {
+  const userCheck = async () => {
     if (isAdmin) {
-      alert('관리자 계정은 댓글 기능을 이용할 수 없습니다.');
+      await showAlert('info', '관리자 계정은 댓글 기능을 이용할 수 없습니다.');
       return;
     }
     if (!userId) {
-      alert('로그인 후 이용 가능합니다.');
+      const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
+      if (result) {
+        loginContainer.style.display = 'block';
+      }
       return;
     }
   };
@@ -165,7 +174,7 @@ export default function Comment({
   // 대댓글 등록
   async function handleReplySubmit(comId) {
     if (!replyText) {
-      alert('1자 이상 입력해주세요');
+      await simpleAlert('warning', '1자 이상 입력해주세요.');
       return;
     }
     try {
@@ -187,7 +196,11 @@ export default function Comment({
 
   // 대댓글 삭제
   async function handleReplyDelete(comId) {
-    if (!confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+    const result = await confirmAlert(
+      'question',
+      '정말로 이 댓글을 삭제하시겠습니까?',
+    );
+    if (!result) {
       return;
     }
     try {

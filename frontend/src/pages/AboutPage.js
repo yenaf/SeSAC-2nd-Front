@@ -1,9 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/pages/AboutPage.scss';
 import { Link } from 'react-router-dom';
+import { showAlert } from '../utils/alert';
 
 // 소개페이지
 export default function AboutPage() {
+  const loginContainer = document.querySelector('.login-container');
+
+  const handleLoginModal = async (e) => {
+    e.preventDefault();
+    const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
+    if (result) {
+      loginContainer.style.display = 'block';
+    }
+    return;
+  };
   return (
     <>
       <section id="about">
@@ -72,7 +83,7 @@ export default function AboutPage() {
             <span>시작해볼까요?</span>
           </p>
           <div className="link-wrap">
-            <Link className="link-btn btn" to={'/'}>
+            <Link className="link-btn btn" to={'/'} onClick={handleLoginModal}>
               구최애 나누러 가기
             </Link>
             <Link className="link-btn btn" to={'/'}>
