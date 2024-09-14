@@ -46,6 +46,12 @@ export default function PostCreatePage() {
     });
     postData.append('sellerId', sellerId);
 
+    // 이미지 파일이 없는 경우 경고 메시지 출력
+    if (!data.imgName || data.imgName.length === 0) {
+      alert('사진을 등록해주세요.');
+      return;
+    }
+
     if (data.imgName) {
       for (let i = 0; i < data.imgName.length; i++) {
         postData.append('imgName', data.imgName[i]);
