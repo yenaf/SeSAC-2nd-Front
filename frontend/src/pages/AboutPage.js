@@ -11,7 +11,8 @@ export default function AboutPage() {
           <div className="about-left">
             <img src="/img/computer.png" className="computer-img" />
             <h2 className="left-title">
-              <strong className="logo">리블링스</strong>에 오신 것을 환영합니다!
+              <strong className="logo">리블링스</strong>에 오신 것을
+              <br /> 환영합니다!
             </h2>
             <img src="/img/heart.png" className="heart-img" />
           </div>
@@ -67,7 +68,7 @@ export default function AboutPage() {
         </div>
         <div className="about-bottom">
           <p>
-            시작해볼까요? 리블링스와 함께 행복한 덕질을
+            리블링스와 함께 행복한 덕질을&nbsp;
             <span>시작해볼까요?</span>
           </p>
           <div className="link-wrap">
@@ -83,12 +84,3 @@ export default function AboutPage() {
     </>
   );
 }
-
-// <p>
-//   <button className="category-btn">K-pop</button>
-//   <button className="category-btn">스포츠</button>
-//   <button className="category-btn">애니메이션</button>
-//   <button className="category-btn">영화/드라마</button>
-//   <button className="category-btn">게임</button>
-//   <button className="category-btn">스포츠</button>
-// </p>;
