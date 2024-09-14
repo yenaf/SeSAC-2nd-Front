@@ -17,6 +17,7 @@ import elapsedTime from '../utils/elapsedTime';
 import ReportModal from '../components/ReportModal';
 import { deleteWish, insertWish } from '../api/wishlist';
 import NotFound from './NotFountdPage';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 export default function PostDetailPage() {
   const previousUrl = useSelector((state) => state.navigation.previousUrl);
@@ -28,6 +29,7 @@ export default function PostDetailPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const params = useParams();
   const id = params.postId;
+  const loginContainer = document.querySelector('.login-container');
 
   // 상세페이지의 수정삭제버튼은 세션의 sellerId와 post의 sellerid가 같을때 보여준다
   // 찜, 장바구니,신고 구매하기 등 유저 아이디가 있어야 클릭가능
@@ -51,10 +53,13 @@ export default function PostDetailPage() {
   }, [id, wishlistId]);
 
   // 뒤로가기
-  const handleBackPage = () => {
+  const handleBackPage = async () => {
     if (previousUrl === '/posts/create') {
-      const goBackConfirm = confirm('메인페이지로 가시겠습니까?');
-      if (goBackConfirm) {
+      const result = await confirmAlert(
+        'question',
+        '메인페이지로 가시겠습니까?',
+      );
+      if (result) {
         navigate('/');
       }
     } else {
@@ -65,11 +70,14 @@ export default function PostDetailPage() {
   // 찜 추가, 해제
   const handleChangeDibs = async () => {
     if (isAdmin) {
-      alert('관리자 계정은 찜 기능을 이용할 수 없습니다.');
+      showAlert('info', '관리자 계정은 찜 기능을 이용할 수 없습니다.');
       return;
     }
     if (!userId) {
-      alert('로그인 후 이용 가능합니다.');
+      const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
+      if (result) {
+        loginContainer.style.display = 'block';
+      }
       return;
     }
 
@@ -87,13 +95,16 @@ export default function PostDetailPage() {
   };
 
   // 신고
-  const handleReportClick = () => {
+  const handleReportClick = async () => {
     if (isAdmin) {
-      alert('관리자 계정은 신고 기능을 이용할 수 없습니다.');
+      showAlert('info', '관리자 계정은 신고 기능을 이용할 수 없습니다.');
       return;
     }
     if (!userId) {
-      alert('로그인 후 이용 가능합니다.');
+      const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
+      if (result) {
+        loginContainer.style.display = 'block';
+      }
       return;
     }
     setIsModalOpen(true); // 모달 열기
@@ -102,30 +113,32 @@ export default function PostDetailPage() {
     setIsModalOpen(false); // 모달 닫기
   };
   const handleConfirmReport = () => {
-    alert('신고가 완료되었습니다.');
+    simpleAlert('success', '신고가 완료되었습니다.');
     setIsModalOpen(false); // 신고 후 모달 닫기
   };
 
   // 게시물 삭제
   const handleDeletePost = async () => {
     if (sellStatus === '판매 중') {
-      const confirmDelete = window.confirm(
+      const result = await confirmAlert(
+        'question',
         '정말로 이 게시물을 삭제하시겠습니까?',
       );
-      if (confirmDelete) {
+      if (result) {
         try {
           const res = await deletePost(id);
           if (res.data.result) {
-            alert('게시물이 삭제되었습니다.');
+            await showAlert('success', '게시물이 삭제되었습니다.');
             navigate('/posts/list/1/0?order=latest'); // 목록 페이지로 리다이렉트
           }
         } catch (error) {
           console.error('게시물 삭제 중 오류 발생:', error);
-          alert('게시물 삭제에 실패했습니다.');
+          await showAlert('error', '게시물 삭제에 실패했습니다.');
         }
       }
     } else {
-      alert(`${sellStatus}인 게시물은 삭제할 수 없습니다`);
+      await showAlert('info', `${sellStatus}인 게시물은 삭제할 수 없습니다`);
+
       return;
     }
   };
@@ -134,7 +147,7 @@ export default function PostDetailPage() {
   const editPost = async (e, id) => {
     e.preventDefault();
     if (sellStatus !== '판매 중') {
-      alert(`${sellStatus}인 게시물은 수정할 수 없습니다.`);
+      showAlert('info', `${sellStatus}인 게시물은 수정할 수 없습니다.`);
       return;
     }
     navigate(`/posts/edit/${id}`);

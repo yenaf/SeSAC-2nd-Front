@@ -7,6 +7,7 @@ import {
   getOrderHistoryPageData,
   patchOrderHistoryConfirmData,
 } from '../api/mypage';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 export default function OrderHistoryPage() {
   const imgUrl = 'https://lieblings-bucket.s3.ap-northeast-2.amazonaws.com/';
@@ -49,7 +50,7 @@ export default function OrderHistoryPage() {
         // 서버 업데이트 성공 시, 로컬 상태도 업데이트
         const updatedOrders = orderData.map((order) => {
           if (order.orderId === orderId) {
-            alert('구매 확정이 성공적으로 처리되었습니다!');
+            showAlert('success', '구매 확정이 성공적으로 처리되었습니다!');
             return {
               ...order,
               isConfirmed: true, // 로컬 상태에서 구매 확정 처리

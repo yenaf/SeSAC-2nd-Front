@@ -1,6 +1,9 @@
 @import '../common/reset';
 @import '../common/variables';
 @import '../common/utils';
+.my-swal-container {
+  z-index: 1000000 !important;
+}
 
 .login-container {
   position: fixed;

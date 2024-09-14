@@ -10,6 +10,7 @@ import {
   faChevronRight,
 } from '@fortawesome/free-solid-svg-icons';
 import { getMainList } from '../api/list';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 // 메인 페이지
 export default function MainPage() {
@@ -31,7 +32,7 @@ export default function MainPage() {
       setTenThousandListData(randomItems);
     } catch (err) {
       console.error(err);
-      alert('상품 목록을 불러올 수 없습니다.');
+      await showAlert('warning', '상품 목록을 불러올 수 없습니다.');
     }
   };
   const getRandomItems = (array, count) => {

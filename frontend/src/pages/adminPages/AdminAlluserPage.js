@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { getUsers } from '../../api/admin';
+import { showAlert, simpleAlert } from '../../utils/alert';
 
 export default function AdminAlluserPage() {
   const [userList, setUserList] = useState(null);
@@ -27,7 +28,7 @@ export default function AdminAlluserPage() {
   // 유저 검색
   const searchUser = () => {
     const keyword = searchRef.current.value.trim();
-    if (keyword === '') return alert('검색어를 입력해주세요');
+    if (keyword === '') return showAlert('warning', '검색어를 입력해주세요');
     const result = userList.filter((user) => user[select].includes(keyword));
     setUserList(result);
     setUserCount(result.length);

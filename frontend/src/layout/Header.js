@@ -11,6 +11,7 @@ import Login from '../components/Login';
 import { UserContext } from '../hooks/useAuth';
 import { userLogout } from '../api/user';
 import { writePost } from '../api/post';
+import { confirmAlert, showAlert, simpleAlert } from '../utils/alert';
 
 // header 컴포넌트
 export default function Header() {
@@ -64,23 +65,31 @@ export default function Header() {
       // 회원가입 페이지 이동
       navigate('/user/register');
     } else if (path.includes('logout')) {
-      if (!confirm('로그아웃 하시겠습니까?')) return;
-
-      // 로그아웃
-      const res = await userLogout();
-      if (res.status === 200) {
-        // 세션에 저장되어 있는 정보 지우기
-        logout();
-        // 메인페이지로 이동
-        navigate('/');
+      const result = await confirmAlert('question', '로그아웃 하시겠습니까?');
+      if (result) {
+        // 로그아웃
+        const res = await userLogout();
+        if (res.status === 200) {
+          // 세션에 저장되어 있는 정보 지우기
+          logout();
+          // 메인페이지로 이동
+          navigate('/');
+          simpleAlert('success', '로그아웃 되었습니다.');
+        }
       }
     } else if (path.includes('cart')) {
       // 장바구니
       if (!isLogin) {
-        alert('로그인 후에 이용 가능합니다.');
-        return (loginContainer.style.display = 'block');
+        const isConfirmed = await showAlert(
+          'warning',
+          '로그인 후에 이용 가능합니다.',
+        );
+        if (isConfirmed) {
+          loginContainer.style.display = 'block';
+        }
+        return;
       } else if (isAdmin) {
-        alert('관리자 계정은 장바구니를 이용할 수 없습니다.');
+        showAlert('warning', '관리자 계정은 장바구니를 이용할 수 없습니다.');
         return;
       }
       navigate('/cart');
@@ -104,11 +113,12 @@ export default function Header() {
 
       // 판매자 정보 없으면
       if (res.data.isSeller === false && res.data.isBlacklist === false) {
-        const confirmSellerRegi = window.confirm(res.data.message);
-        if (confirmSellerRegi) {
-          navigate('/sellers');
+        const result = await confirmAlert('warning', `${res.data.message}`);
+
+        if (result) {
+          navigate('/sellers'); // 사용자가 '예'를 클릭하면 /sellers로 이동
         } else {
-          return;
+          return; // 사용자가 '아니요'를 클릭하면 아무 동작도 하지 않음
         }
       }
       // 블랙리스트 여부 확인
@@ -116,7 +126,8 @@ export default function Header() {
         (res.data.isSeller === false && res.data.isBlacklist === true) ||
         (res.data.isSeller === true && res.data.isBlacklist === true)
       ) {
-        alert(res.data.message);
+        // alert(res.data.message);
+        showAlert('warning', `${res.data.message}`);
       }
 
       if (res.data.isSeller === true && res.data.isBlacklist === false) {
@@ -124,7 +135,7 @@ export default function Header() {
       }
     } catch (error) {
       console.error('오류 발생:', error);
-      alert('문제가 발생했습니다. 다시 시도해 주세요.');
+      showAlert('error', '문제가 발생했습니다. 다시 시도해 주세요.');
     }
   };
 

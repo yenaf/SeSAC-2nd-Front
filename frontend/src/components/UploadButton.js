@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
+import { showAlert } from '../utils/alert';
 
 // 업로드 버튼 컴포넌트
 export default function UploadButton({
@@ -24,7 +25,7 @@ export default function UploadButton({
     const newPreviewImages = [];
 
     if (files.length > 5) {
-      alert('최대 5장까지만 업로드할 수 있습니다.');
+      showAlert('warning', '최대 5장까지만 업로드할 수 있습니다.');
       return;
     }
 
