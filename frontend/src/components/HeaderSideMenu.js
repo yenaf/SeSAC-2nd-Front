@@ -6,10 +6,19 @@ import {
   faRightFromBracket,
   faRightToBracket,
   faUser,
+  faUsersGear,
+  faDoorOpen,
 } from '@fortawesome/free-solid-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 
-library.add(faBasketShopping, faUser, faRightFromBracket, faRightToBracket);
+library.add(
+  faBasketShopping,
+  faUser,
+  faRightFromBracket,
+  faRightToBracket,
+  faUsersGear,
+  faDoorOpen,
+);
 
 // header 회원정보 버튼들 컴포넌트
 export default function HeaderSideMenu({ logstate, headerBtnFn }) {

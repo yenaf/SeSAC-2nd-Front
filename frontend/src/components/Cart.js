@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { totalPrice, totalZero } from '../store/cartSliceTemp';
 import PaymentInfo from './PaymentInfo';
+import CartEmpty from './CartEmpty';
 import { getOrderData } from '../api/cart';
 
 // 장바구니 컴포넌트
@@ -68,6 +69,10 @@ export default function Cart() {
       alert('이동할 수 없습니다');
     }
   };
+
+  if (cartData.length < 0) {
+    return <CartEmpty />;
+  }
 
   return (
     <>
