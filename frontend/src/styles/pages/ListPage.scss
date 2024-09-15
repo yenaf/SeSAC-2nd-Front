@@ -124,6 +124,8 @@
           }
           &.move {
             position: relative;
+            display: flex;
+            gap: 0 1rem;
             &:first-child::before {
               content: '<';
               font-size: min(2vw, 1.8rem);
@@ -137,6 +139,12 @@
             visibility: hidden;
           }
           &:hover {
+            &:first-child::before {
+              color: $border-color;
+            }
+            &:last-child::after {
+              color: $border-color;
+            }
             a {
               color: $border-color;
             }
