@@ -150,7 +150,7 @@ const cartSlice = createSlice({
         state.loading = true;
       })
       .addCase(loadCart.fulfilled, (state, action) => {
-        state.loading = true;
+        state.loading = false;
         // 요청 성공
         state.cartData = groupBySeller(action.payload);
         state.totalAmount = sumAmount(state.cartData);
@@ -159,7 +159,7 @@ const cartSlice = createSlice({
       })
       .addCase(loadCart.rejected, (state, action) => {
         // 요청 실패
-        state.loading = false;
+        state.loading = true;
         state.error = action.error.message;
       });
   },

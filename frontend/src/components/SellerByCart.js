@@ -7,6 +7,7 @@ import {
   deleteEachPrice,
   addEachPrice,
   deleteItem,
+  loadCart,
 } from '../store/cartSliceTemp';
 import { deleteCartData } from '../api/cart';
 
@@ -53,6 +54,7 @@ export default function SellerByCart({ cart, forwardRef, handleCheckEach }) {
       const res = await deleteCartData(targetId);
       if (res) {
         dispatch(deleteItem(targetId));
+        dispatch(loadCart()); // 아이템이 삭제될때마다 반영을 위한 재호출
       }
     } catch (err) {
       console.error(err);
