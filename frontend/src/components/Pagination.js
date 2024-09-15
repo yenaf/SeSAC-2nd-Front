@@ -5,26 +5,24 @@ import handleScrollToTop from '../utils/handleScrollToTop';
 
 // 상품목록페이지, 검색결과페이지의 페이지네이션 컴포넌트
 export default function Pagination({ pageLocation }) {
-  const { limit, totalPages, currentPage, totalItems } = useSelector(
+  const { limit, totalPages, currentPage, totalItems, pageCount } = useSelector(
     (state) => state.page,
   );
 
-  const currenTotalPages = Math.ceil(totalItems / limit); // 총 페이지 갯수
   const [start, setStart] = useState(1); // 시작 페이지
   const noPrev = start === 1; // 이전 페이지가 없는 경우
-  const noNext = start + totalPages - 1 >= currenTotalPages; // 다음 페이지가 없는 경우
+  const noNext = start + pageCount - 1 >= totalPages; // 다음 페이지가 없는 경우
 
   const url = (page) => {
     return `/posts/list/${page}`;
   };
 
-  const pageArr = [...Array(totalPages)].map((_, index) => index + 1);
+  const pageArr = [...Array(pageCount)].map((_, index) => index + 1);
 
   useEffect(() => {
-    if (currentPage === start + totalPages)
-      setStart((prev) => prev + totalPages);
-    if (currentPage < start) setStart((prev) => prev - totalPages);
-  }, [currentPage, totalPages, start]);
+    if (currentPage === start + pageCount) setStart((prev) => prev + pageCount);
+    if (currentPage < start) setStart((prev) => prev - pageCount);
+  }, [currentPage, pageCount, start]);
 
   return (
     <div className="page-wrapper">
@@ -39,7 +37,7 @@ export default function Pagination({ pageLocation }) {
         </li>
         {pageArr.map(
           (num, idx) =>
-            start + idx <= currenTotalPages && (
+            start + idx <= totalPages && (
               <li
                 key={idx}
                 className={`${currentPage === start + idx && 'active'}`}
@@ -57,7 +55,7 @@ export default function Pagination({ pageLocation }) {
         )}
         <li className={`move ${noNext && 'invisible'}`}>
           <Link
-            to={`${url(start + totalPages)}${pageLocation}`}
+            to={`${url(start + pageCount)}${pageLocation}`}
             onClick={handleScrollToTop}
           >
             다음
