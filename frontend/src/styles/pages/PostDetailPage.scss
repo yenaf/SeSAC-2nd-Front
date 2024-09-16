@@ -323,9 +323,9 @@
   @include modalSetting;
   .report-modal-content {
     position: absolute;
-    right: 30%;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translate(-50%, -50%);
     width: auto;
     padding: 4rem 5rem;
     background: #fff;
