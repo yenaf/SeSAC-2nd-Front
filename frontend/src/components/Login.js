@@ -50,6 +50,7 @@ export default function Login() {
       }
       const sessionUserdata = res.data.session;
       login(sessionUserdata);
+      navigate('/');
     } else {
       simpleAlert('error', '로그인에 실패했습니다.');
     }
