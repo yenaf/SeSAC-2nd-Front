@@ -92,9 +92,29 @@
     span {
       font-size: 12px;
       margin: 5px 0;
-
-      :hover {
+      a {
         color: $main-color;
+      }
+      :hover {
+        text-decoration: underline;
+      }
+    }
+  }
+  .test-account-group {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    border-top: 1px solid $border-color2;
+    padding-top: 1rem;
+    margin-top: 1rem;
+    div {
+      button {
+        cursor: pointer;
+        font-family: 'GmarketSansMedium';
+        padding: 0.3rem;
+        box-sizing: border-box;
+        color: $main-color;
+        font-size: 12px;
       }
     }
   }
