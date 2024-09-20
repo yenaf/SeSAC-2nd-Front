@@ -163,7 +163,7 @@ export default function PostCreatePage() {
           </FormGroup>
 
           <div className="form-group product-info">
-            <h3>상품정보</h3>
+            <h3 className="post-title">상품정보</h3>
             <textarea
               name="description"
               placeholder=" 작성 예시)
