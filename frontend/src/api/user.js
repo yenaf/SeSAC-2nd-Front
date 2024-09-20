@@ -9,6 +9,45 @@ const userLogin = (data) =>
     withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
   });
 
+// seller 로그인
+const sellerLogin = (data) =>
+  axios.post(
+    `${url}/user/login`,
+    {
+      loginId: 'test02',
+      userPw: 'test2222',
+    },
+    {
+      withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+    },
+  );
+
+// customer 로그인
+const customerLogin = (data) =>
+  axios.post(
+    `${url}/user/login`,
+    {
+      loginId: 'test01',
+      userPw: 'test1111',
+    },
+    {
+      withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+    },
+  );
+
+// admin 로그인
+const adminLogin = (data) =>
+  axios.post(
+    `${url}/user/login`,
+    {
+      loginId: 'admin',
+      userPw: 'admin1111',
+    },
+    {
+      withCredentials: true, // 세션 및 쿠키 정보를 포함하여 요청
+    },
+  );
+
 // 로그아웃
 const userLogout = () =>
   axios.get(`${url}/user/logout`, {
@@ -44,4 +83,7 @@ export {
   updateUserInfo,
   checkId,
   userRegister,
+  sellerLogin,
+  customerLogin,
+  adminLogin,
 };

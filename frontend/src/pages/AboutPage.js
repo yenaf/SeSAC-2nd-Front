@@ -5,9 +5,8 @@ import { showAlert } from '../utils/alert';
 
 // 소개페이지
 export default function AboutPage() {
-  const loginContainer = document.querySelector('.login-container');
-
   const handleLoginModal = async (e) => {
+    const loginContainer = document.querySelector('.login-container');
     e.preventDefault();
     const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
     if (result) {
