@@ -42,7 +42,6 @@ export default function Login() {
     }
     if (res.status === 200) {
       simpleAlert('success', '로그인 성공!');
-
       // 로그인 성공시 로그인 모달 hidden
       const loginContainer = containerRef.current;
       if (loginContainer) {

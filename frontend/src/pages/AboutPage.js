@@ -1,18 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/pages/AboutPage.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { showAlert } from '../utils/alert';
 
 // 소개페이지
 export default function AboutPage() {
+  const navigate = useNavigate();
+
   const handleLoginModal = async (e) => {
-    const loginContainer = document.querySelector('.login-container');
     e.preventDefault();
-    const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
-    if (result) {
-      loginContainer.style.display = 'block';
+
+    // 세션 스토리지에서 'user' 키의 값 가져오기
+    const user = sessionStorage.getItem('user');
+    const userObject = user ? JSON.parse(user) : null;
+    const userId = userObject && userObject.userId ? userObject.userId : null;
+    if (!userId) {
+      const result = await showAlert('warning', '로그인 후 이용 가능합니다.');
+      if (result) {
+        const loginContainer = document.querySelector('.login-container');
+        loginContainer.style.display = 'block';
+        navigate('/');
+      }
+      return;
     }
-    return;
+    navigate('/');
   };
   return (
     <>

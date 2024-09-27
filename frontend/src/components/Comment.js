@@ -347,7 +347,7 @@ export default function Comment({
                     <div className="comment-wrap" onMouseDown={userCheck}>
                       <div className="user-wrap">
                         <img
-                          src={profileImg || '/img/duck.jpg'}
+                          src={profileImg || '/img/user.jpg'}
                           className="user-img"
                         />
                         <h3 className="nickname">{nickname}</h3>
