@@ -7,7 +7,7 @@ import { postSellerData } from '../api/seller';
 import { showAlert, simpleAlert } from '../utils/alert';
 
 export default function SellersPage() {
-  const [previewImg, setPreviewImg] = useState('/img/duck.jpg'); // default 이미지 설정
+  const [previewImg, setPreviewImg] = useState('/img/user.jpg'); // default 이미지 설정
   const [initialData, setInitialData] = useState(null); // 초기 데이터 저장
   const {
     register,
@@ -85,7 +85,7 @@ export default function SellersPage() {
   // 취소 버튼 클릭 시 폼 초기화
   const handleReset = () => {
     reset();
-    setPreviewImg('/img/duck.jpg'); // 기본 이미지로 다시 설정
+    setPreviewImg('/img/user.jpg'); // 기본 이미지로 다시 설정
   };
 
   return (

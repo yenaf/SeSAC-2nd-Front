@@ -40,7 +40,7 @@ export default function EditUserPage() {
     const fetchInitData = async () => {
       getEditUserInfoPageDate().then((res) => {
         setValue('loginId', res.data.user.loginId);
-        setPreviewImg(res.data.user.profileImg || '/img/duck.jpg');
+        setPreviewImg(res.data.user.profileImg || '/img/user.jpg');
         setValue('userName', res.data.user.userName);
         setValue('nickname', res.data.user.nickname);
         setValue('phoneNum', res.data.user.phoneNum);
