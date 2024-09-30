@@ -162,8 +162,10 @@ export default function PostCreatePage() {
             <span className="won">원</span>
           </FormGroup>
 
-          <div className="form-group product-info">
-            <h3 className="post-title">상품정보</h3>
+          <FormGroup
+            label="상품정보"
+            style={{ flexDirection: 'column', gap: '1rem' }}
+          >
             <textarea
               name="description"
               placeholder=" 작성 예시)
@@ -180,7 +182,7 @@ export default function PostCreatePage() {
               onChange={handleTextChange}
             ></textarea>
             <span>{charCount} / 600</span>
-          </div>
+          </FormGroup>
 
           <UploadButton register={register} />
 
