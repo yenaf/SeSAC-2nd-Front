@@ -26,7 +26,7 @@ export default function HeaderSideMenu({ logstate, headerBtnFn }) {
     <ul>
       {logstate.map((value, idx) => (
         <li key={idx} title={value.title}>
-          <Link to={value.path} onClick={headerBtnFn}>
+          <Link to={value.path} onClick={headerBtnFn} aria-label={value.title}>
             <FontAwesomeIcon icon={`fa-solid ${value.icon}`} />
           </Link>
         </li>
