@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import '../styles/pages/PostCreatePage.scss';
 import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
@@ -21,21 +21,20 @@ export default function PostCreatePage() {
   const { user } = useContext(UserContext);
   const { sellerId } = user;
 
-  useEffect(() => {
-    dispatch(setPreviousUrl(window.location.pathname));
-  }, [dispatch]);
+  // handleTextChange를 useCallback으로 감싸기
+  const handleTextChange = useCallback(
+    debounce((e) => {
+      const text = e.target.value;
+      setValue('postContent', text);
+      setCharCount(text.length);
 
-  // 디바운스 적용
-  const handleTextChange = debounce((e) => {
-    const text = e.target.value;
-    setValue('postContent', text);
-    setCharCount(text.length);
-
-    // 글자 수가 600자를 초과하면 잘라내기
-    if (text.length > 600) {
-      setValue('postContent', text.slice(0, 598));
-    }
-  }, 200);
+      // 글자 수가 600자를 초과하면 잘라내기
+      if (text.length > 600) {
+        setValue('postContent', text.slice(0, 598));
+      }
+    }, 200),
+    [setValue], // 의존성 배열에 setValue 추가
+  );
 
   const onSubmit = async (data) => {
     const postData = new FormData();
