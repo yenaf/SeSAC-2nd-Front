@@ -49,6 +49,9 @@ header {
         color: $main-color;
         top: 50%;
         transform: translateY(-50%);
+        .search-icon {
+          font-size: 2.2rem;
+        }
       }
     }
     .side-menu {
