@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import '../styles/pages/PostCreatePage.scss';
 import FormGroup from '../components/FormGroup';
 import RadioGroup from '../components/RadioGroup';
@@ -21,21 +21,20 @@ export default function PostCreatePage() {
   const { user } = useContext(UserContext);
   const { sellerId } = user;
 
-  useEffect(() => {
-    dispatch(setPreviousUrl(window.location.pathname));
-  }, [dispatch]);
+  // handleTextChange를 useCallback으로 감싸기
+  const handleTextChange = useCallback(
+    debounce((e) => {
+      const text = e.target.value;
+      setValue('postContent', text);
+      setCharCount(text.length);
 
-  // 디바운스 적용
-  const handleTextChange = debounce((e) => {
-    const text = e.target.value;
-    setValue('postContent', text);
-    setCharCount(text.length);
-
-    // 글자 수가 600자를 초과하면 잘라내기
-    if (text.length > 600) {
-      setValue('postContent', text.slice(0, 598));
-    }
-  }, 200);
+      // 글자 수가 600자를 초과하면 잘라내기
+      if (text.length > 600) {
+        setValue('postContent', text.slice(0, 598));
+      }
+    }, 200),
+    [setValue], // 의존성 배열에 setValue 추가
+  );
 
   const onSubmit = async (data) => {
     const postData = new FormData();
@@ -162,8 +161,10 @@ export default function PostCreatePage() {
             <span className="won">원</span>
           </FormGroup>
 
-          <div className="form-group product-info">
-            <h3 className="post-title">상품정보</h3>
+          <FormGroup
+            label="상품정보"
+            style={{ flexDirection: 'column', gap: '1rem' }}
+          >
             <textarea
               name="description"
               placeholder=" 작성 예시)
@@ -180,7 +181,7 @@ export default function PostCreatePage() {
               onChange={handleTextChange}
             ></textarea>
             <span>{charCount} / 600</span>
-          </div>
+          </FormGroup>
 
           <UploadButton register={register} />
 

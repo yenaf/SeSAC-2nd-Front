@@ -61,8 +61,9 @@ export default function Search() {
         className="search-btn"
         style={{ cursor: 'pointer' }}
         onClick={searchkeyword}
+        aria-label="상품 검색"
       >
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <FontAwesomeIcon icon={faMagnifyingGlass} className="search-icon" />
       </button>
     </div>
   );
