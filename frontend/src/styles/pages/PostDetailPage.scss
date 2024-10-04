@@ -730,4 +730,47 @@
       }
     }
   }
+  .report-modal-overlay {
+    .report-modal-content {
+      padding: 2rem 2rem;
+      background: #fff;
+      border-radius: 1rem;
+      h2 {
+        font-size: 1.6rem;
+        color: red;
+        .report-icon {
+          margin-right: 1rem;
+        }
+      }
+      p {
+        font-size: 1.4rem;
+        padding: 1rem 0;
+      }
+      .report-label {
+        gap: 0.5rem;
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+        align-items: center;
+
+        input[type='radio'] {
+          margin-right: 1rem;
+          appearance: none;
+          width: 1.4rem;
+          height: 1.4rem;
+          border: 1px solid #999;
+          vertical-align: middle;
+          cursor: pointer;
+          &:focus {
+            box-shadow: 0 0 0 1px rgba(0, 123, 255, 0.25);
+          }
+        }
+      }
+      .reports-btn {
+        button {
+          padding: 1rem 1.8rem;
+          margin: 0.5rem;
+        }
+      }
+    }
+  }
 }
