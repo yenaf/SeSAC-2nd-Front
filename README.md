@@ -1,8 +1,6 @@
-# 💎 리블링스(Lieblings)
+# Node.js + React 웹 풀스택 CRUD 프로젝트
 
-> SeSAC 영등포 6기 2차 프로젝트 Front Repository
-
-> 프로젝트 기간 : 2024.08.21 ~ 2024.09.12
+> SeSAC 영등포 6기 2차 프로젝트
 
 ![lieblings](https://github.com/user-attachments/assets/945184b3-90e3-43de-8ca9-68e4a5d8ee07)
 
@@ -10,7 +8,7 @@
 
 📃 [리블링스 발표자료 PDF](https://github.com/user-attachments/files/17101470/default.pdf)
 
-📁 [Back Repository](https://github.com/SeSAC-2nd/SeSAC-2nd-Back)
+📁 [Project Github](https://github.com/SeSAC-2nd)
 
 <br/>
 
@@ -30,10 +28,12 @@
 
 ## 프로젝트 소개
 
-### 💕나의 구최애가 너의 현최애다, 너의 구최애가 나의 현최애다.
+리블링스(Lieblings)는 다양한 덕질 분야의 물품을 중고 거래하는 반응형 웹 사이트입니다. 
+"나의 구최애가 너의 현최애다, 너의 구최애가 나의 현최애다"라는 슬로건 아래, K-pop, 스포츠, 애니메이션, 영화/드라마, 게임 등 다양한 분야의 팬들이 자유롭게 거래할 수 있는 공간을 제공합니다.
 
-<span title="특정한 분야나 대상을 열정적으로 좋아하고 그에 대한 활동을 즐기는 것을 의미합니다." style="color:pink">덕질</span>의 즐거움을 함께 나누는 공간, 리블링스는 독일어로 <span style="color:pink" title="최고로 애정하는">'최애'</span>를 의미합니다.
-덕질의 열정은 시간이 흘러도 변하지 않습니다. 하지만 최애가 바뀌기도 하고, 새로운 애정을 찾기도 합니다. 저희 웹 사이트는 K-pop, 스포츠, 애니메이션, 영화/드라마, 게임, 스포츠 등 <span style="background-color:#ffdce0">'다양한 덕질 분야의 물품을 중고 거래할 수 있는 공간'</span>입니다.
+프로젝트명: 리블링스 (Lieblings)⁠
+개발 기간: 2024.08.21 - 2024.09.12⁠
+팀 구성: Frontend 3명, Backend 2명, Full-Stack 1명
 
 <br/>
 
