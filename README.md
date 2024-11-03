@@ -189,6 +189,8 @@ module.exports = {
 
   ![알림](https://github.com/user-attachments/assets/72c937df-93e2-461b-aee3-23cc63a2d955)
 
+<br>
+
 # 5. 리팩토링 할 부분
 
 - 헤더 아이콘 구분: 마이페이지, 로그인, 로그아웃 버튼의 시각적 구분을 개선하여 사용자 혼란 최소화.
